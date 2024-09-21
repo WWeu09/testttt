@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viviana's Nail Glam</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .background-video {
+                display: none;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #6c757d;
+        }
+
+        .button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .web-button {
+            background-color: #ff69b4;
+        }
+
+        .web-button:hover {
+            background-color: #df0d0d;
+        }
+
+        .mobile-button {
+            background-color: #ff69b4;
+        }
+
+        .mobile-button:hover {
+            background-color: #16c258;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .social-media {
+            margin-top: 20px;
+        }
+
+        .social-media a {
+            text-decoration: none;
+            color: #007bff;
+            margin: 0 10px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .social-media a:hover {
+            color: #0056b3;
+        }
+
+        /* General styles for web version */
+        .hero,
+        .section {
+            padding: 20px;
+        }
+
+        .nav a {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .price-table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <video class="background-video" autoplay muted loop>
+        <source src="videologo1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Container for landing page -->
+    <div class="container">
+        <h1>Welkom bij Viviana's Nail Glam</h1>
+        <p>𝙡𝙖𝙣𝙙𝙞𝙣𝙜𝙨𝙥𝙖𝙜𝙞𝙣𝙖</p>
+        <p>Gebruik je een telefoon? Klik op <strong>Mobiele Versie</strong>. Gebruik je een laptop of computer? Klik dan op <strong>Web Versie</strong>.</p>
+        <button class="button mobile-button" onclick="window.location.href='#mobile'">Mobiele Versie</button>
+        <button class="button web-button" onclick="window.location.href='#web'">Web Versie</button>
+
+        <div class="info">
+            <p>U wordt doorverwezen naar de juiste versie van de website van Viviana's Nail Glam, afhankelijk van uw apparaat. Beide versies bieden dezelfde content, maar zijn geoptimaliseerd voor verschillende schermgroottes.</p>
+            <p>Neem contact met ons op via <a href="mailto:vivianasnailglam@gmail.com">vivianasnailglam@gmail.com</a> voor vragen of hulp.</p>
+            <p>Als de website niet werkt, neem dan contact op met de technische ondersteuning via <a href="mailto:ambex.info@gmail.com">ambex.info@gmail.com</a>.</p>
+        </div>
+
+        <div class="social-media">
+            <a href="https://www.instagram.com/vivianasnailglam/" target="_blank">Instagram</a>
+            <a href="https://www.tiktok.com/@vivianasnailglam_" target="_blank">Tiktok</a>
+            <a href="https://linktr.ee/VivianasNailGlam" target="_blank">Al onze platforms</a>
+        </div>
+    </div>
+
+    <!-- Web Version -->
+    <div id="web">
+        <div class="header">
+            <h1>Viviana's Nail Glam</h1>
+        </div>
+
+        <div class="nav">
+            <a href="#home">Home</a>
+            <a href="#over-ons">Over Ons</a>
+            <a href="#team">Team</a>
+            <a href="#contact">Info</a>
+            <a href="#afspraak">Afspraak Maken</a>
+        </div>
+
+        <div class="hero" id="home">
+            <div class="swiper-container main-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="foto1.jpg" alt="Nail Image 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="foto4.jpg" alt="Nail Image 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="foto6.jpg" alt="Nail Image 3">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="salon2.jpg" alt="Salon Image 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="salon.jpg" alt="Salon Image 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="ale_nagels.jpeg" alt="Nail Image 4">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h1>Welkom bij Viviana's Nail Glam</h1>
+            <p>Waar perfectie en stijl samenkomen. Ervaar onze hoogwaardige nagelbehandelingen in het hart van Amsterdam. Boek nu je afspraak en laat je nagels stralen zoals nooit tevoren.</p>
+            <p>Nails Amsterdam 🩷 📍 𝒜𝓂𝓈𝓉𝑒𝓇𝒹𝒶𝓂 𝒲𝑒𝓈𝓉</p>
+        </div>
+
+        <!-- Prijstabel -->
+        <div class="section">
+            <h2>Onze Prijzen</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Duur</th>
+                        <th>Prijs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Manicure</td>
+                        <td>30 mins</td>
+                        <td>€20</td>
+                    </tr>
+                    <tr>
+                        <td>Pedicure</td>
+                        <td>45 mins</td>
+                        <td>€30</td>
+                    </tr>
+                    <tr>
+                        <td>Shellac</td>
+                        <td>30 mins</td>
+                        <td>€30</td>
+                    </tr>
+                    <tr>
+                        <td>BIAB</td>
+                        <td>30 mins</td>
+                        <td>€35</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length XS</td>
+                        <td>Varies</td>
+                        <td>€20</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length S</td>
+                        <td>Varies</td>
+                        <td>€30</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length M</td>
+                        <td>Varies</td>
+                        <td>€40</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length L</td>
+                        <td>Varies</td>
+                        <td>€45</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length XL</td>
+                        <td>Varies</td>
+                        <td>€50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Google Maps Embed -->
+        <div class="section">
+            <h2>Bezoek Ons</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2412.553194247703!2d4.856832875926187!3d52.36477167112465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6090ac30a111f%3A0xa6482e8c089f768e!2sViviana&#39;s%20Nail%20Glam!5e0!3m2!1sen!2snl!4v1695102011216!5m2!1sen!2snl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- Mobile Version -->
+    <div id="mobile">
+        <div class="container">
+            <h1>Viviana's Nail Glam</h1>
+            <div class="swiper-container main-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="foto1.jpg" alt="Nail Image 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="foto4.jpg" alt="Nail Image 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="foto6.jpg" alt="Nail Image 3">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="salon2.jpg" alt="Salon Image 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="salon.jpg" alt="Salon Image 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="ale_nagels.jpeg" alt="Nail Image 4">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <p>Boek nu je afspraak en laat je nagels stralen zoals nooit tevoren.</p>
+        </div>
+    </div>
+
+    <!-- JS Swiper -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.main-swiper', {
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+</body>
+
+</html>
