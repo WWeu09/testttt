@@ -246,77 +246,51 @@
                     <tr>
                         <td>Nail Length XS</td>
                         <td>Varies</td>
-                        <td>€20</td>
+                        <td>€55</td>
                     </tr>
                     <tr>
                         <td>Nail Length S</td>
                         <td>Varies</td>
-                        <td>€30</td>
+                        <td>€60</td>
                     </tr>
                     <tr>
                         <td>Nail Length M</td>
                         <td>Varies</td>
-                        <td>€40</td>
+                        <td>€65</td>
                     </tr>
                     <tr>
                         <td>Nail Length L</td>
                         <td>Varies</td>
-                        <td>€45</td>
+                        <td>€70</td>
                     </tr>
                     <tr>
                         <td>Nail Length XL</td>
                         <td>Varies</td>
-                        <td>€50</td>
+                        <td>€75</td>
+                    </tr>
+                    <tr>
+                        <td>Nail Length XXL</td>
+                        <td>Varies</td>
+                        <td>€80</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- Google Maps Embed -->
-        <div class="section">
-            <h2>Bezoek Ons</h2>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2412.553194247703!2d4.856832875926187!3d52.36477167112465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6090ac30a111f%3A0xa6482e8c089f768e!2sViviana&#39;s%20Nail%20Glam!5e0!3m2!1sen!2snl!4v1695102011216!5m2!1sen!2snl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
     </div>
 
-    <!-- Mobile Version -->
-    <div id="mobile">
-        <div class="container">
-            <h1>Viviana's Nail Glam</h1>
-            <div class="swiper-container main-swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="foto1.jpg" alt="Nail Image 1">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="foto4.jpg" alt="Nail Image 2">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="foto6.jpg" alt="Nail Image 3">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="salon2.jpg" alt="Salon Image 1">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="salon.jpg" alt="Salon Image 2">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="ale_nagels.jpeg" alt="Nail Image 4">
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-
-            <p>Boek nu je afspraak en laat je nagels stralen zoals nooit tevoren.</p>
-        </div>
-    </div>
-
-    <!-- JS Swiper -->
+    <!-- Swiper.js script -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper('.main-swiper', {
+            spaceBetween: 10,
+            slidesPerView: 1,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+            },
             pagination: {
                 el: '.swiper-pagination',
+                clickable: true,
             },
             navigation: {
                 nextEl: '.swiper-button-next',
