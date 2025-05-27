@@ -1,670 +1,1419 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prismatikai</title>
+    <title>Rafle L'Argent - Premium Fashion Brand</title>
+    <meta name="description" content="Rafle L'Argent - Premium fashion brand met exclusieve designs en samenwerkingen">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <!-- PapaParse for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
     <style>
+        /* CSS Variables */
+        :root {
+            --primary-gray: #2a2a2a;
+            --secondary-gray: #404040;
+            --light-gray: #6b7280;
+            --lighter-gray: #9ca3af;
+            --background-gray: #f8fafc;
+            --card-gray: #f1f5f9;
+            --border-gray: #e2e8f0;
+            --white: #ffffff;
+            --black: #000000;
+            --accent-gold: #d4af37;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-primary: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: url('Save time.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-            text-align: center; /* Centreert alle tekst in de body */
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--white);
+            overflow-x: hidden;
         }
-    
-        body::before {
-            position: absolute;
-            width: min(1400px, 90vw);
-            top: 10%;
-            left: 50%;
-            height: 90%;
-            transform: translateX(-50%);
-            content: '';
-            background-image: url(images/bg.png);
-            background-size: 100%;
-            background-repeat: no-repeat;
-            background-position: top center;
-            pointer-events: none;
-        }
-    
-        @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
-        @import url('https://fonts.cdnfonts.com/css/poppins');
-    
-        .banner {
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100vh;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-gray) 0%, var(--secondary-gray) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
         }
-        .banner .slider {
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-style: italic;
+            color: var(--white);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .loading-text {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 2rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--primary-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-links a.active {
+            color: var(--accent-gold);
+        }
+
+        .nav-links a::after {
+            content: '';
             position: absolute;
-            width: 200px;
-            height: 250px;
-            top: 10%;
-            left: calc(50% - 100px);
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            animation: autoRun 20s linear infinite;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-gray);
+        }
+
+        /* Page Container */
+        .page-container {
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--background-gray) 0%, var(--card-gray) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
             z-index: 2;
         }
-        @keyframes autoRun {
-            from {
-                transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
-            }
-            to {
-                transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
-            }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            font-style: italic;
+            color: var(--primary-gray);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
-    
-        .banner .slider .item {
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 500;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gray);
+            color: var(--white);
+            border: 2px solid var(--primary-gray);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--primary-gray);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-gray);
+            border: 2px solid var(--primary-gray);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-gray);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--primary-gray);
+            font-size: 1.5rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+
+        .social-link:hover {
+            background: var(--accent-gold);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--primary-gray);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background: var(--card-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-gray);
+        }
+
+        .card-subtitle {
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-gray);
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 2rem;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border-gray);
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--primary-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-close {
             position: absolute;
-            inset: 0;
-            transform: 
-                rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-                translateZ(550px);
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
         }
-        .banner .slider .item img {
+
+        .modal-close:hover {
+            color: var(--primary-gray);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background: var(--card-gray);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .modal-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .banner .content {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(1400px, 100vw);
-            height: max-content;
-            padding-bottom: 100px;
+
+        .modal-details {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-row {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            z-index: 1;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-gray);
         }
-        .banner .content h1 {
-            font-family: 'ICA Rubrik';
-            font-size: 16em;
-            line-height: 1em;
-            color: #25283B;
-            position: relative;
-        }
-        .banner .content h1::after {
-            position: absolute;
-            inset: 0;
-            content: attr(data-content);
-            z-index: 2;
-            -webkit-text-stroke: 2px #d2d2d2;
-            color: transparent;
-        }
-        .banner .content .author {
-            font-family: Poppins;
-            text-align: right;
-            max-width: 200px;
-        }
-        .banner .content h2 {
-            font-size: 3em;
-        }
-        .banner .content .model {
-            background-image: url(images/model.png);
-            width: 100%;
-            height: 75vh;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background-size: auto 130%;
-            background-repeat: no-repeat;
-            background-position: top center;
-            z-index: 1;
-        }
-        @media screen and (max-width: 1023px) {
-            .banner .slider {
-                width: 160px;
-                height: 200px;
-                left: calc(50% - 80px);
-            }
-            .banner .slider .item {
-                transform: 
-                    rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-                    translateZ(300px);
-            }
-            .banner .content h1 {
-                text-align: center;
-                width: 100%;
-                text-shadow: 0 10px 20px #000;
-                font-size: 7em;
-            }
-            .banner .content .author {
-                color: #fff;
-                padding: 20px;
-                text-shadow: 0 10px 20px #000;
-                z-index: 2;
-                max-width: unset;
-                width: 100%;
-                text-align: center;
-                padding: 0 30px;
-            }
-        }
-        @media screen and (max-width: 767px) {
-            .banner .slider {
-                width: 100px;
-                height: 150px;
-                left: calc(50% - 50px);
-            }
-            .banner .slider .item {
-                transform: 
-                    rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-                    translateZ(180px);
-            }
-            .banner .content h1 {
-                font-size: 5em;
-            }
-        }
-        h1 {
+
+        .detail-label {
             font-weight: 600;
-            font-size: 2.5rem;
-            color: #cbd5e1;
-            margin-bottom: 1rem;
+            color: var(--primary-gray);
+        }
+
+        .detail-value {
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        /* QR Code */
+        .qr-code {
             text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--background-gray);
+            border-radius: 8px;
         }
-    
-        .home-button {
-            position: fixed; /* Zorgt ervoor dat de knop meescrollt */
-            top: 20px; /* Zet de knop 20px van de bovenkant van de pagina */
-            right: 20px; /* Zet de knop 20px van de rechterkant van de pagina */
-            padding: 10px 20px; /* Zorgt voor wat opvulling binnen de knop */
-            background-color: #6a0dad; /* Paars als achtergrondkleur */
-            color: #fff; /* Witte tekstkleur */
-            font-size: 1rem; /* Maak de tekst wat groter */
-            font-weight: bold; /* Maakt de tekst vetgedrukt */
-            border: none; /* Verwijdert standaard knopranden */
-            border-radius: 5px; /* Maakt de randen van de knop wat afgerond */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Geeft de knop een subtiele schaduw */
-            cursor: pointer; /* Verandert de muisaanwijzer naar een handje */
-            transition: background-color 0.3s ease; /* Zorgt voor een mooie overgangseffect als je over de knop hovert */
+
+        .qr-code img {
+            max-width: 150px;
+            height: auto;
         }
-    
-        .home-button:hover {
-            background-color: #4b0082; /* Verandert de kleur naar een donkerdere tint paars als je eroverheen hovert */
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
         }
-    
-        .home-button:active {
-            background-color: #38006b; /* Nóg een donkerdere tint wanneer de knop actief is */
+
+        .form-group {
+            margin-bottom: 1.5rem;
         }
-    
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-gray);
         }
-        input, textarea, select {
-            margin: 10px 0;
-            padding: 10px;
-            width: 300px;
-            max-width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-gray);
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: var(--transition);
         }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
-        input[type="submit"]:hover {
-            background-color: #45a049;
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
         }
-        label {
-            font-weight: bold;
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 20px;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        footer {
-            background-color: #25283B; /* Donker paars/blauw voor een subtiele maar zichtbare achtergrond */
-            color: #f8fafc; /* Lichte tekstkleur (wit) voor goede leesbaarheid */
-            padding: 20px 0; /* Extra ruimte boven en onder de tekst */
-            text-align: center; /* Centreert de tekst */
-            font-size: 1.2rem; /* Iets grotere tekst voor duidelijkheid */
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Subtiele schaduw om de footer los te maken van de rest van de pagina */
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-    
-        footer a {
-            color: #6a0dad; /* Paars voor de links */
-            font-weight: bold; /* Maakt de links vetgedrukt */
-            text-decoration: none; /* Verwijdert de standaard onderstreping van links */
-            transition: color 0.3s ease; /* Maakt een mooie overgang wanneer de kleur verandert */
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .modal {
+                padding: 1rem;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
         }
-    
-        footer a:hover {
-            color: #4b0082; /* Donkerdere tint paars bij hover */
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .grid {
+                gap: 1.5rem;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
         }
-    
-        footer p {
-            margin: 10px 0; /* Zorgt ervoor dat de alinea's in de footer goed uit elkaar staan */
-        }
-    
-    /* Popup form styles */
-.form-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-    background-color: #f9f9f9; /* Lichtgrijze achtergrondkleur voor de popup */
-    padding: 20px;
-    max-width: 90%; /* Responsief: Max breedte voor mobiel */
-    max-height: 80vh; /* Max hoogte van 80% van het scherm */
-    overflow-y: auto; /* Zorgt ervoor dat het venster kan scrollen */
-    border-radius: 10px; /* Ronde hoeken voor de popup */
-}
 
-/* Form container binnen de popup */
-.form-container {
-    background: url('Save time.png') no-repeat center center fixed;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-}
-
-.form-popup h1 {
-    margin-bottom: 15px;
-}
-
-.form-popup .btn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom: 10px;
-    opacity: 0.8;
-}
-
-.form-popup .cancel {
-    background-color: red;
-}
-
-.form-popup .btn:hover {
-    opacity: 1;
-}
-
-/* Stijl voor de popup-tekst */
-.popup-content {
-    color: black; /* Zwarte tekstkleur */
-}
-
-
-/* Stijl voor de popup-tekst */
-.form-popup h1 {
-    color: #2c3e50; /* Kleur voor de titel (h1) */
-}
-
-.form-popup p, .form-popup li {
-    color: #34495e; /* Kleur voor paragrafen en lijstitems */
-}
-
-.form-popup ol {
-    color: #34495e; /* Kleur voor de genummerde lijst */
-}
-
-/* Knoppen kleur (indien gewenst) */
-.form-popup .btn {
-    background-color: #04AA6D; /* Knopkleur */
-    color: white; /* Tekstkleur van de knop */
-}
-
-.form-popup .cancel {
-    background-color: red; /* Kleur voor de annuleerknop */
-}
-
-
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .hidden { display: none; }
+        .visible { display: block; }
     </style>
-    
-
 </head>
 <body>
-    <a href="#top" class="home-button" onclick="scrollToSection('home'); return false;">Home</a>
-
-<h1>Welkom  bij  <span class="author">Prismatikai</span></h1>
-
-    
-<div class="banner">
-        <div class="slider" style="--quantity: 10">
-            <div class="item" style="--position: 1"><img src="try it today.png" alt="Image 1"></div>
-            <div class="item" style="--position: 2"><img src="2.png" alt="Minimal Effort Required"></div>
-            <div class="item" style="--position: 3"><img src="AUTOMATE YOUR BUSINESS.png" alt="Image 2"></div>
-            <div class="item" style="--position: 4"><img src="chat pic3.png" alt="Learn Now"></div>
-            <div class="item" style="--position: 5"><img src="everyhting the bot.png" alt="Automate Your Business"></div>
-            <div class="item" style="--position: 6"><img src="Prismatik.png" alt="Helvetica World"></div>
-            <div class="item" style="--position: 7"><img src="Helvetica World.png" alt="Chat Pic 3"></div>
-            <div class="item" style="--position: 8"><img src="learn now.png" alt="Foto 1 Logo Naam"></div>
-            <div class="item" style="--position: 9"><img src="Minimal effort requiered.png" alt="Everything the Bot"></div>
-            <div class="item" style="--position: 10"><img src="www.reallygreatsite.com.png" alt="RISMATIK Logo"></div>
-        </div>
-        <div class="content">
-            <h1 data-content="Prismatikai">
-                Prismatikai
-            </h1>
-            <div class="author">
-                
-            </div>
-
-            </div>
-            <div class="model"></div>
-        </div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Rafle L'Argent</div>
+        <div class="loading-text">Loading Premium Experience</div>
+        <div class="loading-spinner"></div>
     </div>
-    <header>
-        <h1>Welkom bij Prismatikai</h1>
-    </header>
-    
-    <div class="container">
-        <section class="content">
-            <h2>Welkom bij Prismatik</h2>
-            <p>De toekomst van klantinteractie met onze geavanceerde AI-chatbots.</p>
-            <p>Bekijk onze demonstratie voor meer informatie.</p>
-            
-            <h3>Ontdek de Kracht van Prismatik Chatbots</h3>
-            <p>In een wereld waar klantinteractie essentieel is, biedt Prismatik de oplossing die je nodig hebt om voorop te blijven. Onze geavanceerde chatbots transformeren de manier waarop bedrijven communiceren met hun klanten door efficiënte, 24/7 ondersteuning te bieden zonder de noodzaak van menselijke tussenkomst.</p>
 
-            <h3>Waarom Kiezen voor Prismatik Chatbots?</h3>
-            <ul>
-                <li><strong>Altijd Beschikbaar:</strong> Onze chatbots zijn er altijd voor je klanten, dag en nacht. Of het nu gaat om vragen, ondersteuning of sales, ze staan klaar om te helpen wanneer het jou uitkomt.</li>
-                <li><strong>Personalisatie op Maat:</strong> Wij begrijpen dat elke onderneming uniek is. Daarom ontwerpen wij chatbots die zijn afgestemd op jouw specifieke behoeften en die naadloos aansluiten bij jouw merkstem en -identiteit.</li>
-                <li><strong>Efficiëntie en Kostenbesparing:</strong> Verlaag je operationele kosten en verhoog de efficiëntie door routinematige taken en veelgestelde vragen automatisch af te handelen. Laat je medewerkers zich richten op strategische taken terwijl onze chatbots de basiscommunicatie voor hun rekening nemen.</li>
-                <li><strong>Naadloze Integratie:</strong> Onze chatbots kunnen eenvoudig worden geïntegreerd met jouw bestaande systemen en platforms, zodat je een vloeiende ervaring biedt zonder dat je processen hoeven te veranderen.</li>
-                <li><strong>Data en Inzichten:</strong> Ontvang waardevolle inzichten en rapportages over klantinteracties en gedragingen. Dit stelt je in staat om jouw strategieën te verfijnen en je klantenservice te verbeteren.</li>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">Rafle L'Argent</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" onclick="showPage('producten')" class="nav-link" data-page="producten">Producten</a></li>
+                <li><a href="#" onclick="showPage('museum')" class="nav-link" data-page="museum">Museum</a></li>
+                <li><a href="#" onclick="showPage('collabs')" class="nav-link" data-page="collabs">Collabs</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a></li>
             </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
 
-            <h3>Maak de Sprong naar de Toekomst</h3>
-            <p>Klaar om jouw klantinteracties te revolutioneren en je bedrijf naar een hoger niveau te tillen? Ontdek hoe Prismatik jouw perfecte partner kan zijn voor klantgerichte AI-oplossingen.</p>
-        </section>
-
-        <div class="form-container">
-            <form action="mailto:Prismatikai@outlook.com" method="post" enctype="text/plain">
-                <h3>Aanmeldformulier</h3>
-                
-                <label for="name">Naam:</label>
-                <input type="text" id="name" name="name" placeholder="Wat is je naam?" required>
-
-                <label for="company">Bedrijf:</label>
-                <input type="text" id="company" name="company" placeholder="Wat is je bedrijf?" required>
-
-                <label for="email">E-mailadres:</label>
-                <input type="email" id="email" name="email" placeholder="Wat is je e-mailadres?" required>
-
-                <label for="phone">Telefoonnummer:</label>
-                <input type="tel" id="phone" name="phone" placeholder="Wat is je telefoonnummer?" required>
-
-                <label for="message">Bericht:</label>
-                <textarea id="message" name="message" rows="4" placeholder="Algemene informatie" required></textarea>
-
-                <label>Hoe heb je van ons gehoord?</label>
-                <div class="checkbox-group">
-                    <input type="radio" id="search-engine" name="referral" value="Zoekmachine" required>
-                    <label for="search-engine">Zoekmachine</label>
-
-                    <input type="radio" id="social-media" name="referral" value="Sociale Media" required>
-                    <label for="social-media">Sociale Media</label>
-
-                    <input type="radio" id="recommendation" name="referral" value="Aanbeveling" required>
-                    <label for="recommendation">Aanbeveling</label>
-
-                    <input type="radio" id="other" name="referral" value="Anders" required>
-                    <label for="other">Anders:</label>
-                    <input type="text" name="other-referral" placeholder="Specificeer">
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Home Page -->
+        <div class="page active" id="home">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Rafle L'Argent</h1>
+                    <p class="hero-subtitle">Premium Fashion Brand</p>
+                    <p class="hero-description">
+                        Ontdek onze exclusieve collectie van premium fashion items. 
+                        Van unieke designs tot bijzondere samenwerkingen - elk stuk vertelt een verhaal.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary" onclick="showPage('producten')">Shop Collectie</a>
+                        <a href="#" class="btn btn-outline" onclick="showPage('museum')">Ontdek Museum</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/raflelargent/" target="_blank" class="social-link" title="Instagram">📷</a>
+                        <a href="https://www.tiktok.com/@raflelargent" target="_blank" class="social-link" title="TikTok">🎵</a>
+                        <a href="https://www.snapchat.com/add/raflelargent" target="_blank" class="social-link" title="Snapchat">👻</a>
+                    </div>
                 </div>
+            </section>
+        </div>
 
-                <label for="demo">Ik wil een demonstratie aanvragen:</label>
-                <input type="checkbox" id="demo" name="demo" value="Ja" checked>
-
-                <input type="submit" value="Verstuur">
-            </form>
-
-            <p>Bekijk onze demonstratie voor meer informatie!</p>
-            <p>Door dit formulier in te vullen, stem je in met onze privacyverklaring en de manier waarop we jouw gegevens zullen gebruiken.</p>
-
-
-            <footer>
-              
-                
-                <p><a href="#" onclick="openPrivacyPolicy()">Bekijk ons Privacybeleid</a></p>
-                <p><a href="#" onclick="openForm()">Bekijk onze Algemene Voorwaarden</a></p>
-                <footer>
-                </footer>
+        <!-- Producten Page -->
+        <div class="page" id="producten">
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Onze Producten</h2>
+                    <p class="section-subtitle">Exclusieve fashion items van premium kwaliteit</p>
+                    <div class="grid grid-3" id="productenGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
                 </div>
+            </section>
+        </div>
+
+        <!-- Museum Page -->
+        <div class="page" id="museum">
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Design Museum</h2>
+                    <p class="section-subtitle">Een reis door onze creatieve visie en artistieke expressie</p>
+                    <div class="grid grid-3" id="museumGrid">
+                        <!-- Gallery items will be loaded here -->
+                    </div>
                 </div>
-                
-                <!-- Privacybeleid Popup -->
-                <div class="form-popup" id="myPrivacyPolicy">
-                    <h1>Privacybeleid Prismatik</h1>
-                    <p>Bij Prismatik nemen we jouw privacy en de bescherming van jouw persoonlijke gegevens zeer serieus. Dit privacybeleid legt uit welke informatie we verzamelen, hoe we die gebruiken, en welke rechten je hebt met betrekking tot jouw gegevens.</p>
+            </section>
+        </div>
+
+        <!-- Collabs Page -->
+        <div class="page" id="collabs">
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Samenwerkingen</h2>
+                    <p class="section-subtitle">Exclusieve partnerships die grenzen verleggen</p>
+                    <div class="grid grid-2" id="collabsGrid">
+                        <!-- Collaborations will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page" id="contact">
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Contact</h2>
+                    <p class="section-subtitle">Neem contact met ons op voor vragen of samenwerkingen</p>
                     
-                    <ol>
-                        <li>Wie we zijn
-                            <p>Prismatik is een platform dat geavanceerde AI-chatbots biedt voor bedrijven om hun klantinteracties te verbeteren. Ons kantoor is gevestigd in [Adres]. Voor vragen over dit beleid kun je contact met ons opnemen via [contact@prismatik.com].</p>
-                        </li>
-                        <li>Welke gegevens we verzamelen
-                            <ul>
-                                <li>Identificatiegegevens: zoals jouw naam, bedrijfsnaam, e-mailadres en telefoonnummer.</li>
-                                <li>Gebruik van de website: gegevens over jouw interacties met onze website, zoals je IP-adres, browsergegevens en de pagina’s die je bezoekt.</li>
-                                <li>Informatie die je zelf verstrekt: zoals formulieren die je invult op onze website (bijv. aanmeldings- of contactformulieren).</li>
-                                <li>Cookies: voor meer informatie, zie onze Cookieverklaring.</li>
-                            </ul>
-                        </li>
-                        <li>Hoe we jouw gegevens gebruiken
-                            <ul>
-                                <li>Om onze diensten te leveren.</li>
-                                <li>Communicatie: We kunnen contact met je opnemen via e-mail of telefoon.</li>
-                                <li>Verbetering van onze diensten: Door het analyseren van gebruikersgedrag.</li>
-                                <li>Marketing: Met jouw toestemming kunnen we je marketingmateriaal sturen.</li>
-                            </ul>
-                        </li>
-                        <li>Met wie we jouw gegevens delen
-                            <ul>
-                                <li>Dienstverleners: We delen gegevens met externe dienstverleners.</li>
-                                <li>Wettelijke verplichtingen: We kunnen gegevens openbaar maken als dit wettelijk vereist is.</li>
-                                <li>Met jouw toestemming: We delen gegevens alleen met jouw expliciete toestemming.</li>
-                            </ul>
-                        </li>
-                        <li>Hoe we jouw gegevens beschermen
-                            <ul>
-                                <li>Gebruik van encryptie voor gevoelige gegevens.</li>
-                                <li>Beperkte toegang tot persoonsgegevens.</li>
-                                <li>Regelmatige veiligheidsaudits en updates van onze systemen.</li>
-                            </ul>
-                        </li>
-                        <li>Hoe lang we jouw gegevens bewaren
-                            <p>We bewaren jouw persoonsgegevens alleen zo lang als nodig is voor de doeleinden waarvoor we ze hebben verzameld.</p>
-                        </li>
-                        <li>Jouw rechten
-                            <ul>
-                                <li>Recht op inzage: Je kunt vragen welke gegevens we van je hebben.</li>
-                                <li>Recht op correctie: Vraag ons om gegevens te corrigeren.</li>
-                                <li>Recht op verwijdering: Vraag ons om jouw gegevens te verwijderen.</li>
-                                <li>Recht op bezwaar: Maak bezwaar tegen het gebruik van jouw gegevens.</li>
-                                <li>Recht op dataportabiliteit: Ontvang een kopie van jouw gegevens.</li>
-                            </ul>
-                        </li>
-                        <li>Cookies en tracking
-                            <p>Onze website maakt gebruik van cookies en vergelijkbare technologieën. Voor meer informatie, zie onze Cookieverklaring.</p>
-                        </li>
-                        <li>Wijzigingen in het privacybeleid
-                            <p>Prismatik behoudt zich het recht voor om dit privacybeleid te wijzigen. Wijzigingen worden op deze pagina geplaatst.</p>
-                        </li>
-                        <li>Contact opnemen
-                            <p>Voor vragen of verzoeken, kun je contact met ons opnemen via:</p>
-                            <ul>
-                                <li>E-mailadres: [contact@prismatik.com]</li>
-                                <li>Adres: [Adres van Prismatik]</li>
-                            </ul>
-                        </li>
-                    </ol>
-                
-                    <button type="button" class="btn cancel" onclick="closePrivacyPolicy()">Sluit</button>
+                    <div class="grid grid-2">
+                        <div>
+                            <h3 class="mb-3" style="color: var(--primary-gray); font-family: var(--font-display);">Contactgegevens</h3>
+                            <div class="mb-4">
+                                <p><strong>Email:</strong> raflelargent@gmail.com</p>
+                                <p><strong>Telefoon:</strong> +31 (0)6 57160395</p>
+                                <p><strong>Locatie:</strong> Amsterdam, Nederland</p>
+                                <p><strong>Responstijd:</strong> Binnen 24 uur op werkdagen</p>
+                            </div>
+                            
+                            <h4 class="mb-2" style="color: var(--primary-gray);">Volg ons</h4>
+                            <div class="social-links" style="justify-content: flex-start;">
+                                <a href="https://www.instagram.com/raflelargent/" target="_blank" class="social-link" title="Instagram">📷</a>
+                                <a href="https://www.tiktok.com/@raflelargent" target="_blank" class="social-link" title="TikTok">🎵</a>
+                                <a href="https://www.snapchat.com/add/raflelargent" target="_blank" class="social-link" title="Snapchat">👻</a>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <form class="contact-form" onsubmit="handleContactForm(event)">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Naam</label>
+                                    <input type="text" id="name" name="name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" name="email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject" class="form-label">Onderwerp</label>
+                                    <input type="text" id="subject" name="subject" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message" class="form-label">Bericht</label>
+                                    <textarea id="message" name="message" class="form-textarea" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">Verstuur Bericht</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                
-
-            </footer>
+            </section>
         </div>
     </div>
-     <!-- Algemene Voorwaarden Popup -->
-     <div class="form-popup" id="myForm">
-        <h1>Algemene Voorwaarden Prismatik</h1>
-        <p>Welkom bij Prismatik, een platform dat geavanceerde AI-chatbotoplossingen biedt. Door gebruik te maken van onze website en diensten, stem je in met de volgende algemene voorwaarden.</p>
-        <ol>
-            <li>Definities
-                <ul>
-                    <li>Prismatik: de eigenaar van de website en aanbieder van AI-chatbotdiensten.</li>
-                    <li>Gebruiker: een persoon of bedrijf dat gebruikmaakt van de diensten van Prismatik.</li>
-                    <li>Diensten: de AI-chatbotoplossingen en alle andere producten of services aangeboden door Prismatik.</li>
-                </ul>
-            </li>
 
-            <li>Toepasselijkheid
-                <ul>
-                    <li>Deze algemene voorwaarden zijn van toepassing op alle aanbiedingen, overeenkomsten en leveringen van diensten door Prismatik, tenzij schriftelijk anders is overeengekomen.</li>
-                    <li>Door gebruik te maken van de website en diensten van Prismatik, gaat de gebruiker akkoord met deze algemene voorwaarden.</li>
-                </ul>
-            </li>
-
-            <li>Gebruik van de Dienst
-                <ul>
-                    <li>Gebruikers moeten zich registreren om toegang te krijgen tot bepaalde functies van Prismatik. Bij registratie verklaart de gebruiker correcte en actuele informatie te verstrekken.</li>
-                    <li>Gebruikers zijn verantwoordelijk voor het vertrouwelijk houden van hun accountgegevens en wachtwoorden.</li>
-                    <li>Prismatik behoudt zich het recht voor om zonder voorafgaande kennisgeving de dienst te wijzigen, op te schorten of te beëindigen.</li>
-                </ul>
-            </li>
-
-            <li>Gegevensbescherming en Privacy
-                <ul>
-                    <li>Prismatik verwerkt persoonsgegevens in overeenstemming met de Privacyverklaring.</li>
-                    <li>Door gebruik te maken van de diensten van Prismatik stemt de gebruiker in met de verwerking van zijn/haar gegevens zoals beschreven in de privacyverklaring.</li>
-                    <li>Gebruikers kunnen te allen tijde hun gegevens opvragen, corrigeren of verwijderen volgens de voorwaarden van de privacyverklaring.</li>
-                </ul>
-            </li>
-
-            <li>Verantwoordelijkheden van de Gebruiker
-                <ul>
-                    <li>Gebruikers mogen de diensten van Prismatik niet gebruiken voor illegale, onwettige of frauduleuze doeleinden.</li>
-                    <li>Het is de gebruiker verboden om de diensten te gebruiken op een manier die Prismatik of derden schade kan berokkenen.</li>
-                    <li>Gebruikers mogen geen inbreuk maken op intellectuele eigendomsrechten van Prismatik of derden.</li>
-                </ul>
-            </li>
-
-            <li>Betaling en Abonnementen
-                <ul>
-                    <li>Voor bepaalde diensten van Prismatik kan een vergoeding vereist zijn. De prijzen en betalingsvoorwaarden worden duidelijk gecommuniceerd voordat de gebruiker zich abonneert op een dienst.</li>
-                    <li>Abonnementen worden automatisch verlengd tenzij anders aangegeven door de gebruiker. Annuleringen kunnen op elk moment plaatsvinden, met inachtneming van de opzegtermijn vermeld in de overeenkomst.</li>
-                </ul>
-            </li>
-
-            <li>Aansprakelijkheid
-                <ul>
-                    <li>Prismatik is niet aansprakelijk voor enige schade die voortvloeit uit het gebruik van de diensten, tenzij de schade is veroorzaakt door opzet of grove nalatigheid van Prismatik.</li>
-                    <li>Prismatik geeft geen garanties met betrekking tot de beschikbaarheid, nauwkeurigheid of betrouwbaarheid van de diensten.</li>
-                    <li>Gebruikers zijn verantwoordelijk voor schade die wordt veroorzaakt door onjuist gebruik van de dienst.</li>
-                </ul>
-            </li>
-
-            <li>Intellectueel Eigendom
-                <ul>
-                    <li>Alle intellectuele eigendomsrechten met betrekking tot de diensten, inclusief maar niet beperkt tot auteursrechten, handelsmerken en software, blijven eigendom van Prismatik of haar licentiegevers.</li>
-                    <li>Gebruikers krijgen een niet-exclusieve, niet-overdraagbare licentie om de diensten te gebruiken in overeenstemming met deze algemene voorwaarden.</li>
-                </ul>
-            </li>
-
-            <li>Wijzigingen aan de Algemene Voorwaarden
-                <ul>
-                    <li>Prismatik behoudt zich het recht voor om deze algemene voorwaarden te allen tijde te wijzigen. Gebruikers zullen op de hoogte worden gesteld van wijzigingen via de website of e-mail.</li>
-                    <li>Door de dienst te blijven gebruiken na de bekendmaking van wijzigingen, stemt de gebruiker in met de gewijzigde voorwaarden.</li>
-                </ul>
-            </li>
-
-            <li>Toepasselijk Recht
-                <ul>
-                    <li>Op deze algemene voorwaarden is het Nederlands recht van toepassing.</li>
-                    <li>Alle geschillen die voortvloeien uit of verband houden met deze algemene voorwaarden zullen worden voorgelegd aan de bevoegde rechtbank in Nederland.</li>
-                </ul>
-            </li>
-        </ol>
-        <button type="button" class="btn cancel" onclick="closeForm()">Sluit</button>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
     </div>
 
+    <script>
+        // Application State
+        const AppState = {
+            currentPage: 'home',
+            data: {
+                products: [],
+                gallery: [],
+                collabs: []
+            },
+            loading: true
+        };
 
-</footer>
-</div>
-</div>
+        // Google Sheets URLs (converted to CSV)
+        const SHEETS_URLS = {
+            products: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnI8MtXCGMG_cyOjsxQS7NKUb6xW4CJVi9AJTJ_JRN50j_svGzT6_m9hn5L6AE-zgI9ep4l2-woEHH/pub?gid=0&single=true&output=csv',
+            gallery: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnI8MtXCGMG_cyOjsxQS7NKUb6xW4CJVi9AJTJ_JRN50j_svGzT6_m9hn5L6AE-zgI9ep4l2-woEHH/pub?gid=1483918276&single=true&output=csv',
+            collabs: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnI8MtXCGMG_cyOjsxQS7NKUb6xW4CJVi9AJTJ_JRN50j_svGzT6_m9hn5L6AE-zgI9ep4l2-woEHH/pub?gid=608756455&single=true&output=csv'
+        };
 
-</section>
-</section>
-<br>
+        // Utility Functions
+        function generateQRCode(text) {
+            return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+        }
 
-<div>
-<footer>
-    <div class="social-media-links">
-        <a href="https://www.facebook.com/people/Prismatik/61566408536987/" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width: 30px; margin: 0 10px;">
-        </a>
-        <a href="https://www.instagram.com/prismatikofficial/" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width: 30px; margin: 0 10px;">
-        </a>
-        <a href="https://www.youtube.com/channel/UC1Gf5ezfop8wLp-SlIHuG7w" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" style="width: 30px; margin: 0 10px;">
-        </a>
-        <a href="https://api.whatsapp.com/send/?phone=31626472332&text&type=phone_number&app_absent=0" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 30px; margin: 0 10px;">
-        </a>
-    </div>
-    <p>&copy; 2024 Prismatik. Alle rechten voorbehouden.</p>
+        function formatPrice(price) {
+            if (!price) return '';
+            return price.toString().includes('€') ? price : `€${price}`;
+        }
 
+        function createImageElement(src, alt, fallback = '🖼️') {
+            if (!src || src.trim() === '') {
+                return `<div style="font-size: 4rem; color: var(--lighter-gray);">${fallback}</div>`;
+            }
+            return `<img src="${src}" alt="${alt}" onerror="this.parentElement.innerHTML='<div style=&quot;font-size: 4rem; color: var(--lighter-gray);&quot;>${fallback}</div>'">`;
+        }
 
-    
-</footer>
-</div>
+        // Data Loading Functions
+        async function loadSheetData(url, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const csvText = await response.text();
+                    
+                    return new Promise((resolve, reject) => {
+                        Papa.parse(csvText, {
+                            header: true,
+                            skipEmptyLines: true,
+                            complete: (results) => {
+                                if (results.errors.length > 0) {
+                                    console.warn('CSV parsing warnings:', results.errors);
+                                }
+                                resolve(results.data);
+                            },
+                            error: reject
+                        });
+                    });
+                } catch (error) {
+                    console.warn(`Attempt ${i + 1} failed:`, error);
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+                }
+            }
+        }
 
-<script>
-    // Functies voor het openen en sluiten van de Algemene Voorwaarden Popup
-    function openPrivacyPolicy() {
-        document.getElementById("myPrivacyPolicy").style.display = "block";
-    }
-    
-    function closePrivacyPolicy() {
-        document.getElementById("myPrivacyPolicy").style.display = "none"; // Sluit de popup
-    }
+        async function loadAllData() {
+            try {
+                console.log('Loading data from Google Sheets...');
+                
+                const [products, gallery, collabs] = await Promise.all([
+                    loadSheetData(SHEETS_URLS.products),
+                    loadSheetData(SHEETS_URLS.gallery),
+                    loadSheetData(SHEETS_URLS.collabs)
+                ]);
 
-    // Functies voor het openen en sluiten van het aanvraagformulier
-    function openForm() {
-        document.getElementById("myForm").style.display = "block";
-    }
-    
-    function closeForm() {
-        document.getElementById("myForm").style.display = "none";
-    }
-</script>
+                AppState.data.products = products.filter(item => item && Object.keys(item).length > 1);
+                AppState.data.gallery = gallery.filter(item => item && Object.keys(item).length > 1);
+                AppState.data.collabs = collabs.filter(item => item && Object.keys(item).length > 1);
 
+                console.log('Data loaded successfully:', AppState.data);
+                
+                renderAllContent();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                loadFallbackData();
+            }
+        }
 
+        function loadFallbackData() {
+            console.log('Loading fallback data...');
+            
+            AppState.data.products = [
+                {
+                    'Product-ID': '1',
+                    'Naam': 'Premium T-Shirt',
+                    'Categorie': 'Shirts',
+                    'Beschrijving': 'Luxe katoenen t-shirt met premium afwerking',
+                    'Kleur(en)': 'Zwart, Wit, Grijs',
+                    'Maten': 'S, M, L, XL',
+                    'Prijsindicatie (€)': '89.99',
+                    'Afbeelding URL': '',
+                    'QR-code of Deelbare link': 'https://raflelargent.com/product/1'
+                },
+                {
+                    'Product-ID': '2',
+                    'Naam': 'Designer Hoodie',
+                    'Categorie': 'Hoodies',
+                    'Beschrijving': 'Exclusieve hoodie met uniek design',
+                    'Kleur(en)': 'Zwart, Grijs',
+                    'Maten': 'S, M, L, XL, XXL',
+                    'Prijsindicatie (€)': '149.99',
+                    'Afbeelding URL': '',
+                    'QR-code of Deelbare link': 'https://raflelargent.com/product/2'
+                }
+            ];
 
+            AppState.data.gallery = [
+                {
+                    'Design-ID': '1',
+                    'Titel ontwerp': 'Minimalist Collection',
+                    'Jaar': '2024',
+                    'Verhaal achter ontwerp': 'Een ode aan eenvoud en elegantie',
+                    'Mockup URL': '',
+                    'Designer': 'Rafle L\'Argent Team'
+                },
+                {
+                    'Design-ID': '2',
+                    'Titel ontwerp': 'Urban Luxury',
+                    'Jaar': '2024',
+                    'Verhaal achter ontwerp': 'Waar streetwear luxe ontmoet',
+                    'Mockup URL': '',
+                    'Designer': 'Rafle L\'Argent Team'
+                }
+            ];
+
+            AppState.data.collabs = [
+                {
+                    'Collab-ID': '1',
+                    'Partnernaam': 'Premium Partner',
+                    'Beschrijving samenwerking': 'Exclusieve samenwerking voor limited edition items',
+                    'Jaar': '2024',
+                    'Betrokken Ontwerp(en)': 'Limited Collection',
+                    'Logo/Visual URL': '',
+                    'Link partner': 'https://example.com'
+                }
+            ];
+
+            renderAllContent();
+        }
+
+        // Rendering Functions
+        function renderAllContent() {
+            renderProducts();
+            renderGallery();
+            renderCollabs();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productenGrid');
+            if (!grid) return;
+
+            if (AppState.data.products.length === 0) {
+                grid.innerHTML = '<div class="text-center" style="grid-column: 1 / -1;"><p>Geen producten gevonden.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = AppState.data.products.map(product => `
+                <div class="card" onclick="openProductModal('${product['Product-ID'] || ''}')">
+                    <div class="card-image">
+                        ${createImageElement(product['Afbeelding URL'], product['Naam'] || 'Product', '👕')}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-subtitle">${product['Categorie'] || 'Fashion'}</div>
+                        <h3 class="card-title">${product['Naam'] || 'Unnamed Product'}</h3>
+                        <p class="card-description">${product['Beschrijving'] || 'Premium fashion item'}</p>
+                        <div class="card-price">${formatPrice(product['Prijsindicatie (€)'])}</div>
+                        <div class="card-meta">
+                            <span>Kleuren: ${product['Kleur(en)'] || 'Variërend'}</span>
+                            <span>Maten: ${product['Maten'] || 'S-XL'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('museumGrid');
+            if (!grid) return;
+
+            if (AppState.data.gallery.length === 0) {
+                grid.innerHTML = '<div class="text-center" style="grid-column: 1 / -1;"><p>Geen gallery items gevonden.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = AppState.data.gallery.map(item => `
+                <div class="card" onclick="openGalleryModal('${item['Design-ID'] || ''}')">
+                    <div class="card-image">
+                        ${createImageElement(item['Mockup URL'], item['Titel ontwerp'] || 'Design', '🎨')}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-subtitle">${item['Jaar'] || '2024'}</div>
+                        <h3 class="card-title">${item['Titel ontwerp'] || 'Untitled Design'}</h3>
+                        <p class="card-description">${item['Verhaal achter ontwerp'] || 'Een uniek design verhaal'}</p>
+                        <div class="card-meta">
+                            <span>Designer: ${item['Designer'] || 'Rafle L\'Argent'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCollabs() {
+            const grid = document.getElementById('collabsGrid');
+            if (!grid) return;
+
+            if (AppState.data.collabs.length === 0) {
+                grid.innerHTML = '<div class="text-center" style="grid-column: 1 / -1;"><p>Geen samenwerkingen gevonden.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = AppState.data.collabs.map(collab => `
+                <div class="card" onclick="openCollabModal('${collab['Collab-ID'] || ''}')">
+                    <div class="card-image">
+                        ${createImageElement(collab['Logo/Visual URL'], collab['Partnernaam'] || 'Partner', '🤝')}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-subtitle">${collab['Jaar'] || '2024'}</div>
+                        <h3 class="card-title">${collab['Partnernaam'] || 'Partner'}</h3>
+                        <p class="card-description">${collab['Beschrijving samenwerking'] || 'Exclusieve samenwerking'}</p>
+                        <div class="card-meta">
+                            <span>Ontwerp: ${collab['Betrokken Ontwerp(en)'] || 'Collaboration Design'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal Functions
+        function openProductModal(productId) {
+            const product = AppState.data.products.find(p => p['Product-ID'] === productId);
+            if (!product) return;
+
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = product['Naam'] || 'Product Details';
+
+            const shareLink = product['QR-code of Deelbare link'] || `${window.location.origin}?product=${productId}`;
+
+            modalBody.innerHTML = `
+                <div class="modal-image">
+                    ${createImageElement(product['Afbeelding URL'], product['Naam'], '👕')}
+                </div>
+                <div class="modal-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Categorie:</span>
+                        <span class="detail-value">${product['Categorie'] || 'Fashion'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Beschrijving:</span>
+                        <span class="detail-value">${product['Beschrijving'] || 'Premium fashion item'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Kleuren:</span>
+                        <span class="detail-value">${product['Kleur(en)'] || 'Variërend'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Maten:</span>
+                        <span class="detail-value">${product['Maten'] || 'S-XL'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Prijs:</span>
+                        <span class="detail-value" style="font-weight: 700; color: var(--primary-gray);">${formatPrice(product['Prijsindicatie (€)'])}</span>
+                    </div>
+                </div>
+                ${shareLink ? `
+                    <div class="qr-code">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary-gray);">Deel dit product</h4>
+                        <img src="${generateQRCode(shareLink)}" alt="QR Code">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            Scan de QR-code of 
+                            <a href="${shareLink}" target="_blank" style="color: var(--accent-gold);">klik hier</a>
+                        </p>
+                    </div>
+                ` : ''}
+            `;
+
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function openGalleryModal(designId) {
+            const design = AppState.data.gallery.find(d => d['Design-ID'] === designId);
+            if (!design) return;
+
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = design['Titel ontwerp'] || 'Design Details';
+
+            modalBody.innerHTML = `
+                <div class="modal-image">
+                    ${createImageElement(design['Mockup URL'], design['Titel ontwerp'], '🎨')}
+                </div>
+                <div class="modal-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Jaar:</span>
+                        <span class="detail-value">${design['Jaar'] || '2024'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Designer:</span>
+                        <span class="detail-value">${design['Designer'] || 'Rafle L\'Argent Team'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Verhaal:</span>
+                        <span class="detail-value">${design['Verhaal achter ontwerp'] || 'Een uniek design verhaal'}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function openCollabModal(collabId) {
+            const collab = AppState.data.collabs.find(c => c['Collab-ID'] === collabId);
+            if (!collab) return;
+
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = collab['Partnernaam'] || 'Collaboration Details';
+
+            modalBody.innerHTML = `
+                <div class="modal-image">
+                    ${createImageElement(collab['Logo/Visual URL'], collab['Partnernaam'], '🤝')}
+                </div>
+                <div class="modal-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Jaar:</span>
+                        <span class="detail-value">${collab['Jaar'] || '2024'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Beschrijving:</span>
+                        <span class="detail-value">${collab['Beschrijving samenwerking'] || 'Exclusieve samenwerking'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Betrokken Ontwerpen:</span>
+                        <span class="detail-value">${collab['Betrokken Ontwerp(en)'] || 'Collaboration Design'}</span>
+                    </div>
+                    ${collab['Link partner'] && collab['Link partner'] !== '' ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Partner Link:</span>
+                            <span class="detail-value">
+                                <a href="${collab['Link partner']}" target="_blank" style="color: var(--accent-gold);">
+                                    Bezoek Partner
+                                </a>
+                            </span>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                AppState.currentPage = pageId;
+            }
+
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('active');
+
+            // Update URL without page reload
+            const url = new URL(window.location);
+            url.searchParams.set('page', pageId);
+            window.history.pushState({ page: pageId }, '', url);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Form Handling
+        function handleContactForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // Create mailto link
+            const subject = encodeURIComponent(data.subject);
+            const body = encodeURIComponent(`
+Naam: ${data.name}
+Email: ${data.email}
+
+Bericht:
+${data.message}
+            `);
+            
+            const mailtoLink = `mailto:raflelargent@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+            
+            // Reset form
+            event.target.reset();
+            alert('Bedankt voor je bericht! Je email client wordt geopend.');
+        }
+
+        // Scroll Effects
+        function initScrollEffects() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // URL Parameter Handling
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            const product = urlParams.get('product');
+            
+            if (page && ['home', 'producten', 'museum', 'collabs', 'contact'].includes(page)) {
+                showPage(page);
+            }
+            
+            if (product) {
+                // Wait for data to load, then open product modal
+                setTimeout(() => {
+                    openProductModal(product);
+                }, 1000);
+            }
+        }
+
+        // Loading Screen
+        function hideLoadingScreen() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                AppState.loading = false;
+            }, 2000);
+        }
+
+        // Initialize Application
+        async function initApp() {
+            console.log('Initializing Rafle L\'Argent website...');
+            
+            // Show loading screen
+            hideLoadingScreen();
+            
+            // Load data
+            await loadAllData();
+            
+            // Initialize features
+            initScrollEffects();
+            handleURLParameters();
+            
+            // Handle browser back/forward
+            window.addEventListener('popstate', (event) => {
+                if (event.state && event.state.page) {
+                    showPage(event.state.page);
+                }
+            });
+            
+            // Close modal on outside click
+            document.getElementById('modal').addEventListener('click', (e) => {
+                if (e.target.id === 'modal') {
+                    closeModal();
+                }
+            });
+            
+            // Close modal on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+            
+            console.log('Application initialized successfully');
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Error handling
+        window.addEventListener('error', (e) => {
+            console.error('Application error:', e.error);
+        });
+
+        // Handle unhandled promise rejections
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+        });
+    </script>
 </body>
 </html>
-
