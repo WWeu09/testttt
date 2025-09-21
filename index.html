@@ -1,414 +1,581 @@
 <!DOCTYPE html>
-<html lang="nl" class="scroll-smooth">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Van Appia & Van der Lee - Advocatenkantoor Amsterdam</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#374151',
-                        secondary: '#6B7280',
-                        accent: '#9CA3AF',
-                        light: '#F9FAFB',
-                        dark: '#1F2937'
-                    }
-                }
+    <title>Meyers Automotive - Betrouwbare Occasions & Autoservice</title>
+    <meta name="description" content="Meyers Automotive biedt kwaliteitsvolle tweedehands auto's, APK-keuringen, reparaties en export services. Financieringsopties beschikbaar voor iedereen.">
+    <meta name="keywords" content="tweedehands auto's, occasions, APK keuring, autoreparatie, export, Meyers Automotive">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Meyers Automotive - Betrouwbare Occasions & Autoservice">
+    <meta property="og:description" content="Ontdek ons uitgebreide aanbod van kwaliteitsvolle tweedehands auto's. Financieringsopties beschikbaar voor iedereen!">
+    <meta property="og:type" content="website">
+    
+    <style>
+        :root {
+            --primary-color: #111;
+            --secondary-color: #f5f5f5;
+            --accent-color: #007bff;
+            --text-color: #333;
+            --border-color: #ccc;
+            --success-color: #28a745;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-sm) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a[aria-current="page"] {
+            background-color: var(--accent-color);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-color);
+                flex-direction: column;
+                padding: var(--spacing-sm);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 200px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #e9ecef 100%);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #666;
+        }
+
+        /* Filters Section */
+        .filters {
+            background: white;
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .search-input,
+        select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            min-width: 200px;
+            max-width: 100%;
+        }
+
+        .search-input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Cars Section */
+        .cars-section {
+            padding: var(--spacing-xl) 0;
+            background: #fafafa;
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            aspect-ratio: 3/2;
+        }
+
+        .car-info {
+            padding: var(--spacing-md);
+        }
+
+        .car-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary-color);
+        }
+
+        .car-details {
+            list-style: none;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .car-details li {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .car-details li:last-child {
+            border-bottom: none;
+        }
+
+        .car-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin-top: var(--spacing-sm);
+        }
+
+        .car-description {
+            margin-top: var(--spacing-sm);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: var(--spacing-xl) 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-xl);
+            color: var(--primary-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .service-card {
+            text-align: center;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            background: var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .service-card h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: var(--spacing-xl) 0;
+            background: #f8f9fa;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .contact-info h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        address {
+            font-style: normal;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .contact-item {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .contact-item a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .footer-content a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: #dc3545;
+            background: #f8d7da;
+            border-radius: 4px;
+            margin: var(--spacing-sm) 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input,
+            select {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
     </style>
 </head>
-<body class="bg-light text-primary">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <!-- Improved logo styling with better sizing and background handling -->
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-white p-2 rounded-lg shadow-sm">
-                            <img src="https://i.postimg.cc/g0HjTwqn/Black-And-White-Simple-Personal-Business-Card.png" 
-                                 alt="Van Appia & Van der Lee Logo" 
-                                 class="h-12 w-auto object-contain">
-                        </div>
-                        <div class="hidden sm:block">
-                            <h1 class="text-xl font-bold text-primary">Van Appia & Van der Lee</h1>
-                            <p class="text-xs text-secondary">Advocatenkantoor</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Home</a>
-                        <a href="#specialisme" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Specialisme</a>
-                        <a href="#werkmethode" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Werkmethode</a>
-                        <a href="#advocaten" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Advocaten</a>
-                        <a href="#over-ons" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Over ons</a>
-                        <a href="#contact" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Contact</a>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-secondary hover:text-primary">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <h1>Meyers Automotive</h1>
             </div>
+            <button class="mobile-menu-toggle" aria-label="Menu openen">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="#home" aria-current="page">Home</a></li>
+                    <li><a href="#autos">Auto's</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#home" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Home</a>
-                <a href="#specialisme" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Specialisme</a>
-                <a href="#werkmethode" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Werkmethode</a>
-                <a href="#advocaten" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Advocaten</a>
-                <a href="#over-ons" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Over ons</a>
-                <a href="#contact" class="block px-3 py-2 text-secondary hover:text-primary text-sm font-medium">Contact</a>
-            </div>
-        </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="bg-gradient-to-br from-gray-50 to-gray-100 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-                    Van Appia & Van der Lee
-                </h1>
-                <p class="text-xl md:text-2xl text-secondary mb-8 max-w-4xl mx-auto leading-relaxed">
-                    Wij zijn uw specialisten in Straf-, personen-, familie- en vreemdelingenrecht
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#contact" class="bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-dark transition-colors">
-                        Contact opnemen
-                    </a>
-                    <a href="tel:+31205312999" class="border-2 border-primary text-primary px-8 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors">
-                        020-531 2999
-                    </a>
-                </div>
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h2>Betrouwbare Occasions, Direct Beschikbaar</h2>
+                <p>Ontdek ons uitgebreide aanbod van kwaliteitsvolle tweedehands auto's. Financieringsopties beschikbaar voor iedereen!</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Over ons Section -->
-    <section id="over-ons" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Over ons</h2>
-                <p class="text-lg text-secondary max-w-3xl mx-auto">
-                    Het kantoor Van Appia & Van der Lee is in 2000 opgericht door Joseph van Appia en Onno van der Lee.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center p-8 bg-gray-50 rounded-xl">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+        <section class="filters">
+            <div class="container">
+                <div class="filter-controls">
+                    <div class="search-group">
+                        <label for="search">Zoeken</label>
+                        <input type="text" id="search" class="search-input" placeholder="Zoek op merk, model...">
                     </div>
-                    <h3 class="text-xl font-semibold text-primary mb-4">Informatie</h3>
-                    <p class="text-secondary">
-                        Wij worden geleid door maar één belang, en dat is het belang van onze cliënt.
-                    </p>
-                </div>
-
-                <div class="text-center p-8 bg-gray-50 rounded-xl">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                    <div class="search-group">
+                        <label for="sort">Sorteren op</label>
+                        <select id="sort">
+                            <option value="nieuwste">Nieuwste aanbod</option>
+                            <option value="prijs-laag">Prijs (laag naar hoog)</option>
+                            <option value="prijs-hoog">Prijs (hoog naar laag)</option>
+                            <option value="bouwjaar">Bouwjaar</option>
+                            <option value="vermogen">Vermogen</option>
+                            <option value="kilometer">Kilometerstand</option>
+                        </select>
                     </div>
-                    <h3 class="text-xl font-semibold text-primary mb-4">Specialisme</h3>
-                    <p class="text-secondary">
-                        Het kantoor kent een algemene rechtspraktijk, met als specialisatie het straf-, personen- en familierecht en het vreemdelingenrecht.
-                    </p>
                 </div>
+            </div>
+        </section>
 
-                <div class="text-center p-8 bg-gray-50 rounded-xl">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+        <section id="autos" class="cars-section">
+            <div class="container">
+                <h2 class="section-title">Ons Aanbod</h2>
+                <div class="loading" id="loading">Auto's worden geladen...</div>
+                <div class="cars-grid" id="cars-container">
+                    <!-- Auto cards worden hier dynamisch geladen -->
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Onze Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🔧</div>
+                        <h3>APK Keuring</h3>
+                        <p>Professionele APK keuringen door gecertificeerde monteurs. Snel en betrouwbaar.</p>
                     </div>
-                    <h3 class="text-xl font-semibold text-primary mb-4">Werkwijze</h3>
-                    <p class="text-secondary">
-                        Wanneer u een juridisch probleem heeft dan is het belangrijk om zo snel mogelijk te weten waar u aan toe bent. Bij ons kunt u altijd telefonisch voor een afspraak terecht.
-                    </p>
+                    <div class="service-card">
+                        <div class="service-icon">⚙️</div>
+                        <h3>Reparatie & Onderhoud</h3>
+                        <p>Volledige reparatie- en onderhoudsdiensten voor alle automerken en modellen.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🌍</div>
+                        <h3>Export</h3>
+                        <p>Gespecialiseerd in auto-export naar verschillende landen. Alle papierwerk geregeld.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🚗</div>
+                        <h3>Sleepdienst</h3>
+                        <p>24/7 sleepdienst beschikbaar. Snelle hulp bij pech of ongevallen.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Specialisme Section -->
-    <section id="specialisme" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Onze Specialisaties</h2>
-                <p class="text-lg text-secondary max-w-3xl mx-auto">
-                    Wij bieden expertise in verschillende rechtsgebieden met focus op uw specifieke behoeften.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg font-semibold text-primary mb-3">Strafrecht</h3>
-                    <p class="text-secondary text-sm">Verdediging in strafzaken en juridische bijstand bij strafrechtelijke procedures.</p>
-                </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg font-semibold text-primary mb-3">Personenrecht</h3>
-                    <p class="text-secondary text-sm">Juridische ondersteuning bij persoonlijke en burgerrechtelijke aangelegenheden.</p>
-                </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg font-semibold text-primary mb-3">Familierecht</h3>
-                    <p class="text-secondary text-sm">Begeleiding bij echtscheiding, voogdij en andere familieaangelegenheden.</p>
-                </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <h3 class="text-lg font-semibold text-primary mb-3">Vreemdelingenrecht</h3>
-                    <p class="text-secondary text-sm">Specialistische hulp bij immigratie en naturalisatieprocedures.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Werkmethode Section -->
-    <section id="werkmethode" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Onze Werkmethode</h2>
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <p class="text-lg text-secondary leading-relaxed mb-6">
-                        Wanneer u een juridisch probleem heeft dan is het belangrijk om zo snel mogelijk te weten waar u aan toe bent. Bij ons kunt u altijd telefonisch voor een afspraak terecht waarna op zo kort mogelijke termijn - zo mogelijk nog dezelfde dag - een gesprek volgt.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-3 gap-6 mt-8">
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span class="text-white font-bold">1</span>
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Locaties</h3>
+                        <address>
+                            <strong>Hoofdvestiging</strong><br>
+                            Ibisweg 3-5<br>
+                            <div class="contact-item">
+                                <a href="tel:+31614435050">📞 +31 6 14 43 50 50</a>
                             </div>
-                            <h3 class="font-semibold text-primary mb-2">Contact</h3>
-                            <p class="text-sm text-secondary">Telefonisch contact voor een afspraak</p>
+                        </address>
+                        <address>
+                            <strong>Tweede locatie</strong><br>
+                            Kerkweg 152<br>
+                            <div class="contact-item">
+                                <a href="tel:+31614435050">📞 +31 6 14 43 50 50</a>
+                            </div>
+                        </address>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Contact Informatie</h3>
+                        <div class="contact-item">
+                            <strong>Email:</strong> 
+                            <a href="mailto:meyersautomotives@gmail.com">meyersautomotives@gmail.com</a>
                         </div>
-                        
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span class="text-white font-bold">2</span>
-                            </div>
-                            <h3 class="font-semibold text-primary mb-2">Gesprek</h3>
-                            <p class="text-sm text-secondary">Zo mogelijk nog dezelfde dag een gesprek</p>
+                        <div class="contact-item">
+                            <strong>Telefoon:</strong> 
+                            <a href="tel:+31614435050">+31 6 14 43 50 50</a>
                         </div>
-                        
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span class="text-white font-bold">3</span>
-                            </div>
-                            <h3 class="font-semibold text-primary mb-2">Actie</h3>
-                            <p class="text-sm text-secondary">Snelle duidelijkheid over uw situatie</p>
+                        <div class="contact-item">
+                            <strong>Openingstijden:</strong><br>
+                            Ma-Vr: 08:00 - 18:00<br>
+                            Za: 09:00 - 17:00<br>
+                            Zo: Gesloten
+                        </div>
+                        <div class="contact-item">
+                            <strong>KVK-nummer:</strong> 12345678
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Advocaten Section -->
-    <section id="advocaten" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Onze Advocaten</h2>
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-white p-8 rounded-xl shadow-sm">
-                    <div class="flex flex-col md:flex-row items-center gap-8">
-                        <!-- Replaced placeholder avatar with actual profile picture -->
-                        <div class="w-32 h-32 flex-shrink-0">
-                            <img src="https://i.postimg.cc/NG8rv8DP/Van-appia-en-van-der-Lee-1-foto-by-Charline-Goud-MG-9800.jpg" alt="Mr Joseph van Appia" class="w-32 h-32 rounded-full object-cover shadow-lg">
-                        </div>
-                        <div class="flex-1 text-center md:text-left">
-                            <h3 class="text-2xl font-bold text-primary mb-4">Mr Joseph van Appia</h3>
-                            <p class="text-secondary leading-relaxed">
-                                Mr Joseph van Appia is advocaat in het vreemdelingenrecht en strafrecht en zaken op het gebied van vastgoed en internationaal privaatrecht. Mr Van Appia is de eerste advocaat uit Afrika in Nederland en is een van de oprichters van het kantoor.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Help Section -->
-    <section class="py-16 bg-primary text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4">Do you need help?</h2>
-            <p class="text-lg mb-8 opacity-90">
-                The moment you are confronted with a legal problem, we advise you to contact us directly by telephone.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <a href="tel:+31205312999" class="bg-white text-primary px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                    +31 (0)20-531 2999
-                </a>
-                <a href="tel:+31650207991" class="bg-white text-primary px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                    065 020 7991
-                </a>
-            </div>
-            <p class="text-sm opacity-75">
-                We offer our counsel in Dutch, English, Hebrew and Twi.
-            </p>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Contact</h2>
-            </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Contact Info -->
-                <div>
-                    <div class="space-y-8">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-primary mb-2">Adres</h3>
-                                <p class="text-secondary">Stadhouderskade 149-1h<br>1074BB Amsterdam</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-primary mb-2">Telefoon</h3>
-                                <p class="text-secondary">
-                                    <a href="tel:+31205312999" class="hover:text-primary transition-colors">020-531 2999</a><br>
-                                    <a href="tel:+31650207991" class="hover:text-primary transition-colors">065 020 7991</a>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-primary mb-2">Email</h3>
-                                <p class="text-secondary">
-                                    <a href="mailto:vanappia@vanappiavanderlee.nl" class="hover:text-primary transition-colors">vanappia@vanappiavanderlee.nl</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Contact Form -->
-                <div>
-                    <form class="space-y-6">
-                        <div>
-                            <label for="naam" class="block text-sm font-medium text-primary mb-2">Naam</label>
-                            <input type="text" id="naam" name="naam" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-primary mb-2">E-mail</label>
-                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label for="telefoon" class="block text-sm font-medium text-primary mb-2">Telefoon</label>
-                            <input type="tel" id="telefoon" name="telefoon" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label for="bericht" class="block text-sm font-medium text-primary mb-2">Bericht</label>
-                            <textarea id="bericht" name="bericht" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="w-full bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-dark transition-colors">
-                            Verstuur bericht
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Van Appia & Van der Lee</h3>
-                    <p class="text-gray-300 text-sm">
-                        Specialisten in Straf-, personen-, familie- en vreemdelingenrecht sinds 2000.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Contact</h4>
-                    <div class="space-y-2 text-sm text-gray-300">
-                        <p>Stadhouderskade 149-1h</p>
-                        <p>1074BB Amsterdam</p>
-                        <p>020-531 2999</p>
-                        <p>vanappia@vanappiavanderlee.nl</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Juridisch</h4>
-                    <div class="space-y-2 text-sm text-gray-300">
-                        <a href="#" class="hover:text-white transition-colors">Juridische kennisgeving</a><br>
-                        <a href="#" class="hover:text-white transition-colors">Rechtsgebieden register</a><br>
-                        <a href="#" class="hover:text-white transition-colors">Klachtenregeling</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-400 text-sm">
-                    © 2024 Van Appia & Van der Lee. Alle rechten voorbehouden.
-                </p>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Meyers Automotive. Alle rechten voorbehouden.</p>
+                <p>Powered by <a href="https://vanappiah.com/" target="_blank" rel="noopener">VA</a></p>
             </div>
         </div>
     </footer>
 
     <script>
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToVqUqC3z-fZPfOZwMZzr1Ed0Hmzu9fgYVG4wvs80YGS5fXD07gmaZi-kLlxGpc4qj3NPmxR46vdaJ/pub?output=csv";
+        
+        let allCars = [];
+        let filteredCars = [];
+
         // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            nav.classList.toggle('active');
         });
-        
+
         // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
@@ -418,10 +585,176 @@
                         block: 'start'
                     });
                     // Close mobile menu if open
-                    mobileMenu.classList.add('hidden');
+                    document.querySelector('nav ul').classList.remove('active');
+                    // Update active nav item
+                    document.querySelectorAll('nav a').forEach(a => a.removeAttribute('aria-current'));
+                    this.setAttribute('aria-current', 'page');
                 }
             });
         });
+
+        // CSV Parser - handles commas and quotes properly
+        function parseCSV(text) {
+            const rows = [];
+            const lines = text.split('\n');
+            
+            for (let line of lines) {
+                if (line.trim() === '') continue;
+                
+                const row = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        row.push(current.trim());
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                row.push(current.trim());
+                rows.push(row);
+            }
+            
+            return rows;
+        }
+
+        // Load cars from CSV
+        async function loadCars() {
+            const loadingElement = document.getElementById('loading');
+            const carsContainer = document.getElementById('cars-container');
+            
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error('Netwerk fout');
+                
+                const text = await response.text();
+                const rows = parseCSV(text);
+                
+                if (rows.length === 0) throw new Error('Geen data gevonden');
+                
+                const headers = rows[0].map(h => h.trim());
+                allCars = [];
+                
+                rows.slice(1).forEach(row => {
+                    if (row.length === 0 || row.every(cell => !cell.trim())) return;
+                    
+                    const car = {};
+                    headers.forEach((header, index) => {
+                        car[header] = row[index] ? row[index].trim() : '';
+                    });
+                    
+                    // Sanitize data
+                    if (car['Vermogen (pk)']) {
+                        car['Vermogen (pk)'] = car['Vermogen (pk)'].replace(/\s*pk\s*$/i, '');
+                    }
+                    
+                    allCars.push(car);
+                });
+                
+                filteredCars = [...allCars];
+                loadingElement.style.display = 'none';
+                renderCars();
+                
+            } catch (error) {
+                console.error('Fout bij laden van auto\'s:', error);
+                loadingElement.innerHTML = `<div class="error">Fout bij het laden van auto's: ${error.message}</div>`;
+            }
+        }
+
+        // Render cars
+        function renderCars() {
+            const carsContainer = document.getElementById('cars-container');
+            
+            if (filteredCars.length === 0) {
+                carsContainer.innerHTML = '<div class="error">Geen auto\'s gevonden die voldoen aan uw zoekcriteria.</div>';
+                return;
+            }
+            
+            carsContainer.innerHTML = filteredCars.map(car => {
+                const image = car["Afbeelding 1"] || "https://via.placeholder.com/300x200?text=Geen+afbeelding";
+                const merk = car["Merk"] || '';
+                const model = car["Model"] || '';
+                const type = car["Type"] || '';
+                const bouwjaar = car["Bouwjaar"] || '';
+                const kilometerstand = car["Kilometerstand"] || '';
+                const brandstof = car["Brandstof"] || '';
+                const vermogen = car["Vermogen (pk)"] || '';
+                const prijs = car["Prijs"] || 'Op aanvraag';
+                const locatie = car["Locatie"] || '';
+                const beschrijving = car["Beschrijving"] || '';
+                
+                return `
+                    <div class="car-card">
+                        <img src="${image}" alt="${merk} ${model}" onerror="this.src='https://via.placeholder.com/300x200?text=Afbeelding+niet+beschikbaar'">
+                        <div class="car-info">
+                            <h3 class="car-title">${merk} ${model}</h3>
+                            ${type ? `<p><strong>${type}</strong></p>` : ''}
+                            <ul class="car-details">
+                                ${bouwjaar ? `<li><span>Bouwjaar:</span><span>${bouwjaar}</span></li>` : ''}
+                                ${kilometerstand ? `<li><span>Kilometerstand:</span><span>${kilometerstand}</span></li>` : ''}
+                                ${brandstof ? `<li><span>Brandstof:</span><span>${brandstof}</span></li>` : ''}
+                                ${vermogen ? `<li><span>Vermogen:</span><span>${vermogen} pk</span></li>` : ''}
+                                ${locatie ? `<li><span>Locatie:</span><span>${locatie}</span></li>` : ''}
+                            </ul>
+                            <div class="car-price">${prijs}</div>
+                            ${beschrijving ? `<p class="car-description">${beschrijving}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Search functionality
+        function filterCars() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const sortBy = document.getElementById('sort').value;
+            
+            // Filter cars based on search term
+            filteredCars = allCars.filter(car => {
+                const searchableText = [
+                    car["Merk"] || '',
+                    car["Model"] || '',
+                    car["Type"] || '',
+                    car["Brandstof"] || '',
+                    car["Beschrijving"] || ''
+                ].join(' ').toLowerCase();
+                
+                return searchableText.includes(searchTerm);
+            });
+            
+            // Sort cars
+            filteredCars.sort((a, b) => {
+                switch (sortBy) {
+                    case 'prijs-laag':
+                        return parseFloat(a["Prijs"]?.replace(/[^\d]/g, '') || 0) - parseFloat(b["Prijs"]?.replace(/[^\d]/g, '') || 0);
+                    case 'prijs-hoog':
+                        return parseFloat(b["Prijs"]?.replace(/[^\d]/g, '') || 0) - parseFloat(a["Prijs"]?.replace(/[^\d]/g, '') || 0);
+                    case 'bouwjaar':
+                        return parseInt(b["Bouwjaar"] || 0) - parseInt(a["Bouwjaar"] || 0);
+                    case 'vermogen':
+                        return parseInt(b["Vermogen (pk)"]?.replace(/[^\d]/g, '') || 0) - parseInt(a["Vermogen (pk)"]?.replace(/[^\d]/g, '') || 0);
+                    case 'kilometer':
+                        return parseInt(a["Kilometerstand"]?.replace(/[^\d]/g, '') || 0) - parseInt(b["Kilometerstand"]?.replace(/[^\d]/g, '') || 0);
+                    default:
+                        return 0; // nieuwste - keep original order
+                }
+            });
+            
+            renderCars();
+        }
+
+        // Event listeners for search and sort
+        document.getElementById('search').addEventListener('input', filterCars);
+        document.getElementById('sort').addEventListener('change', filterCars);
+
+        // Load cars on page load
+        loadCars();
     </script>
 </body>
 </html>
