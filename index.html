@@ -3,1127 +3,1977 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meyers Automotive - Betrouwbare Occasions & Autoservice</title>
-    <meta name="description" content="Meyers Automotive biedt kwaliteitsvolle tweedehands auto's, APK-keuringen, reparaties en export services. Financieringsopties beschikbaar voor iedereen.">
-    <meta name="keywords" content="tweedehands auto's, occasions, APK keuring, autoreparatie, export, Meyers Automotive">
-    
-     Open Graph tags 
-    <meta property="og:title" content="Meyers Automotive - Betrouwbare Occasions & Autoservice">
-    <meta property="og:description" content="Ontdek ons uitgebreide aanbod van kwaliteitsvolle tweedehands auto's. Financieringsopties beschikbaar voor iedereen!">
-    <meta property="og:type" content="website">
-    
-     Google Fonts 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Meyers Automotive - Premium Auto's & Professionele Diensten</title>
+    <meta name="description" content="Ontdek premium auto's bij Meyers Automotive. Professionele APK, reparatie, sleepdienst en export services. Heemskerk & Amsterdam.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            /* Colors */
-            --primary: #0a0a0a;
-            --secondary: #1a1a1a;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --muted: #6b7280;
-            --muted-foreground: #9ca3af;
-            --background: #ffffff;
-            --surface: #f8fafc;
-            --surface-elevated: #ffffff;
-            --border: #e5e7eb;
-            --border-light: #f3f4f6;
-            --success: #059669;
-            --warning: #d97706;
-            --error: #dc2626;
-            
-            /* Typography */
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-serif: 'Playfair Display', Georgia, serif;
-            
-            /* Spacing */
-            --space-xs: 0.5rem;
-            --space-sm: 0.75rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --space-2xl: 3rem;
-            --space-3xl: 4rem;
-            --space-4xl: 6rem;
-            
-            /* Shadows */
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            
-            /* Border radius */
-            --radius-sm: 0.375rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
+        body {
             box-sizing: border-box;
         }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
+        
+        :root {
+            --primary-black: #1a1a1a;
+            --accent-gold: #d4af37;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
         }
-
-        body {
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            color: var(--primary);
-            background-color: var(--background);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-serif);
-            font-weight: 600;
-            line-height: 1.2;
-            text-wrap: balance;
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        .text-balance {
-            text-wrap: balance;
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* Header & Navigation */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .logo h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.025em;
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: var(--space-xl);
-            align-items: center;
+        
+        .car-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
         }
-
-        nav a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-md);
-            transition: all 0.2s ease;
-            position: relative;
+        
+        .car-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
-
-        nav a:hover,
-        nav a[aria-current="page"] {
-            color: var(--accent);
-            background-color: rgba(37, 99, 235, 0.05);
+        
+        .car-card:hover .car-image {
+            transform: scale(1.05);
         }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: var(--space-sm);
-            border-radius: var(--radius-md);
-            transition: background-color 0.2s ease;
+        
+        .car-image {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .mobile-menu-toggle:hover {
-            background-color: var(--surface);
+        
+        .premium-badge {
+            background: linear-gradient(135deg, var(--accent-gold), #f4d03f);
+            animation: shimmer 3s infinite;
+            background-size: 200% 200%;
         }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--surface) 0%, #f1f5f9 100%);
-            padding: var(--space-4xl) 0;
-            text-align: center;
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .carousel-container {
             position: relative;
             overflow: hidden;
         }
-
-        .hero::before {
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .carousel-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-nav.prev {
+            left: 20px;
+        }
+        
+        .carousel-nav.next {
+            right: 20px;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: var(--primary-black);
+            transform: scale(1.2);
+        }
+        
+        .sold-banner {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sold-banner::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('/placeholder.svg?height=800&width=1400') center/cover;
-            opacity: 0.03;
-            z-index: 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        .hero h2 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin-bottom: var(--space-lg);
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--muted);
-            margin-bottom: var(--space-xl);
-            font-weight: 400;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-md);
-            background: var(--accent);
-            color: white;
-            padding: var(--space-md) var(--space-xl);
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-        }
-
-        .hero-cta:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Filters Section */
-        .filters {
-            background: var(--surface-elevated);
-            padding: var(--space-2xl) 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .filter-controls {
-            display: flex;
-            gap: var(--space-lg);
-            justify-content: center;
-            align-items: end;
-            flex-wrap: wrap;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        .search-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-            min-width: 200px;
-        }
-
-        .search-group label {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .search-input,
-        select {
-            padding: var(--space-md) var(--space-lg);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-lg);
-            font-size: 1rem;
-            font-family: var(--font-sans);
-            background: var(--background);
-            transition: all 0.2s ease;
-            min-height: 48px;
-        }
-
-        .search-input:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        /* Cars Section */
-        .cars-section {
-            padding: var(--space-4xl) 0;
-            background: var(--background);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: var(--space-2xl);
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .cars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: var(--space-2xl);
-            margin-top: var(--space-2xl);
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 var(--space-lg);
-        }
-
-        .car-card {
-            background: var(--surface-elevated);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-light);
-        }
-
-        .car-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--border);
-        }
-
-        .car-card img {
+            left: -100%;
             width: 100%;
-            height: 240px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
         }
-
-        .car-card:hover img {
-            transform: scale(1.05);
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
-
-        .car-info {
-            padding: var(--space-xl);
-        }
-
-        .car-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            color: var(--primary);
-            font-family: var(--font-serif);
-        }
-
-        .car-subtitle {
-            font-size: 1rem;
-            color: var(--muted);
-            margin-bottom: var(--space-lg);
-            font-weight: 500;
-        }
-
-        .car-details {
-            list-style: none;
-            margin: var(--space-lg) 0;
-            display: grid;
-            gap: var(--space-sm);
-        }
-
-        .car-details li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-sm) 0;
-            border-bottom: 1px solid var(--border-light);
-            font-size: 0.95rem;
-        }
-
-        .car-details li:last-child {
-            border-bottom: none;
-        }
-
-        .car-details li span:first-child {
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .car-details li span:last-child {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .car-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--success);
-            margin-top: var(--space-lg);
-            font-family: var(--font-serif);
-        }
-
-        .car-description {
-            margin-top: var(--space-lg);
-            color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Services Section */
-        .services {
-            padding: var(--space-4xl) 0;
-            background: var(--surface);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-2xl);
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        .service-card {
-            text-align: center;
-            padding: var(--space-2xl);
-            border-radius: var(--radius-xl);
-            background: var(--surface-elevated);
+        
+        .filter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 1px solid var(--border-light);
         }
-
-        .service-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--border);
+        
+        .filter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-
+        
         .service-icon {
-            font-size: 3.5rem;
-            margin-bottom: var(--space-lg);
-            display: block;
-        }
-
-        .service-card h3 {
-            margin-bottom: var(--space-md);
-            color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .service-card p {
-            color: var(--muted);
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: var(--space-4xl) 0;
-            background: var(--background);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: var(--space-3xl);
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        .contact-info h3 {
-            margin-bottom: var(--space-xl);
-            color: var(--primary);
-            font-size: 1.75rem;
-            font-weight: 600;
-        }
-
-        address {
-            font-style: normal;
-            margin-bottom: var(--space-xl);
-            padding: var(--space-xl);
-            background: var(--surface-elevated);
-            border-radius: var(--radius-lg);
-            border-left: 4px solid var(--accent);
-            box-shadow: var(--shadow-sm);
-        }
-
-        address strong {
-            display: block;
-            margin-bottom: var(--space-sm);
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .contact-item {
-            margin-bottom: var(--space-md);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .contact-item a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .contact-item a:hover {
-            color: var(--accent-hover);
-        }
-
-        /* Forms */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-lg);
-        }
-
-        form input,
-        form textarea {
-            padding: var(--space-md) var(--space-lg);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-lg);
-            font-size: 1rem;
-            font-family: var(--font-sans);
-            background: var(--background);
-            transition: all 0.2s ease;
-            min-height: 48px;
-        }
-
-        form input:focus,
-        form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        form textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        form button {
-            padding: var(--space-md) var(--space-xl);
-            border: none;
-            border-radius: var(--radius-lg);
-            background: var(--accent);
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: var(--font-sans);
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-black), #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             transition: all 0.3s ease;
-            min-height: 48px;
-            box-shadow: var(--shadow-sm);
         }
-
-        form button:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
         }
-
-        .message {
-            margin-top: var(--space-md);
-            font-size: 0.9rem;
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-md);
+        
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(255,255,255,0.95);
+            transition: all 0.3s ease;
         }
-
-        .message.success {
-            background: rgba(5, 150, 105, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(5, 150, 105, 0.2);
+        
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-
-        .message.error {
-            background: rgba(220, 38, 38, 0.1);
-            color: var(--error);
-            border: 1px solid rgba(220, 38, 38, 0.2);
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
         }
-
-        .subscribe {
-            margin-top: var(--space-2xl);
-            padding-top: var(--space-2xl);
-            border-top: 1px solid var(--border);
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
-
-        /* Footer */
-        footer {
-            background: var(--primary);
-            color: white;
-            padding: var(--space-2xl) 0;
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
         }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-lg);
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary-black) 0%, #2c3e50 50%, #34495e 100%);
         }
-
-        .footer-content a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.2s ease;
+        
+        .price-tag {
+            background: linear-gradient(135deg, var(--accent-gold), #f4d03f);
+            color: var(--primary-black);
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 25px;
+            display: inline-block;
         }
-
-        .footer-content a:hover {
-            color: white;
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-black);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
         }
-
-        /* Loading & Error States */
-        .loading {
-            text-align: center;
-            padding: var(--space-3xl);
-            font-size: 1.2rem;
-            color: var(--muted);
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .error {
-            text-align: center;
-            padding: var(--space-xl);
-            color: var(--error);
-            background: rgba(220, 38, 38, 0.05);
-            border: 1px solid rgba(220, 38, 38, 0.1);
-            border-radius: var(--radius-lg);
-            margin: var(--space-lg) 0;
+        
+        .modal-backdrop {
+            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.7);
         }
-
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
+        
+        .page {
+            display: none;
+            min-height: 100vh;
         }
-
-        /* Responsive Design */
+        
+        .page.active {
+            display: block;
+        }
+        
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+        
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        
         @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
             }
-
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(10px);
-                flex-direction: column;
-                padding: var(--space-lg);
-                box-shadow: var(--shadow-lg);
-                border-top: 1px solid var(--border);
+            
+            .carousel-nav.prev {
+                left: 10px;
             }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            .header-content {
-                flex-wrap: wrap;
-            }
-
-            .filter-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-group {
-                min-width: auto;
-                width: 100%;
-            }
-
-            .cars-grid {
-                grid-template-columns: 1fr;
-                gap: var(--space-xl);
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: var(--space-2xl);
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero {
-                padding: var(--space-2xl) 0;
-            }
-
-            .services,
-            .cars-section,
-            .contact {
-                padding: var(--space-2xl) 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cars-grid {
-                grid-template-columns: 1fr;
-                padding: 0 var(--space-md);
-            }
-
-            .car-card {
-                margin: 0;
-            }
-
-            .contact-grid {
-                padding: 0 var(--space-md);
-            }
-
-            .services-grid {
-                padding: 0 var(--space-md);
+            
+            .carousel-nav.next {
+                right: 10px;
             }
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <h1>Meyers Automotive</h1>
+<body class="bg-gray-50 text-gray-900 smooth-scroll">
+    <!-- Navigation -->
+    <nav class="navbar fixed top-0 w-full z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="text-2xl font-bold text-black">
+                        <i class="fas fa-car mr-2"></i>Meyers Automotive
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-700 hover:text-black font-medium" onclick="showPage('home')">Home</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-black font-medium" onclick="showPage('cars')">Auto's</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-black font-medium" onclick="showPage('services')">Diensten</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-black font-medium" onclick="showPage('contact')">Contact</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-black font-medium" onclick="showPage('premium')">Premium Auto's</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button onclick="callUs()" class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition font-medium">
+                        <i class="fas fa-phone mr-2"></i>Bel Ons
+                    </button>
+                    <button class="md:hidden text-black" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
-            <button class="mobile-menu-toggle" aria-label="Menu openen">☰</button>
-            <nav>
-                <ul>
-                    <li><a href="#home" aria-current="page">Home</a></li>
-                    <li><a href="#autos">Auto's</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-200">
+                <div class="flex flex-col space-y-3 pt-4">
+                    <a href="#" class="text-gray-700 hover:text-black font-medium py-2" onclick="showPage('home'); toggleMobileMenu()">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-black font-medium py-2" onclick="showPage('cars'); toggleMobileMenu()">Auto's</a>
+                    <a href="#" class="text-gray-700 hover:text-black font-medium py-2" onclick="showPage('services'); toggleMobileMenu()">Diensten</a>
+                    <a href="#" class="text-gray-700 hover:text-black font-medium py-2" onclick="showPage('contact'); toggleMobileMenu()">Contact</a>
+                    <a href="#" class="text-gray-700 hover:text-black font-medium py-2" onclick="showPage('premium'); toggleMobileMenu()">Premium Auto's</a>
+                </div>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h2 class="text-balance">Betrouwbare Occasions, Direct Beschikbaar</h2>
-                <p class="text-balance">Ontdek ons uitgebreide aanbod van kwaliteitsvolle tweedehands auto's. Financieringsopties beschikbaar voor iedereen!</p>
-                <a href="#autos" class="hero-cta">
-                    Bekijk Ons Aanbod
-                    <span>→</span>
-                </a>
-            </div>
-        </section>
-
-        <section class="filters">
-            <div class="container">
-                <div class="filter-controls">
-                    <div class="search-group">
-                        <label for="search">Zoeken</label>
-                        <input type="text" id="search" class="search-input" placeholder="Zoek op merk, model...">
-                    </div>
-                    <div class="search-group">
-                        <label for="sort">Sorteren op</label>
-                        <select id="sort">
-                            <option value="nieuwste">Nieuwste aanbod</option>
-                            <option value="prijs-laag">Prijs (laag naar hoog)</option>
-                            <option value="prijs-hoog">Prijs (hoog naar laag)</option>
-                            <option value="bouwjaar">Bouwjaar</option>
-                            <option value="vermogen">Vermogen</option>
-                            <option value="kilometer">Kilometerstand</option>
-                        </select>
-                    </div>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white pt-24 pb-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center fade-in">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6">Premium Auto's</h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-300">Ontdek onze exclusieve collectie van kwaliteitsvoertuigen</p>
+                    <button onclick="showPage('cars')" class="bg-white text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105">
+                        <i class="fas fa-car mr-2"></i>Bekijk Auto's
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section id="autos" class="cars-section">
-            <div class="container">
-                <h2 class="section-title text-balance">Ons Premium Aanbod</h2>
-                <div class="loading" id="loading">Auto's worden geladen...</div>
-                <div class="cars-grid" id="cars-container">
-                     Auto cards worden hier dynamisch geladen 
+        <!-- Premium Cars Carousel -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-4xl font-bold mb-4">Premium Selectie</h2>
+                    <p class="text-xl text-gray-600">Onze meest exclusieve voertuigen</p>
+                </div>
+                
+                <div id="premium-carousel" class="carousel-container max-w-4xl mx-auto">
+                    <div class="carousel-track" id="premium-track">
+                        <!-- Premium cars worden hier geladen -->
+                    </div>
+                    <button class="carousel-nav prev" onclick="prevSlide('premium')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav next" onclick="nextSlide('premium')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="carousel-dots" id="premium-dots"></div>
+                </div>
+                
+                <div class="text-center mt-8 fade-in">
+                    <button onclick="showPage('premium')" class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full text-lg font-semibold hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-star mr-2"></i>Bekijk Alle Premium Auto's
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="services">
-            <div class="container">
-                <h2 class="section-title text-balance">Onze Professionele Services</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <span class="service-icon">🔧</span>
-                        <h3>APK Keuring</h3>
-                        <p>Professionele APK keuringen door gecertificeerde monteurs. Snel, betrouwbaar en volgens de nieuwste standaarden.</p>
+        <!-- Sold Cars Banner -->
+        <section class="sold-banner py-16 text-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-4xl font-bold mb-4">Recent Verkocht</h2>
+                    <p class="text-xl text-gray-300">Deze premium voertuigen hebben een nieuwe eigenaar gevonden</p>
+                </div>
+                
+                <div id="sold-carousel" class="carousel-container max-w-6xl mx-auto">
+                    <div class="carousel-track" id="sold-track">
+                        <!-- Sold cars worden hier geladen -->
                     </div>
-                    <div class="service-card">
-                        <span class="service-icon">⚙️</span>
-                        <h3>Reparatie & Onderhoud</h3>
-                        <p>Volledige reparatie- en onderhoudsdiensten voor alle automerken en modellen. Kwaliteit gegarandeerd.</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="service-icon">🌍</span>
-                        <h3>Export Services</h3>
-                        <p>Gespecialiseerd in auto-export naar verschillende landen. Alle papierwerk en logistiek volledig geregeld.</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="service-icon">🚗</span>
-                        <h3>24/7 Sleepdienst</h3>
-                        <p>Altijd bereikbare sleepdienst voor noodsituaties. Snelle hulp bij pech, ongevallen of andere problemen.</p>
-                    </div>
+                    <button class="carousel-nav prev" onclick="prevSlide('sold')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav next" onclick="nextSlide('sold')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="carousel-dots" id="sold-dots"></div>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title text-balance">Neem Contact Op</h2>
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <h3>Onze Locaties</h3>
-                        <address>
-                            <strong>Hoofdvestiging</strong>
-                            Ibisweg 3-5<br>
-                            <div class="contact-item">
-                                <span>📞</span>
-                                <a href="tel:+31614435050">+31 6 14 43 50 50</a>
-                            </div>
-                        </address>
-                        <address>
-                            <strong>Tweede Locatie</strong>
-                            Kerkweg 152<br>
-                            <div class="contact-item">
-                                <span>📞</span>
-                                <a href="tel:+31614435050">+31 6 14 43 50 50</a>
-                            </div>
-                        </address>
-                        
-                        <div class="contact-info">
-                            <h3>Contact Informatie</h3>
-                            <div class="contact-item">
-                                <span>✉️</span>
-                                <div>
-                                    <strong>Email:</strong><br>
-                                    <a href="mailto:meyersautomotives@gmail.com">meyersautomotives@gmail.com</a>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <span>📱</span>
-                                <div>
-                                    <strong>Telefoon:</strong><br>
-                                    <a href="tel:+31614435050">+31 6 14 43 50 50</a>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <span>🕒</span>
-                                <div>
-                                    <strong>Openingstijden:</strong><br>
-                                    Ma-Vr: 08:00 - 18:00<br>
-                                    Za: 09:00 - 17:00<br>
-                                    Zo: Gesloten
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <span>🏢</span>
-                                <div>
-                                    <strong>KVK-nummer:</strong><br>
-                                    12345678
-                                </div>
-                            </div>
+        <!-- Available Inventory -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-4xl font-bold mb-4">Onze Voorraad</h2>
+                    <p class="text-xl text-gray-600">Alle beschikbare voertuigen</p>
+                </div>
+                
+                <!-- Advanced Filters -->
+                <div class="filter-card max-w-6xl mx-auto mb-12 fade-in">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Zoeken</label>
+                            <input type="text" id="home-search" placeholder="Merk, model of kenteken..." 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Merk</label>
+                            <select id="home-brand-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle merken</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Brandstof</label>
+                            <select id="home-fuel-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle brandstoffen</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Bouwjaar</label>
+                            <select id="home-year-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle jaren</option>
+                            </select>
                         </div>
                     </div>
                     
-                    <div class="contact-form">
-                        <h3>Stuur Ons Een Bericht</h3>
-                        <form id="contactForm">
-                            <input type="text" name="naam" placeholder="Uw naam" required>
-                            <input type="email" name="email" placeholder="Uw e-mailadres" required>
-                            <textarea name="bericht" placeholder="Uw bericht of vraag" rows="5" required></textarea>
-                            <input type="hidden" name="favorieten" id="favorietenInput">
-                            <button type="submit">Verstuur Bericht</button>
-                            <div class="message" id="contactMessage"></div>
-                        </form>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Vermogen</label>
+                            <select id="home-power-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle vermogens</option>
+                                <option value="0-100">0-100 pk</option>
+                                <option value="100-150">100-150 pk</option>
+                                <option value="150-200">150-200 pk</option>
+                                <option value="200+">200+ pk</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Sorteren</label>
+                            <select id="home-sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="year-desc">Nieuwste eerst</option>
+                                <option value="year-asc">Oudste eerst</option>
+                                <option value="power-desc">Hoogste vermogen</option>
+                                <option value="km-asc">Laagste kilometerstand</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="searchFromHome()" class="w-full bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-semibold">
+                                <i class="fas fa-search mr-2"></i>Zoeken
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Available Cars Grid -->
+                <div id="home-inventory-loading" class="text-center py-16">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600">Auto's laden...</p>
+                </div>
+                
+                <div id="home-inventory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                    <!-- Available cars worden hier geladen -->
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button onclick="showPage('cars')" class="bg-black text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-800 transition">
+                        <i class="fas fa-eye mr-2"></i>Alle Auto's Bekijken
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
 
-                        <div class="subscribe">
-                            <h3>Blijf Op De Hoogte</h3>
-                            <p style="color: var(--muted); margin-bottom: var(--space-lg);">Ontvang updates over nieuwe auto's en speciale aanbiedingen.</p>
-                            <form id="subscribeForm">
-                                <input type="email" name="email" placeholder="Uw e-mailadres" required>
-                                <button type="submit">Inschrijven</button>
-                                <div class="message" id="subscribeMessage"></div>
-                            </form>
+    <!-- Cars Page -->
+    <div id="cars-page" class="page pt-24">
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h1 class="text-4xl font-bold mb-4">Onze Auto Collectie</h1>
+                    <p class="text-xl text-gray-600">Ontdek alle beschikbare voertuigen</p>
+                </div>
+                
+                <!-- Advanced Filters -->
+                <div class="filter-card max-w-6xl mx-auto mb-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Zoeken</label>
+                            <input type="text" id="cars-search" placeholder="Merk, model of kenteken..." 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Merk</label>
+                            <select id="cars-brand-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle merken</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Model</label>
+                            <select id="cars-model-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle modellen</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Bouwjaar</label>
+                            <select id="cars-year-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle jaren</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Brandstof</label>
+                            <select id="cars-fuel-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle brandstoffen</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Vermogen</label>
+                            <select id="cars-power-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="">Alle vermogens</option>
+                                <option value="0-100">0-100 pk</option>
+                                <option value="100-150">100-150 pk</option>
+                                <option value="150-200">150-200 pk</option>
+                                <option value="200+">200+ pk</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Sorteren</label>
+                            <select id="cars-sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                <option value="year-desc">Nieuwste eerst</option>
+                                <option value="year-asc">Oudste eerst</option>
+                                <option value="power-desc">Hoogste vermogen</option>
+                                <option value="km-asc">Laagste kilometerstand</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="clearAllFilters()" class="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-100 transition font-semibold">
+                                <i class="fas fa-times mr-2"></i>Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cars Grid -->
+                <div id="cars-loading" class="text-center py-16">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600">Auto's laden...</p>
+                </div>
+                
+                <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                    <!-- Cars worden hier geladen -->
+                </div>
+                
+                <div id="cars-no-results" class="text-center py-16 hidden">
+                    <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-600 text-xl mb-4">Geen auto's gevonden met de huidige filters.</p>
+                    <button onclick="clearAllFilters()" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-refresh mr-2"></i>Filters Wissen
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Services Page -->
+    <div id="services-page" class="page pt-24">
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16 fade-in">
+                    <h1 class="text-4xl font-bold mb-4">Onze Diensten</h1>
+                    <p class="text-xl text-gray-600">Professionele autoservices voor al uw behoeften</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    <!-- APK Keuring -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg p-8 fade-in">
+                        <div class="text-center mb-6">
+                            <i class="fas fa-tools service-icon"></i>
+                            <h2 class="text-2xl font-bold mt-4 mb-2">APK Keuring</h2>
+                            <p class="text-gray-600">Professionele keuringen voor uw veiligheid</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Volledige APK keuring volgens RDW richtlijnen</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Ervaren en gecertificeerde keurmeesters</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Snelle afhandeling, vaak op dezelfde dag</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Transparante rapportage van bevindingen</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="contactService('APK')" class="w-full mt-6 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-semibold">
+                            <i class="fas fa-calendar mr-2"></i>Afspraak Maken
+                        </button>
+                    </div>
+
+                    <!-- Reparatie -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg p-8 fade-in">
+                        <div class="text-center mb-6">
+                            <i class="fas fa-wrench service-icon"></i>
+                            <h2 class="text-2xl font-bold mt-4 mb-2">Reparatie Service</h2>
+                            <p class="text-gray-600">Vakkundige reparaties door ervaren monteurs</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Motor- en transmissiereparaties</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Remmen en ophanging</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Elektrische systemen</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <span>Garantie op uitgevoerde werkzaamheden</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="contactService('Reparatie')" class="w-full mt-6 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-semibold">
+                            <i class="fas fa-phone mr-2"></i>Contact Opnemen
+                        </button>
+                    </div>
+
+                    <!-- Sleepdienst -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg p-8 fade-in">
+                        <div class="text-center mb-6">
+                            <i class="fas fa-truck service-icon"></i>
+                            <h2 class="text-2xl font-bold mt-4 mb-2">24/7 Sleepdienst</h2>
+                            <p class="text-gray-600">Altijd bereikbaar voor noodsituaties</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-clock text-red-500 mt-1"></i>
+                                <span>24 uur per dag, 7 dagen per week bereikbaar</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-tachometer-alt text-red-500 mt-1"></i>
+                                <span>Snelle responstijd</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-shield-alt text-red-500 mt-1"></i>
+                                <span>Professionele sleepwagens</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-user-check text-red-500 mt-1"></i>
+                                <span>Ervaren chauffeurs</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="callEmergency()" class="w-full mt-6 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-semibold">
+                            <i class="fas fa-phone mr-2"></i>Noodlijn Bellen
+                        </button>
+                    </div>
+
+                    <!-- Export -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg p-8 fade-in">
+                        <div class="text-center mb-6">
+                            <i class="fas fa-globe service-icon"></i>
+                            <h2 class="text-2xl font-bold mt-4 mb-2">Auto Export</h2>
+                            <p class="text-gray-600">Volledige exportservice wereldwijd</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-file-alt text-blue-500 mt-1"></i>
+                                <span>Kenteken uitschrijving bij RDW</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-shipping-fast text-blue-500 mt-1"></i>
+                                <span>Transport naar bestemming</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-shield-alt text-blue-500 mt-1"></i>
+                                <span>Verzekering tijdens transport</span>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-handshake text-blue-500 mt-1"></i>
+                                <span>Begeleiding gehele proces</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="contactService('Export')" class="w-full mt-6 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-semibold">
+                            <i class="fas fa-envelope mr-2"></i>Offerte Aanvragen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Premium Cars Page -->
+    <div id="premium-page" class="page pt-24">
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16 fade-in">
+                    <h1 class="text-4xl font-bold mb-4">Premium Auto Collectie</h1>
+                    <p class="text-xl text-gray-600">Ontdek onze exclusieve selectie van premium voertuigen</p>
+                </div>
+                
+                <div id="premium-page-loading" class="text-center py-16">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600">Premium auto's laden...</p>
+                </div>
+                
+                <div id="premium-page-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                    <!-- Premium cars worden hier geladen -->
+                </div>
+                
+                <div id="premium-page-no-results" class="text-center py-16 hidden">
+                    <i class="fas fa-star text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-600 text-xl mb-4">Momenteel geen premium auto's beschikbaar.</p>
+                    <button onclick="showPage('cars')" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-eye mr-2"></i>Bekijk Alle Auto's
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact-page" class="page pt-24">
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16 fade-in">
+                    <h1 class="text-4xl font-bold mb-4">Contact</h1>
+                    <p class="text-xl text-gray-600">Neem contact met ons op voor al uw vragen</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    <!-- Contact Form -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
+                        <h2 class="text-2xl font-bold mb-6">Stuur ons een bericht</h2>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Naam *</label>
+                                    <input type="text" id="contact-name" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Email *</label>
+                                    <input type="email" id="contact-email" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Onderwerp</label>
+                                <input type="text" id="contact-subject"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Bericht *</label>
+                                <textarea id="contact-message" rows="6" required
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                                <i class="fas fa-paper-plane mr-2"></i>Verstuur Bericht
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="space-y-8">
+                        <!-- Heemskerk -->
+                        <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
+                            <h3 class="text-2xl font-bold mb-6">Hoofdvestiging Heemskerk</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-map-marker-alt text-xl text-red-500"></i>
+                                    <span>Industrieweg 15, 1967 KL Heemskerk</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-phone text-xl text-green-500"></i>
+                                    <span>+31 (0)251 234 567</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-envelope text-xl text-blue-500"></i>
+                                    <span>info@meyersautomotive.nl</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-gray-200">
+                                <h4 class="text-lg font-semibold mb-4">Openingstijden</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>Maandag - Vrijdag:</span>
+                                        <span class="font-semibold">08:00 - 18:00</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Zaterdag:</span>
+                                        <span class="font-semibold">09:00 - 16:00</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Zondag:</span>
+                                        <span class="font-semibold text-red-500">Gesloten</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Amsterdam -->
+                        <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
+                            <h3 class="text-2xl font-bold mb-6">Vestiging Amsterdam</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-map-marker-alt text-xl text-red-500"></i>
+                                    <span>Autoweg 42, 1043 GH Amsterdam Noord</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-phone text-xl text-green-500"></i>
+                                    <span>+31 (0)20 123 4567</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas fa-envelope text-xl text-blue-500"></i>
+                                    <span>amsterdam@meyersautomotive.nl</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-gray-200">
+                                <h4 class="text-lg font-semibold mb-4">Openingstijden</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>Maandag - Vrijdag:</span>
+                                        <span class="font-semibold">08:30 - 17:30</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Zaterdag:</span>
+                                        <span class="font-semibold">10:00 - 15:00</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Zondag:</span>
+                                        <span class="font-semibold text-red-500">Gesloten</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Emergency -->
+                        <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-8 fade-in">
+                            <h3 class="text-2xl font-bold text-red-800 mb-4">24/7 Noodlijn</h3>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+                                <div>
+                                    <p class="font-semibold text-red-800">Sleepdienst & Pech onderweg</p>
+                                    <p class="text-red-700 text-lg font-bold">+31 (0)6 1234 5678</p>
+                                </div>
+                            </div>
+                            <button onclick="callEmergency()" class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-semibold">
+                                <i class="fas fa-phone mr-2"></i>Direct Bellen
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
+    </div>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Meyers Automotive. Alle rechten voorbehouden.</p>
-            <p>Powered by <a href="https://vanappiah.com/" target="_blank" rel="noopener">VA</a></p>
+    <!-- Car Detail Modal -->
+    <div id="car-modal" class="fixed inset-0 modal-backdrop hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-6xl w-full max-h-screen overflow-y-auto shadow-2xl">
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 id="modal-title" class="text-3xl font-bold"></h2>
+                        <button id="close-modal" class="text-gray-500 hover:text-black text-3xl transition">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="modal-content">
+                        <!-- Modal content wordt hier dynamisch geladen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">
+                        <i class="fas fa-car mr-2"></i>Meyers Automotive
+                    </h3>
+                    <p class="text-gray-300 mb-4">Uw betrouwbare partner voor premium voertuigen en professionele autodiensten.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-bold mb-6">Snelle Links</h4>
+                    <div class="space-y-3">
+                        <a href="#" onclick="showPage('home')" class="block text-gray-300 hover:text-white transition">Home</a>
+                        <a href="#" onclick="showPage('cars')" class="block text-gray-300 hover:text-white transition">Auto's</a>
+                        <a href="#" onclick="showPage('services')" class="block text-gray-300 hover:text-white transition">Diensten</a>
+                        <a href="#" onclick="showPage('premium')" class="block text-gray-300 hover:text-white transition">Premium Auto's</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-bold mb-6">Diensten</h4>
+                    <div class="space-y-3 text-gray-300">
+                        <p><i class="fas fa-tools mr-2"></i>APK Keuring</p>
+                        <p><i class="fas fa-wrench mr-2"></i>Reparatie</p>
+                        <p><i class="fas fa-truck mr-2"></i>Sleepdienst</p>
+                        <p><i class="fas fa-globe mr-2"></i>Export Service</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-bold mb-6">Contact</h4>
+                    <div class="space-y-3 text-gray-300">
+                        <p><i class="fas fa-phone mr-2"></i>+31 (0)251 234 567</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@meyersautomotive.nl</p>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Heemskerk & Amsterdam</p>
+                        <p class="text-red-400"><i class="fas fa-exclamation-triangle mr-2"></i>24/7 Noodlijn: +31 (0)6 1234 5678</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Meyers Automotive. Alle rechten voorbehouden.</p>
+            </div>
         </div>
     </footer>
 
     <script>
+        // Global variables
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToVqUqC3z-fZPfOZwMZzr1Ed0Hmzu9fgYVG4wvs80YGS5fXD07gmaZi-kLlxGpc4qj3NPmxR46vdaJ/pub?output=csv";
-        
         let allCars = [];
+        let availableCars = [];
+        let premiumCars = [];
+        let soldCars = [];
         let filteredCars = [];
+        let currentPage = 'home';
+        
+        // Carousel states
+        let carousels = {
+            premium: { currentSlide: 0, autoPlay: null },
+            sold: { currentSlide: 0, autoPlay: null }
+        };
 
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
-            const nav = document.querySelector('nav ul');
-            nav.classList.toggle('active');
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu if open
-                    document.querySelector('nav ul').classList.remove('active');
-                    // Update active nav item
-                    document.querySelectorAll('nav a').forEach(a => a.removeAttribute('aria-current'));
-                    this.setAttribute('aria-current', 'page');
-                }
-            });
-        });
-
-        // CSV Parser - handles commas and quotes properly
-        function parseCSV(text) {
-            const rows = [];
-            const lines = text.split('\n');
-            
-            for (let line of lines) {
-                if (line.trim() === '') continue;
-                
-                const row = [];
-                let current = '';
-                let inQuotes = false;
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        row.push(current.trim());
-                        current = '';
-                    } else {
-                        current += char;
-                    }
-                }
-                row.push(current.trim());
-                rows.push(row);
+        // Show loading states for all sections
+        function showLoadingStates() {
+            // Show loading for premium carousel
+            const premiumTrack = document.getElementById('premium-track');
+            if (premiumTrack) {
+                premiumTrack.innerHTML = createLoadingCarousel('premium');
             }
             
-            return rows;
+            // Show loading for sold carousel
+            const soldTrack = document.getElementById('sold-track');
+            if (soldTrack) {
+                soldTrack.innerHTML = createLoadingCarousel('sold');
+            }
+            
+            // Show loading for home inventory
+            const homeGrid = document.getElementById('home-inventory-grid');
+            if (homeGrid) {
+                homeGrid.innerHTML = createLoadingGrid(6);
+                homeGrid.classList.remove('hidden');
+            }
         }
 
-        // Load cars from CSV
-        async function loadCars() {
-            const loadingElement = document.getElementById('loading');
-            const carsContainer = document.getElementById('cars-container');
-            
+        // Create loading carousel
+        function createLoadingCarousel(type) {
+            const slideCount = type === 'premium' ? 3 : 6;
+            return Array.from({length: slideCount}, (_, index) => `
+                <div class="carousel-slide ${index === 0 ? 'active' : ''}">
+                    <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden mx-4 animate-pulse">
+                        <div class="bg-gray-300 h-64 w-full"></div>
+                        <div class="p-6">
+                            <div class="bg-gray-300 h-6 w-3/4 mb-2 rounded"></div>
+                            <div class="bg-gray-200 h-4 w-1/2 mb-4 rounded"></div>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <div class="bg-gray-200 h-4 rounded"></div>
+                                <div class="bg-gray-200 h-4 rounded"></div>
+                                <div class="bg-gray-200 h-4 rounded"></div>
+                                <div class="bg-gray-200 h-4 rounded"></div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="bg-gray-300 h-8 w-24 rounded-full"></div>
+                                <div class="bg-gray-300 h-10 w-20 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Create loading grid
+        function createLoadingGrid(count) {
+            return Array.from({length: count}, () => `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
+                    <div class="bg-gray-300 h-48 w-full"></div>
+                    <div class="p-6">
+                        <div class="bg-gray-300 h-6 w-3/4 mb-2 rounded"></div>
+                        <div class="bg-gray-200 h-4 w-1/2 mb-4 rounded"></div>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-gray-200 h-4 rounded"></div>
+                            <div class="bg-gray-200 h-4 rounded"></div>
+                            <div class="bg-gray-200 h-4 rounded"></div>
+                            <div class="bg-gray-200 h-4 rounded"></div>
+                        </div>
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="bg-gray-300 h-8 w-24 rounded-full"></div>
+                            <div class="bg-gray-300 h-10 w-20 rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoadingStates();
+            loadSpreadsheetData();
+            setupEventListeners();
+            setupIntersectionObserver();
+            setupNavbarScroll();
+        });
+
+        // Load and parse CSV data
+        async function loadSpreadsheetData() {
             try {
+                // Check for cached data
+                const cachedData = localStorage.getItem('meyersAutoCars');
+                const cacheTime = localStorage.getItem('meyersAutoCarsTime');
+                const now = Date.now();
+                
+                // Use cache if less than 10 minutes old
+                if (cachedData && cacheTime && (now - parseInt(cacheTime)) < 600000) {
+                    allCars = JSON.parse(cachedData);
+                    categorizeAndInitialize();
+                    return;
+                }
+                
                 const response = await fetch(sheetUrl);
-                if (!response.ok) throw new Error('Netwerk fout');
+                const csvText = await response.text();
+                parseCSVData(csvText);
                 
-                const text = await response.text();
-                const rows = parseCSV(text);
-                
-                if (rows.length === 0) throw new Error('Geen data gevonden');
-                
-                const headers = rows[0].map(h => h.trim());
-                allCars = [];
-                
-                rows.slice(1).forEach(row => {
-                    if (row.length === 0 || row.every(cell => !cell.trim())) return;
-                    
-                    const car = {};
-                    headers.forEach((header, index) => {
-                        car[header] = row[index] ? row[index].trim() : '';
-                    });
-                    
-                    // Sanitize data
-                    if (car['Vermogen (pk)']) {
-                        car['Vermogen (pk)'] = car['Vermogen (pk)'].replace(/\s*pk\s*$/i, '');
-                    }
-                    
-                    allCars.push(car);
-                });
-                
-                filteredCars = [...allCars];
-                loadingElement.style.display = 'none';
-                renderCars();
+                // Cache the data
+                localStorage.setItem('meyersAutoCars', JSON.stringify(allCars));
+                localStorage.setItem('meyersAutoCarsTime', now.toString());
                 
             } catch (error) {
-                console.error('Fout bij laden van auto\'s:', error);
-                loadingElement.innerHTML = `<div class="error">Fout bij het laden van auto's: ${error.message}</div>`;
+                console.error('Error loading spreadsheet data:', error);
+                
+                // Try to use cached data as fallback
+                const cachedData = localStorage.getItem('meyersAutoCars');
+                if (cachedData) {
+                    allCars = JSON.parse(cachedData);
+                    categorizeAndInitialize();
+                    showError('Gegevens geladen uit cache. Mogelijk niet de nieuwste versie.');
+                } else {
+                    showError('Fout bij laden van auto-data. Probeer later opnieuw.');
+                }
             }
         }
 
-        // Render cars
-        function renderCars() {
-            const carsContainer = document.getElementById('cars-container');
+        // Parse CSV data
+        function parseCSVData(csvText) {
+            const lines = csvText.split('\n');
+            if (lines.length < 2) return;
+            
+            const headers = parseCSVLine(lines[0]);
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                
+                const values = parseCSVLine(lines[i]);
+                const car = {};
+                
+                headers.forEach((header, index) => {
+                    car[header.toLowerCase().trim()] = values[index] || '';
+                });
+                
+                if (car.kenteken || car.merk) {
+                    allCars.push(car);
+                }
+            }
+            
+            categorizeAndInitialize();
+        }
+
+        // Parse CSV line
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current.trim());
+            return result;
+        }
+
+        // Categorize cars and initialize UI
+        function categorizeAndInitialize() {
+            // Categorize cars
+            availableCars = allCars.filter(car => car.beschikbaar?.toLowerCase() === 'ja');
+            premiumCars = availableCars.filter(car => car.favoriet?.toLowerCase() === 'ja');
+            soldCars = allCars.filter(car => car.beschikbaar?.toLowerCase() === 'nee');
+            
+            // Initialize UI
+            setupFilters();
+            initializeCarousels();
+            renderAvailableInventory();
+            renderPremiumPage();
+            hideLoadingIndicators();
+        }
+
+        // Setup filters
+        function setupFilters() {
+            const brands = [...new Set(availableCars.map(car => car.merk).filter(brand => brand))].sort();
+            const models = [...new Set(availableCars.map(car => car.model).filter(model => model))].sort();
+            const fuels = [...new Set(availableCars.map(car => car.brandstof).filter(fuel => fuel))].sort();
+            const years = [...new Set(availableCars.map(car => car.bouwjaar).filter(year => year))].sort((a, b) => b - a);
+            
+            // Populate all brand filters
+            ['home-brand-filter', 'cars-brand-filter'].forEach(id => {
+                const filter = document.getElementById(id);
+                if (filter) {
+                    filter.innerHTML = '<option value="">Alle merken</option>';
+                    brands.forEach(brand => {
+                        const option = document.createElement('option');
+                        option.value = brand;
+                        option.textContent = brand;
+                        filter.appendChild(option);
+                    });
+                }
+            });
+            
+            // Populate model filter (cars page only)
+            const modelFilter = document.getElementById('cars-model-filter');
+            if (modelFilter) {
+                modelFilter.innerHTML = '<option value="">Alle modellen</option>';
+                models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelFilter.appendChild(option);
+                });
+            }
+            
+            // Populate fuel filters
+            ['home-fuel-filter', 'cars-fuel-filter'].forEach(id => {
+                const filter = document.getElementById(id);
+                if (filter) {
+                    filter.innerHTML = '<option value="">Alle brandstoffen</option>';
+                    fuels.forEach(fuel => {
+                        const option = document.createElement('option');
+                        option.value = fuel;
+                        option.textContent = fuel;
+                        filter.appendChild(option);
+                    });
+                }
+            });
+            
+            // Populate year filters
+            ['home-year-filter', 'cars-year-filter'].forEach(id => {
+                const filter = document.getElementById(id);
+                if (filter) {
+                    filter.innerHTML = '<option value="">Alle jaren</option>';
+                    years.forEach(year => {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        filter.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        // Initialize carousels
+        function initializeCarousels() {
+            if (premiumCars.length > 0) {
+                renderCarousel('premium', premiumCars.slice(0, 3));
+                startAutoPlay('premium');
+            } else {
+                // Show fallback message for premium cars
+                const premiumTrack = document.getElementById('premium-track');
+                if (premiumTrack) {
+                    premiumTrack.innerHTML = `
+                        <div class="carousel-slide active">
+                            <div class="text-center py-16 mx-4">
+                                <i class="fas fa-star text-6xl text-gray-300 mb-4"></i>
+                                <h3 class="text-2xl font-bold text-gray-600 mb-2">Binnenkort beschikbaar</h3>
+                                <p class="text-gray-500">Onze premium selectie wordt binnenkort bijgewerkt</p>
+                                <button onclick="showPage('cars')" class="mt-4 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+                                    <i class="fas fa-eye mr-2"></i>Bekijk Alle Auto's
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (soldCars.length > 0) {
+                renderCarousel('sold', soldCars.slice(0, 6));
+                startAutoPlay('sold');
+            } else {
+                // Show fallback message for sold cars
+                const soldTrack = document.getElementById('sold-track');
+                if (soldTrack) {
+                    soldTrack.innerHTML = `
+                        <div class="carousel-slide active">
+                            <div class="text-center py-16 mx-4">
+                                <i class="fas fa-handshake text-6xl text-gray-300 mb-4"></i>
+                                <h3 class="text-2xl font-bold text-gray-300 mb-2">Nog geen verkochte voertuigen</h3>
+                                <p class="text-gray-400">Binnenkort tonen we hier onze succesverhalen</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Render carousel
+        function renderCarousel(type, cars) {
+            const track = document.getElementById(`${type}-track`);
+            const dots = document.getElementById(`${type}-dots`);
+            
+            if (!track || !dots) return;
+            
+            track.innerHTML = cars.map(car => createCarouselSlide(car, type)).join('');
+            dots.innerHTML = cars.map((_, index) => 
+                `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide('${type}', ${index})"></div>`
+            ).join('');
+            
+            carousels[type].currentSlide = 0;
+            
+            // Add smooth fade-in animation
+            setTimeout(() => {
+                track.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+                    setTimeout(() => {
+                        slide.style.opacity = '1';
+                        slide.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        }
+
+        // Create carousel slide
+        function createCarouselSlide(car, type) {
+            const mainImage = car['afbeelding 1'] || `https://via.placeholder.com/800x400/f3f4f6/6b7280?text=${encodeURIComponent(car.merk + ' ' + car.model)}`;
+            const isPremium = car.favoriet?.toLowerCase() === 'ja';
+            const isSold = type === 'sold';
+            
+            return `
+                <div class="carousel-slide ${type === 'premium' ? 'active' : ''}" onclick="openCarDetail('${car.kenteken}')">
+                    <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden mx-4 cursor-pointer transform transition-all duration-300 hover:scale-105">
+                        <div class="relative">
+                            <img src="${mainImage}" alt="${car.merk} ${car.model}" 
+                                 class="w-full h-64 object-cover"
+                                 onerror="this.src='https://via.placeholder.com/800x400?text=Geen+Foto'">
+                            
+                            ${isPremium ? '<div class="absolute top-4 left-4 premium-badge text-black px-3 py-1 rounded-full text-sm font-bold">⭐ PREMIUM</div>' : ''}
+                            ${isSold ? '<div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">VERKOCHT</div>' : ''}
+                        </div>
+                        
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">${car.merk} ${car.model}</h3>
+                            <p class="text-gray-600 mb-4">${car.type || ''}</p>
+                            
+                            <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 mb-4">
+                                <div><i class="fas fa-calendar mr-1"></i>${car.bouwjaar || 'Onbekend'}</div>
+                                <div><i class="fas fa-gas-pump mr-1"></i>${car.brandstof || 'Onbekend'}</div>
+                                <div><i class="fas fa-road mr-1"></i>${formatKilometers(car.kilometerstand)}</div>
+                                <div><i class="fas fa-tachometer-alt mr-1"></i>${car['vermogen (pk)'] || 'Onbekend'} pk</div>
+                            </div>
+                            
+                            ${!isSold ? `
+                                <div class="flex justify-between items-center">
+                                    <div class="price-tag">Prijs op aanvraag</div>
+                                    <button class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                                        <i class="fas fa-eye mr-1"></i>Details
+                                    </button>
+                                </div>
+                            ` : `
+                                <div class="text-center">
+                                    <span class="text-red-600 font-semibold">Dit voertuig is verkocht</span>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Carousel navigation
+        function nextSlide(type) {
+            const carousel = carousels[type];
+            const track = document.getElementById(`${type}-track`);
+            const slides = track.children;
+            
+            if (slides.length === 0) return;
+            
+            carousel.currentSlide = (carousel.currentSlide + 1) % slides.length;
+            updateCarousel(type);
+        }
+
+        function prevSlide(type) {
+            const carousel = carousels[type];
+            const track = document.getElementById(`${type}-track`);
+            const slides = track.children;
+            
+            if (slides.length === 0) return;
+            
+            carousel.currentSlide = carousel.currentSlide === 0 ? slides.length - 1 : carousel.currentSlide - 1;
+            updateCarousel(type);
+        }
+
+        function goToSlide(type, index) {
+            carousels[type].currentSlide = index;
+            updateCarousel(type);
+            restartAutoPlay(type);
+        }
+
+        function updateCarousel(type) {
+            const track = document.getElementById(`${type}-track`);
+            const dots = document.getElementById(`${type}-dots`);
+            const carousel = carousels[type];
+            
+            if (!track || !dots) return;
+            
+            // Update track position
+            track.style.transform = `translateX(-${carousel.currentSlide * 100}%)`;
+            
+            // Update slide opacity
+            Array.from(track.children).forEach((slide, index) => {
+                slide.classList.toggle('active', index === carousel.currentSlide);
+            });
+            
+            // Update dots
+            Array.from(dots.children).forEach((dot, index) => {
+                dot.classList.toggle('active', index === carousel.currentSlide);
+            });
+        }
+
+        // Auto-play functionality
+        function startAutoPlay(type) {
+            const interval = type === 'sold' ? 4000 : 5000; // Sold cars slide faster
+            carousels[type].autoPlay = setInterval(() => {
+                nextSlide(type);
+            }, interval);
+        }
+
+        function restartAutoPlay(type) {
+            clearInterval(carousels[type].autoPlay);
+            startAutoPlay(type);
+        }
+
+        // Render available inventory
+        function renderAvailableInventory() {
+            filteredCars = [...availableCars];
+            renderHomeInventory();
+            renderCarsPage();
+        }
+
+        // Render home inventory
+        function renderHomeInventory() {
+            const grid = document.getElementById('home-inventory-grid');
+            if (!grid) return;
+            
+            const displayCars = filteredCars.slice(0, 6);
+            
+            if (displayCars.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <i class="fas fa-car text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">Geen auto's beschikbaar</h3>
+                        <p class="text-gray-500 mb-4">Onze voorraad wordt binnenkort bijgewerkt</p>
+                        <button onclick="showPage('contact')" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+                            <i class="fas fa-envelope mr-2"></i>Neem Contact Op
+                        </button>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = displayCars.map(car => createCarCard(car)).join('');
+                
+                // Add staggered fade-in animation
+                setTimeout(() => {
+                    grid.querySelectorAll('.car-card').forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 150);
+                    });
+                }, 200);
+            }
+            
+            grid.classList.remove('hidden');
+        }
+
+        // Render cars page
+        function renderCarsPage() {
+            const grid = document.getElementById('cars-grid');
+            const noResults = document.getElementById('cars-no-results');
+            
+            if (!grid || !noResults) return;
             
             if (filteredCars.length === 0) {
-                carsContainer.innerHTML = '<div class="error">Geen auto\'s gevonden die voldoen aan uw zoekcriteria.</div>';
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
                 return;
             }
             
-            carsContainer.innerHTML = filteredCars.map(car => {
-                const image = car["Afbeelding 1"] || "/placeholder.svg?height=240&width=380";
-                const merk = car["Merk"] || '';
-                const model = car["Model"] || '';
-                const type = car["Type"] || '';
-                const bouwjaar = car["Bouwjaar"] || '';
-                const kilometerstand = car["Kilometerstand"] || '';
-                const brandstof = car["Brandstof"] || '';
-                const vermogen = car["Vermogen (pk)"] || '';
-                const prijs = car["Prijs"] || 'Op aanvraag';
-                const locatie = car["Locatie"] || '';
-                const beschrijving = car["Beschrijving"] || '';
-                
-                return `
-                    <div class="car-card">
-                        <img src="${image}" alt="Professionele foto van ${merk} ${model} ${type}" onerror="this.src='/placeholder.svg?height=240&width=380'">
-                        <div class="car-info">
-                            <h3 class="car-title">${merk} ${model}</h3>
-                            ${type ? `<p class="car-subtitle">${type}</p>` : ''}
-                            <ul class="car-details">
-                                ${bouwjaar ? `<li><span>Bouwjaar</span><span>${bouwjaar}</span></li>` : ''}
-                                ${kilometerstand ? `<li><span>Kilometerstand</span><span>${kilometerstand}</span></li>` : ''}
-                                ${brandstof ? `<li><span>Brandstof</span><span>${brandstof}</span></li>` : ''}
-                                ${vermogen ? `<li><span>Vermogen</span><span>${vermogen} pk</span></li>` : ''}
-                                ${locatie ? `<li><span>Locatie</span><span>${locatie}</span></li>` : ''}
-                            </ul>
-                            <div class="car-price">${prijs}</div>
-                            ${beschrijving ? `<p class="car-description">${beschrijving}</p>` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            
+            grid.innerHTML = filteredCars.map(car => createCarCard(car)).join('');
+            
+            // Add staggered animation
+            setTimeout(() => {
+                grid.querySelectorAll('.car-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 100);
+                });
+            }, 100);
         }
 
-        // Search functionality
-        function filterCars() {
-            const searchTerm = document.getElementById('search').value.toLowerCase();
-            const sortBy = document.getElementById('sort').value;
+        // Render premium page
+        function renderPremiumPage() {
+            const grid = document.getElementById('premium-page-grid');
+            const noResults = document.getElementById('premium-page-no-results');
+            const loading = document.getElementById('premium-page-loading');
             
-            // Filter cars based on search term
-            filteredCars = allCars.filter(car => {
-                const searchableText = [
-                    car["Merk"] || '',
-                    car["Model"] || '',
-                    car["Type"] || '',
-                    car["Brandstof"] || '',
-                    car["Beschrijving"] || ''
-                ].join(' ').toLowerCase();
+            if (!grid || !noResults || !loading) return;
+            
+            loading.classList.add('hidden');
+            
+            if (premiumCars.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            
+            grid.innerHTML = premiumCars.map(car => createCarCard(car, true)).join('');
+        }
+
+        // Create car card
+        function createCarCard(car, isPremium = false) {
+            const mainImage = car['afbeelding 1'] || `https://via.placeholder.com/400x300/f3f4f6/6b7280?text=${encodeURIComponent(car.merk + ' ' + car.model)}`;
+            const showPremium = isPremium || car.favoriet?.toLowerCase() === 'ja';
+            
+            return `
+                <div class="car-card fade-in bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" onclick="openCarDetail('${car.kenteken}')">
+                    <div class="relative">
+                        <img src="${mainImage}" alt="${car.merk} ${car.model}" 
+                             class="car-image lazy-image w-full h-48 object-cover"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Geen+Foto'"
+                             onload="this.classList.add('loaded')">
+                        
+                        ${showPremium ? '<div class="absolute top-4 left-4 premium-badge text-black px-3 py-1 rounded-full text-sm font-bold">⭐ PREMIUM</div>' : ''}
+                        
+                        <div class="absolute top-4 right-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                Beschikbaar
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">${car.merk} ${car.model}</h3>
+                        <p class="text-gray-600 mb-4">${car.type || ''}</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 mb-4">
+                            <div><i class="fas fa-calendar mr-1"></i>${car.bouwjaar || 'Onbekend'}</div>
+                            <div><i class="fas fa-gas-pump mr-1"></i>${car.brandstof || 'Onbekend'}</div>
+                            <div><i class="fas fa-road mr-1"></i>${formatKilometers(car.kilometerstand)}</div>
+                            <div><i class="fas fa-tachometer-alt mr-1"></i>${car['vermogen (pk)'] || 'Onbekend'} pk</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="price-tag">Prijs op aanvraag</div>
+                            <button class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                                <i class="fas fa-eye mr-1"></i>Details
+                            </button>
+                        </div>
+                        
+                        ${car.beschrijving ? `<p class="text-gray-600 text-sm line-clamp-2">${car.beschrijving}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Open car detail modal
+        function openCarDetail(kenteken) {
+            const car = allCars.find(c => c.kenteken === kenteken);
+            if (!car) return;
+            
+            const modal = document.getElementById('car-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            modalTitle.textContent = `${car.merk} ${car.model} ${car.type || ''}`;
+            modalContent.innerHTML = createCarDetailContent(car);
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Create car detail content
+        function createCarDetailContent(car) {
+            const images = [car['afbeelding 1'], car['afbeelding 2'], car['afbeelding 3']].filter(img => img);
+            const isPremium = car.favoriet?.toLowerCase() === 'ja';
+            const isAvailable = car.beschikbaar?.toLowerCase() === 'ja';
+            
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <div class="mb-6">
+                            <img id="main-detail-image" src="${images[0] || 'https://via.placeholder.com/600x400?text=Geen+Foto'}" 
+                                 alt="${car.merk} ${car.model}" class="w-full h-80 object-cover rounded-xl"
+                                 onerror="this.src='https://via.placeholder.com/600x400?text=Geen+Foto'">
+                        </div>
+                        
+                        ${images.length > 1 ? `
+                            <div class="flex space-x-3">
+                                ${images.map((img, index) => `
+                                    <img src="${img}" alt="Foto ${index + 1}" 
+                                         class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-black transition"
+                                         onclick="document.getElementById('main-detail-image').src='${img}'"
+                                         onerror="this.style.display='none'">
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div>
+                        <div class="mb-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                ${isPremium ? '<span class="premium-badge text-black px-3 py-1 rounded-full text-sm font-bold">⭐ PREMIUM</span>' : ''}
+                                <span class="px-3 py-1 rounded-full text-sm font-semibold ${isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                    ${isAvailable ? 'Beschikbaar' : 'Verkocht'}
+                                </span>
+                            </div>
+                            <div class="price-tag text-lg mb-4">Prijs op aanvraag</div>
+                            <p class="text-gray-600">${car.beschrijving || 'Geen beschrijving beschikbaar'}</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                            <h4 class="font-bold text-lg mb-4">Voertuiggegevens</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                <div><strong>Kenteken:</strong> ${car.kenteken}</div>
+                                <div><strong>Merk:</strong> ${car.merk || 'Onbekend'}</div>
+                                <div><strong>Model:</strong> ${car.model || 'Onbekend'}</div>
+                                <div><strong>Type:</strong> ${car.type || 'Onbekend'}</div>
+                                <div><strong>Bouwjaar:</strong> ${car.bouwjaar || 'Onbekend'}</div>
+                                <div><strong>Kilometerstand:</strong> ${formatKilometers(car.kilometerstand)}</div>
+                                <div><strong>Brandstof:</strong> ${car.brandstof || 'Onbekend'}</div>
+                                <div><strong>Vermogen:</strong> ${car['vermogen (pk)'] || 'Onbekend'} pk</div>
+                                <div><strong>Locatie:</strong> ${car.locatie || 'Onbekend'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                            <h4 class="font-bold text-lg mb-4">Beschikbare diensten</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex items-center space-x-2 p-3 bg-white rounded-lg">
+                                    <i class="fas fa-tools text-blue-600"></i>
+                                    <span class="text-sm font-medium">APK Keuring</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-white rounded-lg">
+                                    <i class="fas fa-wrench text-blue-600"></i>
+                                    <span class="text-sm font-medium">Reparatie</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-white rounded-lg">
+                                    <i class="fas fa-truck text-blue-600"></i>
+                                    <span class="text-sm font-medium">Sleepdienst</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-white rounded-lg">
+                                    <i class="fas fa-globe text-blue-600"></i>
+                                    <span class="text-sm font-medium">Export Service</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${isAvailable ? `
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="inquireAboutCar('${car.kenteken}')" class="flex-1 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-semibold">
+                                    <i class="fas fa-envelope mr-2"></i>Informatie Aanvragen
+                                </button>
+                                <button onclick="callAboutCar('${car.kenteken}')" class="flex-1 border border-black text-black px-6 py-3 rounded-lg hover:bg-black hover:text-white transition font-semibold">
+                                    <i class="fas fa-phone mr-2"></i>Bel Ons
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="text-center p-4 bg-red-50 rounded-lg">
+                                <p class="text-red-800 font-semibold">Dit voertuig is verkocht</p>
+                                <button onclick="showPage('cars')" class="mt-2 bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition">
+                                    Bekijk Andere Auto's
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Filter functionality
+        function filterCars(source = 'cars') {
+            const searchTerm = document.getElementById(`${source}-search`)?.value.toLowerCase() || '';
+            const brandFilter = document.getElementById(`${source}-brand-filter`)?.value || '';
+            const modelFilter = document.getElementById(`${source}-model-filter`)?.value || '';
+            const fuelFilter = document.getElementById(`${source}-fuel-filter`)?.value || '';
+            const yearFilter = document.getElementById(`${source}-year-filter`)?.value || '';
+            const powerFilter = document.getElementById(`${source}-power-filter`)?.value || '';
+            const sortBy = document.getElementById(`${source}-sort`)?.value || 'year-desc';
+            
+            filteredCars = availableCars.filter(car => {
+                const matchesSearch = !searchTerm || 
+                    car.merk?.toLowerCase().includes(searchTerm) ||
+                    car.model?.toLowerCase().includes(searchTerm) ||
+                    car.kenteken?.toLowerCase().includes(searchTerm);
                 
-                return searchableText.includes(searchTerm);
+                const matchesBrand = !brandFilter || car.merk === brandFilter;
+                const matchesModel = !modelFilter || car.model === modelFilter;
+                const matchesFuel = !fuelFilter || car.brandstof === fuelFilter;
+                const matchesYear = !yearFilter || car.bouwjaar === yearFilter;
+                
+                let matchesPower = true;
+                if (powerFilter) {
+                    const power = parseInt(car['vermogen (pk)']) || 0;
+                    switch (powerFilter) {
+                        case '0-100':
+                            matchesPower = power >= 0 && power <= 100;
+                            break;
+                        case '100-150':
+                            matchesPower = power > 100 && power <= 150;
+                            break;
+                        case '150-200':
+                            matchesPower = power > 150 && power <= 200;
+                            break;
+                        case '200+':
+                            matchesPower = power > 200;
+                            break;
+                    }
+                }
+                
+                return matchesSearch && matchesBrand && matchesModel && matchesFuel && matchesYear && matchesPower;
             });
             
             // Sort cars
             filteredCars.sort((a, b) => {
                 switch (sortBy) {
-                    case 'prijs-laag':
-                        return parseFloat(a["Prijs"]?.replace(/[^\d]/g, '') || 0) - parseFloat(b["Prijs"]?.replace(/[^\d]/g, '') || 0);
-                    case 'prijs-hoog':
-                        return parseFloat(b["Prijs"]?.replace(/[^\d]/g, '') || 0) - parseFloat(a["Prijs"]?.replace(/[^\d]/g, '') || 0);
-                    case 'bouwjaar':
-                        return parseInt(b["Bouwjaar"] || 0) - parseInt(a["Bouwjaar"] || 0);
-                    case 'vermogen':
-                        return parseInt(b["Vermogen (pk)"]?.replace(/[^\d]/g, '') || 0) - parseInt(a["Vermogen (pk)"]?.replace(/[^\d]/g, '') || 0);
-                    case 'kilometer':
-                        return parseInt(a["Kilometerstand"]?.replace(/[^\d]/g, '') || 0) - parseInt(b["Kilometerstand"]?.replace(/[^\d]/g, '') || 0);
+                    case 'year-desc':
+                        return parseInt(b.bouwjaar || 0) - parseInt(a.bouwjaar || 0);
+                    case 'year-asc':
+                        return parseInt(a.bouwjaar || 0) - parseInt(b.bouwjaar || 0);
+                    case 'power-desc':
+                        return parseInt(b['vermogen (pk)'] || 0) - parseInt(a['vermogen (pk)'] || 0);
+                    case 'km-asc':
+                        return parseInt(a.kilometerstand || 0) - parseInt(b.kilometerstand || 0);
                     default:
-                        return 0; // nieuwste - keep original order
+                        return 0;
                 }
             });
             
-            renderCars();
+            if (source === 'home') {
+                renderHomeInventory();
+            } else {
+                renderCarsPage();
+            }
         }
 
-        // Event listeners for search and sort
-        document.getElementById('search').addEventListener('input', filterCars);
-        document.getElementById('sort').addEventListener('change', filterCars);
-
-        // Form handling
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const messageDiv = document.getElementById('contactMessage');
-            messageDiv.textContent = 'Bedankt voor uw bericht! We nemen zo spoedig mogelijk contact met u op.';
-            messageDiv.className = 'message success';
-            this.reset();
-        });
-
-        document.getElementById('subscribeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const messageDiv = document.getElementById('subscribeMessage');
-            messageDiv.textContent = 'Bedankt voor uw inschrijving! U ontvangt binnenkort updates van ons.';
-            messageDiv.className = 'message success';
-            this.reset();
-        });
-
-        // Load cars on page load
-        loadCars();
-
-        // Header scroll effect
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // Search from home
+        function searchFromHome() {
+            // Copy home filters to cars page
+            const homeSearch = document.getElementById('home-search').value;
+            const homeBrand = document.getElementById('home-brand-filter').value;
+            const homeFuel = document.getElementById('home-fuel-filter').value;
+            const homeYear = document.getElementById('home-year-filter').value;
+            const homePower = document.getElementById('home-power-filter').value;
+            const homeSort = document.getElementById('home-sort').value;
             
-            if (scrollTop > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-                header.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = 'none';
+            document.getElementById('cars-search').value = homeSearch;
+            document.getElementById('cars-brand-filter').value = homeBrand;
+            document.getElementById('cars-fuel-filter').value = homeFuel;
+            document.getElementById('cars-year-filter').value = homeYear;
+            document.getElementById('cars-power-filter').value = homePower;
+            document.getElementById('cars-sort').value = homeSort;
+            
+            filterCars('cars');
+            showPage('cars');
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            ['home', 'cars'].forEach(source => {
+                const elements = [
+                    `${source}-search`,
+                    `${source}-brand-filter`,
+                    `${source}-fuel-filter`,
+                    `${source}-year-filter`,
+                    `${source}-power-filter`,
+                    `${source}-sort`
+                ];
+                
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.tagName === 'SELECT') {
+                            element.selectedIndex = 0;
+                        } else {
+                            element.value = '';
+                        }
+                    }
+                });
+            });
+            
+            // Clear model filter (cars page only)
+            const modelFilter = document.getElementById('cars-model-filter');
+            if (modelFilter) modelFilter.selectedIndex = 0;
+            
+            filterCars('cars');
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(`${pageId}-page`);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                currentPage = pageId;
+                
+                // Update nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Update URL hash
+                window.location.hash = pageId;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter events
+            ['home', 'cars'].forEach(source => {
+                const searchInput = document.getElementById(`${source}-search`);
+                if (searchInput) searchInput.addEventListener('input', () => filterCars(source));
+                
+                const filters = [
+                    `${source}-brand-filter`,
+                    `${source}-fuel-filter`,
+                    `${source}-year-filter`,
+                    `${source}-power-filter`,
+                    `${source}-sort`
+                ];
+                
+                filters.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) element.addEventListener('change', () => filterCars(source));
+                });
+            });
+            
+            // Cars page model filter
+            const modelFilter = document.getElementById('cars-model-filter');
+            if (modelFilter) modelFilter.addEventListener('change', () => filterCars('cars'));
+            
+            // Modal events
+            const closeModal = document.getElementById('close-modal');
+            if (closeModal) closeModal.addEventListener('click', closeCarModal);
+            
+            const carModal = document.getElementById('car-modal');
+            if (carModal) {
+                carModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeCarModal();
+                });
             }
             
-            lastScrollTop = scrollTop;
-        });
+            // Contact form
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) contactForm.addEventListener('submit', handleContactForm);
+            
+            // Handle browser navigation
+            window.addEventListener('hashchange', function() {
+                const hash = window.location.hash.substring(1);
+                if (hash && document.getElementById(`${hash}-page`)) {
+                    showPage(hash);
+                }
+            });
+            
+            // Load page from URL hash
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(`${hash}-page`)) {
+                showPage(hash);
+            }
+        }
+
+        // Setup intersection observer for animations
+        function setupIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Unobserve after animation to improve performance
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '50px 0px -50px 0px'
+            });
+            
+            // Observe elements with animation classes
+            const observeElements = () => {
+                document.querySelectorAll('.fade-in:not(.visible), .slide-in-left:not(.visible), .slide-in-right:not(.visible)').forEach(el => {
+                    observer.observe(el);
+                });
+            };
+            
+            // Initial observation
+            setTimeout(observeElements, 500);
+            
+            // Re-observe when new content is added
+            window.observeNewElements = observeElements;
+        }
+
+        // Setup navbar scroll effect
+        function setupNavbarScroll() {
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Hide loading indicators
+        function hideLoadingIndicators() {
+            document.getElementById('home-inventory-loading').classList.add('hidden');
+            document.getElementById('cars-loading').classList.add('hidden');
+        }
+
+        // Utility functions
+        function formatKilometers(km) {
+            if (!km || km === '') return 'Onbekend';
+            const numKm = parseFloat(km);
+            if (isNaN(numKm)) return 'Onbekend';
+            return `${numKm.toLocaleString('nl-NL')} km`;
+        }
+
+        function showError(message) {
+            console.error(message);
+            // You could show a toast notification here
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function closeCarModal() {
+            document.getElementById('car-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Action functions
+        function callUs() {
+            window.open('tel:+31251234567', '_blank');
+        }
+
+        function callEmergency() {
+            window.open('tel:+31612345678', '_blank');
+        }
+
+        function inquireAboutCar(kenteken) {
+            const subject = `Informatie aanvraag voor ${kenteken}`;
+            const body = `Ik ben geïnteresseerd in meer informatie over de auto met kenteken ${kenteken}. Graag zou ik de prijs en verdere details willen ontvangen.`;
+            window.open(`mailto:info@meyersautomotive.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        }
+
+        function callAboutCar(kenteken) {
+            window.open('tel:+31251234567', '_blank');
+        }
+
+        function contactService(service) {
+            const subject = `${service} service aanvraag`;
+            const body = `Ik ben geïnteresseerd in uw ${service} service. Graag zou ik meer informatie ontvangen.`;
+            window.open(`mailto:info@meyersautomotive.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        }
+
+        function handleContactForm(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value || 'Contact via website';
+            const message = document.getElementById('contact-message').value;
+            
+            const mailtoBody = `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`;
+            
+            window.open(`mailto:info@meyersautomotive.nl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailtoBody)}`, '_blank');
+            
+            // Reset form
+            document.getElementById('contact-form').reset();
+            alert('Bedankt voor uw bericht! Uw email-client wordt geopend om het bericht te versturen.');
+        }
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98c68fecb04bea4b',t:'MTc2MDEwMzk2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
