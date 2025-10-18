@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇪🇸 Spaans ↔ Nederlands Leren 🇳🇱</title>
+    <title>Meyers Automotive - Premium Auto's & Diensten</title>
+    <meta name="description" content="Meyers Automotive - Specialist in in- en verkoop van premium auto's. Vestigingen in Heemskerk en Amsterdam. APK, onderhoud, export en meer.">
     <style>
+        body {
+            box-sizing: border-box;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,1039 +17,1216 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f2f2f2;
-            color: #1a1a1a;
+            font-family: 'Arial', sans-serif;
+            background-color: #0B0B0B;
+            color: #FFFFFF;
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            animation: fadeIn 0.5s ease-in;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Header & Navigation */
+        header {
+            background-color: #0B0B0B;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #2C2C2C;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #E10600;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        header {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(11, 11, 11, 0.7), rgba(11, 11, 11, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%232C2C2C" width="1200" height="600"/><path fill="%23B0B0B0" d="M200 300 Q400 200 600 300 T1000 300 L1000 400 Q800 350 600 400 T200 400 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
             text-align: center;
         }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: #1a1a1a;
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
         }
 
-        .direction-toggle {
-            display: inline-flex;
-            gap: 10px;
-            background: #f2f2f2;
-            padding: 8px;
-            border-radius: 12px;
-            margin-bottom: 15px;
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #B0B0B0;
         }
 
-        .direction-btn {
-            padding: 10px 20px;
+        .cta-button {
+            background-color: #E10600;
+            color: #FFFFFF;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 8px;
-            background: white;
+            border-radius: 5px;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .direction-btn.active {
-            background: #1a1a1a;
-            color: white;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
-            background: #e0e0e0;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .tab-btn.active {
-            background: #1a1a1a;
-            color: white;
-        }
-
-        .tab-btn:hover {
+        .cta-button:hover {
+            background-color: #B8050A;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            min-height: 400px;
-            animation: slideIn 0.3s ease-out;
+        /* Car Grid */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        @keyframes slideIn {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .car-card {
+            background-color: #2C2C2C;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #B0B0B0;
+            cursor: pointer;
         }
 
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(225, 6, 0, 0.3);
         }
 
-        input[type="text"], select {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: #1a1a1a;
-        }
-
-        table {
+        .car-image {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            height: 200px;
+            background-color: #B0B0B0;
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        th {
-            background: #f8f8f8;
-            font-weight: 600;
+        .car-image.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2C2C2C;
         }
 
         .favorite-btn {
-            background: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
             border: none;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 20px;
-            transition: transform 0.2s ease;
+            transition: all 0.3s ease;
         }
 
-        .favorite-btn:hover {
-            transform: scale(1.2);
+        .favorite-btn.active {
+            color: #E10600;
         }
 
-        .flashcard {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            text-align: center;
-            min-height: 300px;
+        .car-content {
+            padding: 1.5rem;
+        }
+
+        .car-title {
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .car-details {
+            color: #B0B0B0;
+            margin-bottom: 1rem;
+        }
+
+        .car-details li {
+            list-style: none;
+            margin-bottom: 0.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .car-details li:before {
+            content: "•";
+            color: #E10600;
+            position: absolute;
+            left: 0;
+        }
+
+        .car-price {
+            color: #E10600;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Filters */
+        .filters {
+            background-color: #2C2C2C;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            gap: 0.5rem;
         }
 
-        .flashcard:hover {
-            transform: scale(1.02);
+        .filter-group label {
+            color: #B0B0B0;
+            font-size: 0.9rem;
         }
 
-        .flashcard-text {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #B0B0B0;
+            border-radius: 5px;
+            background-color: #0B0B0B;
+            color: #FFFFFF;
         }
 
-        .flashcard-hint {
-            font-size: 16px;
-            opacity: 0.9;
+        /* Car Detail Page */
+        .car-detail {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .flashcard-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
+        .car-gallery {
+            margin-bottom: 2rem;
         }
 
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-primary {
-            background: #1a1a1a;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #1a1a1a;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .typing-question {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .typing-question h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            color: #667eea;
-        }
-
-        .typing-input {
+        .main-image {
             width: 100%;
-            max-width: 500px;
-            padding: 15px;
-            font-size: 20px;
-            border: 3px solid #e0e0e0;
-            border-radius: 12px;
-            text-align: center;
-            margin: 20px auto;
-            display: block;
+            height: 400px;
+            background-color: #B0B0B0;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 1rem;
         }
 
-        .feedback {
-            padding: 15px;
-            border-radius: 12px;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 500;
+        .thumbnail-gallery {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
         }
 
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
+        .thumbnail {
+            width: 100px;
+            height: 80px;
+            background-color: #B0B0B0;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
         }
 
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
+        .thumbnail.active {
+            border-color: #E10600;
         }
 
-        .quiz-options {
+        .car-info {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .car-specs {
+            background-color: #2C2C2C;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .spec-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .quiz-option {
-            padding: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #B0B0B0;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .share-btn {
+            background-color: #E10600;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-size: 18px;
+            transition: background-color 0.3s ease;
         }
 
-        .quiz-option:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        .share-btn:hover {
+            background-color: #B8050A;
         }
 
-        .quiz-option.correct {
-            background: #d4edda;
-            border-color: #28a745;
+        /* License Plate Lookup */
+        .license-lookup {
+            background-color: #2C2C2C;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
 
-        .quiz-option.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
+        .lookup-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: end;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+        .lookup-input {
+            flex: 1;
         }
 
-        .stat-card {
-            background: #f8f8f8;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
+        .lookup-input input {
             width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 20px 0;
+            padding: 1rem;
+            border: 1px solid #B0B0B0;
+            border-radius: 5px;
+            background-color: #0B0B0B;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            text-transform: uppercase;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        .hidden {
+        .lookup-result {
+            background-color: #0B0B0B;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #B0B0B0;
             display: none;
         }
 
+        .lookup-result.show {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #2C2C2C;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0B0B0B;
+            border-top: 1px solid #2C2C2C;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #E10600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #B0B0B0;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #E10600;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2C2C2C;
+            color: #B0B0B0;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #B0B0B0;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .contact-info {
+                display: none;
             }
 
-            h1 {
-                font-size: 22px;
+            .car-info {
+                grid-template-columns: 1fr;
             }
 
-            .content {
-                padding: 20px;
+            .lookup-form {
+                flex-direction: column;
             }
+        }
 
-            .flashcard-text {
-                font-size: 24px;
-            }
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
 
-            .typing-question h2 {
-                font-size: 28px;
-            }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-            table {
-                font-size: 14px;
-            }
+        /* Back button */
+        .back-btn {
+            background-color: #2C2C2C;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: background-color 0.3s ease;
+        }
 
-            th, td {
-                padding: 8px;
-            }
+        .back-btn:hover {
+            background-color: #B0B0B0;
+            color: #0B0B0B;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🇪🇸 Spaans ↔ Nederlands Leren 🇳🇱</h1>
+    <header>
+        <nav>
+            <div class="logo" onclick="showPage('home')">Meyers Automotive</div>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')">Home</a></li>
+                <li><a onclick="showPage('cars')">Auto's</a></li>
+                <li><a onclick="showPage('lookup')">Kentekenzoeker</a></li>
+                <li><a onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <div class="contact-info">
+                <span>📞 +31 6 14435050</span>
+                <span>📧 meyersautomotives@gmail.com</span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Meyers Automotive – Premium Auto's & Diensten</h1>
+                        <p>Specialist in in- en verkoop van kwaliteitsvoertuigen. Vestigingen in Heemskerk en Amsterdam.</p>
+                        <button class="cta-button" onclick="showPage('cars')">Bekijk Voorraad</button>
+                    </div>
+                </div>
+            </div>
             
-            <div class="direction-toggle">
-                <button class="direction-btn active" data-direction="es-nl">🇪🇸 → 🇳🇱</button>
-                <button class="direction-btn" data-direction="nl-es">🇳🇱 → 🇪🇸</button>
-            </div>
-
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="learn">📚 Learn</button>
-                <button class="tab-btn" data-tab="flashcards">🃏 Flashcards</button>
-                <button class="tab-btn" data-tab="typing">⌨️ Typing</button>
-                <button class="tab-btn" data-tab="quiz">🧠 Quiz</button>
-                <button class="tab-btn" data-tab="stats">📊 Stats</button>
-            </div>
-        </header>
-
-        <div class="content">
-            <!-- Learn Tab -->
-            <div id="learn-tab" class="tab-content">
-                <div class="controls">
-                    <input type="text" id="search-input" placeholder="🔍 Zoeken...">
-                    <select id="category-filter">
-                        <option value="">Alle categorieën</option>
-                    </select>
-                    <button class="btn btn-secondary" id="favorites-filter">❤️ Favorieten</button>
-                </div>
-                <table id="words-table">
-                    <thead>
-                        <tr>
-                            <th>🇪🇸 Spaans</th>
-                            <th>🇳🇱 Nederlands</th>
-                            <th>📁 Categorie</th>
-                            <th>❤️</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <!-- Flashcards Tab -->
-            <div id="flashcards-tab" class="tab-content hidden">
-                <div class="flashcard" id="flashcard">
-                    <div class="flashcard-text" id="flashcard-text"></div>
-                    <div class="flashcard-hint">Klik om te zien</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="flashcard-progress"></div>
-                </div>
-                <p style="text-align: center; margin: 10px 0;" id="flashcard-counter"></p>
-                <div class="flashcard-controls">
-                    <button class="btn btn-secondary" id="flashcard-prev">⬅️ Vorige</button>
-                    <button class="btn btn-primary" id="flashcard-next">Volgende ➡️</button>
-                </div>
-            </div>
-
-            <!-- Typing Tab -->
-            <div id="typing-tab" class="tab-content hidden">
-                <div class="typing-question">
-                    <p style="color: #666; margin-bottom: 10px;" id="typing-category"></p>
-                    <h2 id="typing-word"></h2>
-                    <input type="text" class="typing-input" id="typing-input" placeholder="Type de vertaling...">
-                </div>
-                <div id="typing-feedback"></div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="typing-progress"></div>
-                </div>
-                <p style="text-align: center; margin: 10px 0;" id="typing-counter"></p>
-                <div style="text-align: center;">
-                    <button class="btn btn-primary" id="typing-check">Controleer</button>
-                    <button class="btn btn-secondary hidden" id="typing-next">Volgende</button>
-                </div>
-            </div>
-
-            <!-- Quiz Tab -->
-            <div id="quiz-tab" class="tab-content hidden">
-                <div class="typing-question">
-                    <p style="color: #666; margin-bottom: 10px;" id="quiz-category"></p>
-                    <h2 id="quiz-word"></h2>
-                </div>
-                <div class="quiz-options" id="quiz-options"></div>
-                <div id="quiz-feedback"></div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="quiz-progress"></div>
-                </div>
-                <p style="text-align: center; margin: 10px 0;" id="quiz-counter"></p>
-                <div style="text-align: center;">
-                    <button class="btn btn-primary hidden" id="quiz-next">Volgende</button>
-                </div>
-            </div>
-
-            <!-- Stats Tab -->
-            <div id="stats-tab" class="tab-content hidden">
-                <h2 style="margin-bottom: 20px;">📊 Statistieken</h2>
-                <div class="stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-total">0</div>
-                        <div class="stat-label">Totaal woorden</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-favorites">0</div>
-                        <div class="stat-label">❤️ Favorieten</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-practiced">0</div>
-                        <div class="stat-label">Geoefend</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-score">0%</div>
-                        <div class="stat-label">Gemiddelde score</div>
-                    </div>
-                </div>
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" id="reset-stats">Reset statistieken</button>
+            <div class="container">
+                <h2 style="text-align: center; margin: 3rem 0 2rem; font-size: 2.5rem;">Uitgelichte Auto's</h2>
+                <div id="featured-cars" class="car-grid">
+                    <div class="loading">Auto's worden geladen...</div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Cars Overview Page -->
+        <div id="cars" class="page">
+            <div class="container">
+                <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">Onze Voorraad</h1>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="search">Zoeken</label>
+                        <input type="text" id="search" placeholder="Merk, model..." onkeyup="filterCars()">
+                    </div>
+                    <div class="filter-group">
+                        <label for="brand-filter">Merk</label>
+                        <select id="brand-filter" onchange="filterCars()">
+                            <option value="">Alle merken</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="fuel-filter">Brandstof</label>
+                        <select id="fuel-filter" onchange="filterCars()">
+                            <option value="">Alle</option>
+                            <option value="Benzine">Benzine</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Hybride">Hybride</option>
+                            <option value="Elektrisch">Elektrisch</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="year-filter">Bouwjaar vanaf</label>
+                        <select id="year-filter" onchange="filterCars()">
+                            <option value="">Alle</option>
+                            <option value="2020">2020</option>
+                            <option value="2018">2018</option>
+                            <option value="2015">2015</option>
+                            <option value="2010">2010</option>
+                        </select>
+                    </div>
+                    <button class="cta-button" onclick="resetFilters()">Reset Filters</button>
+                </div>
+                
+                <div id="all-cars" class="car-grid">
+                    <div class="loading">Auto's worden geladen...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Car Detail Page -->
+        <div id="car-detail" class="page">
+            <div class="container">
+                <button class="back-btn" onclick="showPage('cars')">← Terug naar overzicht</button>
+                <div id="car-detail-content">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- License Plate Lookup Page -->
+        <div id="lookup" class="page">
+            <div class="container">
+                <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">Kentekenzoeker</h1>
+                
+                <div class="license-lookup">
+                    <h3 style="color: #E10600; margin-bottom: 1rem;">Voer een kenteken in</h3>
+                    <div class="lookup-form">
+                        <div class="lookup-input">
+                            <label for="license-input" style="color: #B0B0B0; display: block; margin-bottom: 0.5rem;">Kenteken</label>
+                            <input type="text" id="license-input" placeholder="XX-XX-XX" maxlength="8">
+                        </div>
+                        <button class="cta-button" onclick="lookupLicense()">Zoeken</button>
+                    </div>
+                    
+                    <div id="lookup-result" class="lookup-result">
+                        <!-- Results will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">Contact</h1>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div style="background-color: #2C2C2C; padding: 2rem; border-radius: 10px; border: 1px solid #B0B0B0;">
+                        <h3 style="color: #E10600; margin-bottom: 1rem;">Vestiging Heemskerk</h3>
+                        <p><strong>📍 Adres:</strong><br>Kerkweg 152<br>1968KL Heemskerk</p>
+                        <p><strong>📞 Telefoon:</strong><br>+31 6 14435050</p>
+                        <p><strong>🕒 Openingstijden:</strong><br>Ma-Za: 09:00 – 18:00<br>Zo: 10:00 – 16:00</p>
+                    </div>
+                    
+                    <div style="background-color: #2C2C2C; padding: 2rem; border-radius: 10px; border: 1px solid #B0B0B0;">
+                        <h3 style="color: #E10600; margin-bottom: 1rem;">Vestiging Amsterdam</h3>
+                        <p><strong>📍 Adres:</strong><br>Ibisweg 3-5<br>1033RA Amsterdam</p>
+                        <p><strong>📞 Telefoon:</strong><br>+31 6 14435050</p>
+                        <p><strong>🕒 Openingstijden:</strong><br>Ma-Za: 09:00 – 18:00<br>Zo: 10:00 – 16:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Meyers Automotive</h3>
+                    <p><strong>KvK:</strong> 84030712 (Eenmanszaak)</p>
+                    <p>Specialist in premium auto's</p>
+                    <p>In- en verkoop • Export • Onderhoud</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Vestigingen</h3>
+                    <p><strong>Heemskerk</strong><br>Kerkweg 152, 1968KL Heemskerk</p>
+                    <p><strong>Amsterdam</strong><br>Ibisweg 3-5, 1033RA Amsterdam</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <a href="tel:+31614435050">📞 +31 6 14435050</a>
+                    <a href="mailto:meyersautomotives@gmail.com">📧 meyersautomotives@gmail.com</a>
+                    <p><strong>24/7 Noodlijn beschikbaar</strong></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Openingstijden</h3>
+                    <p><strong>Maandag - Zaterdag</strong><br>09:00 - 18:00</p>
+                    <p><strong>Zondag</strong><br>10:00 - 16:00</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Meyers Automotive. Alle rechten voorbehouden.</p>
+                <p>Grote voorraad beschikbaar - Niet alles online gepubliceerd</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Data
-        const data = [
-            // Bron A en B
-            {cat:"Bron A en B", es:"hola", nl:"hallo"},
-            {cat:"Bron A en B", es:"bien", nl:"goed"},
-            {cat:"Bron A en B", es:"no", nl:"nee"},
-            {cat:"Bron A en B", es:"sí", nl:"ja/wel"},
-            {cat:"Bron A en B", es:"la piscina", nl:"het zwembad"},
-            {cat:"Bron A en B", es:"el camping", nl:"de camping"},
-            {cat:"Bron A en B", es:"me llamo", nl:"ik heet"},
-            {cat:"Bron A en B", es:"hablas", nl:"je spreekt"},
-            {cat:"Bron A en B", es:"vas", nl:"je gaat"},
-            {cat:"Bron A en B", es:"voy", nl:"ik ga"},
-            {cat:"Bron A en B", es:"¿Y tú?", nl:"En jij?"},
-            
-            // Bron F, G en H
-            {cat:"Bron F, G en H", es:"buenas noches", nl:"goedenavond"},
-            {cat:"Bron F, G en H", es:"hasta luego", nl:"tot ziens"},
-            {cat:"Bron F, G en H", es:"bien hecho", nl:"goed gedaan"},
-            {cat:"Bron F, G en H", es:"primero/-a", nl:"eerste"},
-            {cat:"Bron F, G en H", es:"último/-a", nl:"laatste"},
-            {cat:"Bron F, G en H", es:"cerca de", nl:"vlakbij, dichtbij"},
-            {cat:"Bron F, G en H", es:"cantar", nl:"zingen"},
-            {cat:"Bron F, G en H", es:"el presentador", nl:"de presentator"},
-            {cat:"Bron F, G en H", es:"el participante", nl:"de deelnemer"},
-            {cat:"Bron F, G en H", es:"la participante", nl:"de deelneemster"},
-            {cat:"Bron F, G en H", es:"la canción", nl:"het liedje"},
-            {cat:"Bron F, G en H", es:"la canción preferida", nl:"het lievelingsliedje"},
-            {cat:"Bron F, G en H", es:"el número de teléfono", nl:"het telefoonnummer"},
-            {cat:"Bron F, G en H", es:"el hijo", nl:"de zoon"},
-            {cat:"Bron F, G en H", es:"la hija", nl:"de dochter"},
-            {cat:"Bron F, G en H", es:"vamos", nl:"wij gaan"},
-            {cat:"Bron F, G en H", es:"va", nl:"gaat"},
-            {cat:"Bron F, G en H", es:"voy", nl:"ik ga"},
-            {cat:"Bron F, G en H", es:"soy", nl:"ik ben"},
-            {cat:"Bron F, G en H", es:"es", nl:"hij/zij is, u bent"},
-            {cat:"Bron F, G en H", es:"verde", nl:"groen"},
-            {cat:"Bron F, G en H", es:"violeta", nl:"paars"},
-            {cat:"Bron F, G en H", es:"inglés", nl:"Engels"},
-            {cat:"Bron F, G en H", es:"rosa", nl:"roze"},
-            
-            // Bron C
-            {cat:"Bron C", es:"marrón", nl:"bruin"},
-            {cat:"Bron C", es:"naranja", nl:"oranje"},
-            {cat:"Bron C", es:"gris", nl:"grijs"},
-            {cat:"Bron C", es:"¿Qué tal?", nl:"Hoe gaat het?"},
-            {cat:"Bron C", es:"hasta pronto", nl:"tot gauw"},
-            {cat:"Bron C", es:"buenos días", nl:"goedendag"},
-            {cat:"Bron C", es:"azul", nl:"blauw"},
-            {cat:"Bron C", es:"amarillo", nl:"geel"},
-            {cat:"Bron C", es:"negro", nl:"zwart"},
-            {cat:"Bron C", es:"¿dónde?", nl:"waar?"},
-            {cat:"Bron C", es:"yo", nl:"ik"},
-            {cat:"Bron C", es:"muy", nl:"heel, erg"},
-            {cat:"Bron C", es:"también", nl:"ook"},
-            {cat:"Bron C", es:"fantástico", nl:"fantastisch"},
-            {cat:"Bron C", es:"grande", nl:"groot"},
-            {cat:"Bron C", es:"en Barcelona", nl:"in Barcelona"},
-            {cat:"Bron C", es:"el chico", nl:"de jongen"},
-            {cat:"Bron C", es:"la chica", nl:"het meisje"},
-            {cat:"Bron C", es:"el amigo", nl:"de vriend"},
-            {cat:"Bron C", es:"la amiga", nl:"de vriendin"},
-            {cat:"Bron C", es:"la hermana", nl:"de zus"},
-            {cat:"Bron C", es:"el hermano", nl:"de broer"},
-            {cat:"Bron C", es:"la tienda", nl:"de tent"},
-            {cat:"Bron C", es:"las vacaciones", nl:"de vakantie"},
-            {cat:"Bron C", es:"la ciudad", nl:"de stad"},
-            {cat:"Bron C", es:"el pueblo", nl:"het dorp"},
-            {cat:"Bron C", es:"tengo", nl:"ik heb"},
-            {cat:"Bron C", es:"tenemos", nl:"wij hebben"},
-            {cat:"Bron C", es:"tiene 14 años", nl:"hij/zij is 14 jaar"},
-            {cat:"Bron C", es:"tengo 15 años", nl:"ik ben 15 jaar"},
-            {cat:"Bron C", es:"vivo en", nl:"ik woon in"},
-            {cat:"Bron C", es:"se llama", nl:"hij/zij heet"},
-            {cat:"Bron C", es:"te llamas", nl:"jij heet"},
-            
-            // Landen en talen
-            {cat:"Landen en talen", es:"negro", nl:"zwart"},
-            {cat:"Landen en talen", es:"blanco", nl:"wit"},
-            {cat:"Landen en talen", es:"rojo", nl:"rood"},
-            {cat:"Landen en talen", es:"Holanda", nl:"Nederland"},
-            {cat:"Landen en talen", es:"holandés/holandesa", nl:"Nederlander/Nederlandse"},
-            {cat:"Landen en talen", es:"Inglaterra", nl:"Engeland"},
-            {cat:"Landen en talen", es:"inglés/inglesa", nl:"Engelsman/Engelse"},
-            {cat:"Landen en talen", es:"España", nl:"Spanje"},
-            {cat:"Landen en talen", es:"español/española", nl:"Spanjaard/Spaanse"},
-            {cat:"Landen en talen", es:"Francia", nl:"Frankrijk"},
-            {cat:"Landen en talen", es:"francés/francesa", nl:"Fransman/Française"},
-            {cat:"Landen en talen", es:"Alemania", nl:"Duitsland"},
-            {cat:"Landen en talen", es:"alemán/alemana", nl:"Duitser/Duitse"},
-            {cat:"Landen en talen", es:"México", nl:"Mexico"},
-            {cat:"Landen en talen", es:"mexicano/mexicana", nl:"Mexicaan/Mexicaanse"},
-            {cat:"Landen en talen", es:"Italia", nl:"Italië"},
-            {cat:"Landen en talen", es:"italiano/italiana", nl:"Italiaan/Italiaanse"},
-            {cat:"Landen en talen", es:"sí", nl:"ja"},
-            {cat:"Landen en talen", es:"no", nl:"nee"},
-            
-            // Frases clave
-            {cat:"Frases clave", es:"¿Qué tal?", nl:"Hoe gaat het?"},
-            {cat:"Frases clave", es:"¿Cómo te llamas?", nl:"Hoe heet je?"},
-            {cat:"Frases clave", es:"¿Eres español/española?", nl:"Ben jij Spaans/Spaanse?"},
-            {cat:"Frases clave", es:"¿Hablas español?", nl:"Spreek je Spaans?"},
-            {cat:"Frases clave", es:"Muy bien", nl:"Heel goed"},
-            {cat:"Frases clave", es:"Me llamo Bart", nl:"Ik heet Bart"},
-            {cat:"Frases clave", es:"No, soy holandés/holandesa", nl:"Nee, ik ben Nederlander/Nederlandse"},
-            {cat:"Frases clave", es:"No, hablo holandés", nl:"Nee, ik spreek Nederlands"},
-            {cat:"Frases clave", es:"¿Dónde vives?", nl:"Waar woon je?"},
-            {cat:"Frases clave", es:"¿Es un pueblo?", nl:"Is het een dorp?"},
-            {cat:"Frases clave", es:"¿Dónde está?", nl:"Waar ligt dat?"},
-            {cat:"Frases clave", es:"¿Cuántos años tienes?", nl:"Hoe oud ben je?"},
-            {cat:"Frases clave", es:"¿Cuál es tu número de teléfono?", nl:"Wat is je telefoonnummer?"},
-            {cat:"Frases clave", es:"Vivo en Gerona, está en España", nl:"Ik woon in Gerona, dat ligt in Spanje"},
-            {cat:"Frases clave", es:"No, es una ciudad", nl:"Nee, het is een stad"},
-            {cat:"Frases clave", es:"Cerca de Barcelona", nl:"Vlakbij Barcelona"},
-            {cat:"Frases clave", es:"Tengo 14 años", nl:"Ik ben 14 jaar"},
-            {cat:"Frases clave", es:"Es el 06 09 10 07 03 06", nl:"Dat is 06 09 10 07 03 06"}
-        ];
-
-        // State
-        let direction = 'es-nl'; // 'es-nl' or 'nl-es'
-        let currentTab = 'learn';
+        // Global variables
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToVqUqC3z-fZPfOZwMZzr1Ed0Hmzu9fgYVG4wvs80YGS5fXD07gmaZi-kLlxGpc4qj3NPmxR46vdaJ/pub?output=csv";
+        let allCars = [];
+        let filteredCars = [];
         let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        let stats = JSON.parse(localStorage.getItem('stats') || '{"practiced": 0, "correct": 0, "total": 0}');
-        let showOnlyFavorites = false;
 
-        // Flashcard state
-        let flashcardIndex = 0;
-        let flashcardRevealed = false;
-
-        // Typing state
-        let typingIndex = 0;
-        let typingWords = [];
-
-        // Quiz state
-        let quizIndex = 0;
-        let quizWords = [];
-        let quizScore = 0;
-
-        // Initialize
-        function init() {
-            populateCategoryFilter();
-            renderLearnTab();
-            updateStats();
-            attachEventListeners();
-        }
-
-        function attachEventListeners() {
-            // Direction toggle
-            document.querySelectorAll('.direction-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    direction = btn.dataset.direction;
-                    document.querySelectorAll('.direction-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderLearnTab();
-                    if (currentTab === 'flashcards') initFlashcards();
-                    if (currentTab === 'typing') initTyping();
-                    if (currentTab === 'quiz') initQuiz();
-                });
-            });
-
-            // Tab switching
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentTab = btn.dataset.tab;
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    showTab(currentTab);
-                });
-            });
-
-            // Learn tab
-            document.getElementById('search-input').addEventListener('input', renderLearnTab);
-            document.getElementById('category-filter').addEventListener('change', renderLearnTab);
-            document.getElementById('favorites-filter').addEventListener('click', () => {
-                showOnlyFavorites = !showOnlyFavorites;
-                document.getElementById('favorites-filter').style.background = showOnlyFavorites ? '#1a1a1a' : '#e0e0e0';
-                document.getElementById('favorites-filter').style.color = showOnlyFavorites ? 'white' : '#1a1a1a';
-                renderLearnTab();
-            });
-
-            // Flashcards
-            document.getElementById('flashcard').addEventListener('click', toggleFlashcard);
-            document.getElementById('flashcard-next').addEventListener('click', nextFlashcard);
-            document.getElementById('flashcard-prev').addEventListener('click', prevFlashcard);
-
-            // Typing
-            document.getElementById('typing-check').addEventListener('click', checkTyping);
-            document.getElementById('typing-next').addEventListener('click', nextTyping);
-            document.getElementById('typing-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') checkTyping();
-            });
-
-            // Quiz
-            document.getElementById('quiz-next').addEventListener('click', nextQuiz);
-
-            // Stats
-            document.getElementById('reset-stats').addEventListener('click', resetStats);
-        }
-
-        function showTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-            document.getElementById(`${tab}-tab`).classList.remove('hidden');
-
-            if (tab === 'flashcards') initFlashcards();
-            if (tab === 'typing') initTyping();
-            if (tab === 'quiz') initQuiz();
-            if (tab === 'stats') updateStats();
-        }
-
-        function populateCategoryFilter() {
-            const categories = [...new Set(data.map(item => item.cat))];
-            const select = document.getElementById('category-filter');
-            categories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat;
-                option.textContent = cat;
-                select.appendChild(option);
-            });
-        }
-
-        function getFilteredData() {
-            let filtered = data;
-            
-            const search = document.getElementById('search-input').value.toLowerCase();
-            const category = document.getElementById('category-filter').value;
-            
-            if (search) {
-                filtered = filtered.filter(item => 
-                    item.es.toLowerCase().includes(search) || 
-                    item.nl.toLowerCase().includes(search)
-                );
-            }
-            
-            if (category) {
-                filtered = filtered.filter(item => item.cat === category);
-            }
-            
-            if (showOnlyFavorites) {
-                filtered = filtered.filter(item => favorites.includes(`${item.es}-${item.nl}`));
-            }
-            
-            return filtered;
-        }
-
-        function renderLearnTab() {
-            const tbody = document.querySelector('#words-table tbody');
-            tbody.innerHTML = '';
-            
-            const filtered = getFilteredData();
-            
-            filtered.forEach(item => {
-                const row = document.createElement('tr');
-                const id = `${item.es}-${item.nl}`;
-                const isFavorite = favorites.includes(id);
+        // Load cars from Google Sheet
+        async function loadCars() {
+            try {
+                const response = await fetch(sheetUrl);
+                const csvText = await response.text();
+                const rows = csvText.split("\n").slice(1).filter(row => row.trim());
                 
-                if (direction === 'es-nl') {
-                    row.innerHTML = `
-                        <td>${item.es}</td>
-                        <td>${item.nl}</td>
-                        <td>${item.cat}</td>
-                        <td><button class="favorite-btn" data-id="${id}">${isFavorite ? '❤️' : '🤍'}</button></td>
-                    `;
+                allCars = rows.map((row, index) => {
+                    const columns = parseCSVRow(row);
+                    return {
+                        id: index,
+                        kenteken: columns[0] || '',
+                        merk: columns[1] || '',
+                        model: columns[2] || '',
+                        type: columns[3] || '',
+                        bouwjaar: columns[4] || '',
+                        kilometerstand: columns[5] || '',
+                        brandstof: columns[6] || '',
+                        vermogen: columns[7] || '',
+                        waarde: columns[8] || '',
+                        origineleWaarde: columns[9] || '',
+                        prijs: columns[10] || '',
+                        locatie: columns[11] || '',
+                        afbeelding1: columns[12] || '',
+                        afbeelding2: columns[13] || '',
+                        afbeelding3: columns[14] || '',
+                        beschrijving: columns[15] || '',
+                        favoriet: columns[16] === "true",
+                        winst: columns[17] || '',
+                        beschikbaar: columns[18] !== "false"
+                    };
+                }).filter(car => car.beschikbaar);
+                
+                filteredCars = [...allCars];
+                displayCars();
+                populateFilters();
+            } catch (error) {
+                console.error('Error loading cars:', error);
+                loadSampleData();
+            }
+        }
+
+        // Parse CSV row handling commas in quotes
+        function parseCSVRow(row) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
                 } else {
-                    row.innerHTML = `
-                        <td>${item.nl}</td>
-                        <td>${item.es}</td>
-                        <td>${item.cat}</td>
-                        <td><button class="favorite-btn" data-id="${id}">${isFavorite ? '❤️' : '🤍'}</button></td>
-                    `;
+                    current += char;
                 }
-                
-                tbody.appendChild(row);
-            });
-            
-            // Update table headers
-            const headers = document.querySelectorAll('#words-table th');
-            if (direction === 'es-nl') {
-                headers[0].textContent = '🇪🇸 Spaans';
-                headers[1].textContent = '🇳🇱 Nederlands';
-            } else {
-                headers[0].textContent = '🇳🇱 Nederlands';
-                headers[1].textContent = '🇪🇸 Spaans';
             }
-            
-            // Attach favorite listeners
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', () => toggleFavorite(btn.dataset.id, btn));
-            });
+            result.push(current.trim());
+            return result;
         }
 
-        function toggleFavorite(id, btn) {
-            if (favorites.includes(id)) {
-                favorites = favorites.filter(f => f !== id);
-                btn.textContent = '🤍';
+        // Sample data fallback
+        function loadSampleData() {
+            allCars = [
+                {
+                    id: 0,
+                    kenteken: "12-ABC-3",
+                    merk: "BMW",
+                    model: "320i",
+                    type: "Sedan",
+                    bouwjaar: "2020",
+                    kilometerstand: "45000",
+                    brandstof: "Benzine",
+                    vermogen: "184",
+                    waarde: "€30,000",
+                    origineleWaarde: "€45,000",
+                    prijs: "€32,500",
+                    locatie: "Heemskerk",
+                    afbeelding1: "",
+                    afbeelding2: "",
+                    afbeelding3: "",
+                    beschrijving: "Prachtige BMW 320i in uitstekende staat. Volledig onderhouden en direct rijklaar.",
+                    favoriet: false,
+                    winst: "€2,500",
+                    beschikbaar: true
+                },
+                {
+                    id: 1,
+                    kenteken: "45-DEF-6",
+                    merk: "Mercedes-Benz",
+                    model: "C200",
+                    type: "Sedan",
+                    bouwjaar: "2019",
+                    kilometerstand: "38000",
+                    brandstof: "Benzine",
+                    vermogen: "184",
+                    waarde: "€33,000",
+                    origineleWaarde: "€48,000",
+                    prijs: "€35,900",
+                    locatie: "Amsterdam",
+                    afbeelding1: "",
+                    afbeelding2: "",
+                    afbeelding3: "",
+                    beschrijving: "Luxe Mercedes-Benz C200 met premium uitrusting. Zeer goed onderhouden.",
+                    favoriet: true,
+                    winst: "€2,900",
+                    beschikbaar: true
+                },
+                {
+                    id: 2,
+                    kenteken: "78-GHI-9",
+                    merk: "Audi",
+                    model: "A4",
+                    type: "Avant",
+                    bouwjaar: "2021",
+                    kilometerstand: "25000",
+                    brandstof: "Diesel",
+                    vermogen: "190",
+                    waarde: "€36,000",
+                    origineleWaarde: "€52,000",
+                    prijs: "€38,500",
+                    locatie: "Heemskerk",
+                    afbeelding1: "",
+                    afbeelding2: "",
+                    afbeelding3: "",
+                    beschrijving: "Sportieve Audi A4 Avant met quattro aandrijving. Ideaal voor gezinnen.",
+                    favoriet: false,
+                    winst: "€2,500",
+                    beschikbaar: true
+                }
+            ];
+            
+            filteredCars = [...allCars];
+            displayCars();
+            populateFilters();
+        }
+
+        // Display cars
+        function displayCars() {
+            displayCarGrid('featured-cars', allCars.slice(0, 6));
+            displayCarGrid('all-cars', filteredCars);
+        }
+
+        // Create car grid HTML
+        function displayCarGrid(containerId, cars) {
+            const container = document.getElementById(containerId);
+            
+            if (cars.length === 0) {
+                container.innerHTML = '<div class="loading">Geen auto\'s gevonden</div>';
+                return;
+            }
+            
+            container.innerHTML = cars.map(car => `
+                <div class="car-card fade-in" onclick="showCarDetail(${car.id})">
+                    <div class="car-image ${car.afbeelding1 ? '' : 'placeholder'}" 
+                         ${car.afbeelding1 ? `style="background-image: url('${car.afbeelding1}')"` : ''}>
+                        ${!car.afbeelding1 ? '🚗' : ''}
+                        <button class="favorite-btn ${favorites.includes(car.id) ? 'active' : ''}" 
+                                onclick="event.stopPropagation(); toggleFavorite(${car.id})">
+                            ${favorites.includes(car.id) ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <div class="car-content">
+                        <h3 class="car-title">${car.merk} ${car.model}</h3>
+                        <ul class="car-details">
+                            <li>Bouwjaar: ${car.bouwjaar}</li>
+                            <li>Brandstof: ${car.brandstof}</li>
+                            <li>Kilometerstand: ${car.kilometerstand} km</li>
+                            <li>Vermogen: ${car.vermogen} pk</li>
+                            <li>Locatie: ${car.locatie}</li>
+                        </ul>
+                        <div class="car-price">${car.prijs}</div>
+                        <button class="cta-button" onclick="event.stopPropagation(); showCarDetail(${car.id})">
+                            Meer Info
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Trigger fade-in animation
+            setTimeout(() => {
+                container.querySelectorAll('.fade-in').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('visible');
+                    }, index * 100);
+                });
+            }, 100);
+        }
+
+        // Show car detail page
+        function showCarDetail(carId) {
+            const car = allCars.find(c => c.id === carId);
+            if (!car) return;
+
+            const images = [car.afbeelding1, car.afbeelding2, car.afbeelding3].filter(img => img);
+            const mainImage = images[0] || '';
+
+            document.getElementById('car-detail-content').innerHTML = `
+                <div class="car-detail">
+                    <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">${car.merk} ${car.model} ${car.type}</h1>
+                    
+                    <div class="car-gallery">
+                        <div class="main-image ${mainImage ? '' : 'placeholder'}" 
+                             id="main-image" 
+                             ${mainImage ? `style="background-image: url('${mainImage}')"` : ''}>
+                            ${!mainImage ? '🚗' : ''}
+                        </div>
+                        ${images.length > 1 ? `
+                            <div class="thumbnail-gallery">
+                                ${images.map((img, index) => `
+                                    <div class="thumbnail ${index === 0 ? 'active' : ''}" 
+                                         style="background-image: url('${img}')"
+                                         onclick="changeMainImage('${img}', this)">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="car-info">
+                        <div class="car-specs">
+                            <h3 style="color: #E10600; margin-bottom: 1rem;">Specificaties</h3>
+                            <div class="spec-grid">
+                                <div class="spec-item">
+                                    <span>Kenteken:</span>
+                                    <span>${car.kenteken}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Merk:</span>
+                                    <span>${car.merk}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Model:</span>
+                                    <span>${car.model}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Type:</span>
+                                    <span>${car.type}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Bouwjaar:</span>
+                                    <span>${car.bouwjaar}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Kilometerstand:</span>
+                                    <span>${car.kilometerstand} km</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Brandstof:</span>
+                                    <span>${car.brandstof}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Vermogen:</span>
+                                    <span>${car.vermogen} pk</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Marktwaarde:</span>
+                                    <span>${car.waarde}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Originele waarde:</span>
+                                    <span>${car.origineleWaarde}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span>Locatie:</span>
+                                    <span>${car.locatie}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="background-color: #2C2C2C; padding: 2rem; border-radius: 10px; margin-bottom: 1rem;">
+                                <div class="car-price" style="font-size: 2rem; margin-bottom: 1rem;">${car.prijs}</div>
+                                <button class="favorite-btn ${favorites.includes(car.id) ? 'active' : ''}" 
+                                        onclick="toggleFavorite(${car.id})"
+                                        style="position: static; margin-bottom: 1rem; padding: 1rem; font-size: 1rem;">
+                                    ${favorites.includes(car.id) ? '❤️ Favoriet' : '🤍 Toevoegen aan favorieten'}
+                                </button>
+                                <button class="cta-button" style="width: 100%; margin-bottom: 1rem;" 
+                                        onclick="contactAboutCar('${car.merk} ${car.model}')">
+                                    Contact opnemen
+                                </button>
+                            </div>
+
+                            <div style="background-color: #2C2C2C; padding: 1.5rem; border-radius: 10px;">
+                                <h4 style="color: #E10600; margin-bottom: 1rem;">Delen</h4>
+                                <div class="share-buttons">
+                                    <button class="share-btn" onclick="shareOnFacebook('${car.merk} ${car.model}')">Facebook</button>
+                                    <button class="share-btn" onclick="shareOnTwitter('${car.merk} ${car.model}')">Twitter</button>
+                                    <button class="share-btn" onclick="shareOnWhatsApp('${car.merk} ${car.model}')">WhatsApp</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${car.beschrijving ? `
+                        <div style="background-color: #2C2C2C; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                            <h3 style="color: #E10600; margin-bottom: 1rem;">Beschrijving</h3>
+                            <p>${car.beschrijving}</p>
+                        </div>
+                    ` : ''}
+
+                    <div>
+                        <h3 style="color: #E10600; margin-bottom: 2rem;">Andere interessante auto's</h3>
+                        <div class="car-grid">
+                            ${allCars.filter(c => c.id !== car.id).slice(0, 3).map(otherCar => `
+                                <div class="car-card" onclick="showCarDetail(${otherCar.id})">
+                                    <div class="car-image ${otherCar.afbeelding1 ? '' : 'placeholder'}" 
+                                         ${otherCar.afbeelding1 ? `style="background-image: url('${otherCar.afbeelding1}')"` : ''}>
+                                        ${!otherCar.afbeelding1 ? '🚗' : ''}
+                                    </div>
+                                    <div class="car-content">
+                                        <h3 class="car-title">${otherCar.merk} ${otherCar.model}</h3>
+                                        <div class="car-price">${otherCar.prijs}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showPage('car-detail');
+        }
+
+        // Change main image in gallery
+        function changeMainImage(imageSrc, thumbnail) {
+            document.getElementById('main-image').style.backgroundImage = `url('${imageSrc}')`;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        // Toggle favorite
+        function toggleFavorite(carId) {
+            const index = favorites.indexOf(carId);
+            if (index > -1) {
+                favorites.splice(index, 1);
             } else {
-                favorites.push(id);
-                btn.textContent = '❤️';
+                favorites.push(carId);
             }
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateStats();
-        }
-
-        // Flashcards
-        function initFlashcards() {
-            flashcardIndex = 0;
-            flashcardRevealed = false;
-            showFlashcard();
-        }
-
-        function showFlashcard() {
-            const filtered = getFilteredData();
-            if (filtered.length === 0) {
-                document.getElementById('flashcard-text').textContent = 'Geen woorden gevonden';
-                return;
-            }
             
-            const item = filtered[flashcardIndex];
-            const text = direction === 'es-nl' ? item.es : item.nl;
-            
-            document.getElementById('flashcard-text').textContent = text;
-            document.querySelector('.flashcard-hint').textContent = flashcardRevealed ? '' : 'Klik om te zien';
-            
-            const progress = ((flashcardIndex + 1) / filtered.length) * 100;
-            document.getElementById('flashcard-progress').style.width = progress + '%';
-            document.getElementById('flashcard-counter').textContent = `Kaart ${flashcardIndex + 1} van ${filtered.length}`;
-            
-            flashcardRevealed = false;
-        }
-
-        function toggleFlashcard() {
-            const filtered = getFilteredData();
-            if (filtered.length === 0) return;
-            
-            const item = filtered[flashcardIndex];
-            
-            if (!flashcardRevealed) {
-                const translation = direction === 'es-nl' ? item.nl : item.es;
-                document.getElementById('flashcard-text').textContent = translation;
-                document.querySelector('.flashcard-hint').textContent = '';
-                flashcardRevealed = true;
-            }
-        }
-
-        function nextFlashcard() {
-            const filtered = getFilteredData();
-            flashcardIndex = (flashcardIndex + 1) % filtered.length;
-            showFlashcard();
-        }
-
-        function prevFlashcard() {
-            const filtered = getFilteredData();
-            flashcardIndex = (flashcardIndex - 1 + filtered.length) % filtered.length;
-            showFlashcard();
-        }
-
-        // Typing
-        function initTyping() {
-            typingWords = shuffleArray([...getFilteredData()]);
-            typingIndex = 0;
-            showTypingQuestion();
-        }
-
-        function showTypingQuestion() {
-            if (typingIndex >= typingWords.length) {
-                document.getElementById('typing-word').textContent = '✅ Klaar!';
-                document.getElementById('typing-category').textContent = '';
-                document.getElementById('typing-input').style.display = 'none';
-                document.getElementById('typing-check').style.display = 'none';
-                return;
-            }
-            
-            const item = typingWords[typingIndex];
-            const word = direction === 'es-nl' ? item.es : item.nl;
-            
-            document.getElementById('typing-word').textContent = word;
-            document.getElementById('typing-category').textContent = item.cat;
-            document.getElementById('typing-input').value = '';
-            document.getElementById('typing-input').style.display = 'block';
-            document.getElementById('typing-feedback').innerHTML = '';
-            document.getElementById('typing-check').classList.remove('hidden');
-            document.getElementById('typing-next').classList.add('hidden');
-            
-            const progress = (typingIndex / typingWords.length) * 100;
-            document.getElementById('typing-progress').style.width = progress + '%';
-            document.getElementById('typing-counter').textContent = `Vraag ${typingIndex + 1} van ${typingWords.length}`;
-        }
-
-        function checkTyping() {
-            const item = typingWords[typingIndex];
-            const answer = direction === 'es-nl' ? item.nl : item.es;
-            const userAnswer = document.getElementById('typing-input').value.trim().toLowerCase();
-            const correctAnswer = answer.toLowerCase();
-            
-            const feedback = document.getElementById('typing-feedback');
-            
-            stats.practiced++;
-            stats.total++;
-            
-            if (userAnswer === correctAnswer) {
-                feedback.innerHTML = '<div class="feedback correct">✅ Correct!</div>';
-                stats.correct++;
-            } else {
-                feedback.innerHTML = `<div class="feedback incorrect">❌ Fout. Juiste antwoord: "${answer}"</div>`;
-            }
-            
-            localStorage.setItem('stats', JSON.stringify(stats));
-            
-            document.getElementById('typing-check').classList.add('hidden');
-            document.getElementById('typing-next').classList.remove('hidden');
-        }
-
-        function nextTyping() {
-            typingIndex++;
-            showTypingQuestion();
-        }
-
-        // Quiz
-        function initQuiz() {
-            quizWords = shuffleArray([...getFilteredData()]);
-            quizIndex = 0;
-            quizScore = 0;
-            showQuizQuestion();
-        }
-
-        function showQuizQuestion() {
-            if (quizIndex >= quizWords.length) {
-                const percentage = Math.round((quizScore / quizWords.length) * 100);
-                document.getElementById('quiz-word').textContent = `✅ Klaar! Score: ${quizScore}/${quizWords.length} (${percentage}%)`;
-                document.getElementById('quiz-category').textContent = '';
-                document.getElementById('quiz-options').innerHTML = '';
-                document.getElementById('quiz-next').classList.add('hidden');
-                return;
-            }
-            
-            const item = quizWords[quizIndex];
-            const word = direction === 'es-nl' ? item.es : item.nl;
-            const correctAnswer = direction === 'es-nl' ? item.nl : item.es;
-            
-            document.getElementById('quiz-word').textContent = word;
-            document.getElementById('quiz-category').textContent = item.cat;
-            document.getElementById('quiz-feedback').innerHTML = '';
-            document.getElementById('quiz-next').classList.add('hidden');
-            
-            // Generate options
-            const options = [correctAnswer];
-            const allAnswers = data.map(d => direction === 'es-nl' ? d.nl : d.es);
-            while (options.length < 4) {
-                const random = allAnswers[Math.floor(Math.random() * allAnswers.length)];
-                if (!options.includes(random)) {
-                    options.push(random);
-                }
-            }
-            
-            shuffleArray(options);
-            
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-            
-            options.forEach(option => {
-                const div = document.createElement('div');
-                div.className = 'quiz-option';
-                div.textContent = option;
-                div.addEventListener('click', () => checkQuiz(option, correctAnswer, div));
-                optionsContainer.appendChild(div);
-            });
-            
-            const progress = (quizIndex / quizWords.length) * 100;
-            document.getElementById('quiz-progress').style.width = progress + '%';
-            document.getElementById('quiz-counter').textContent = `Vraag ${quizIndex + 1} van ${quizWords.length}`;
-        }
-
-        function checkQuiz(selected, correct, element) {
-            const allOptions = document.querySelectorAll('.quiz-option');
-            allOptions.forEach(opt => {
-                opt.style.pointerEvents = 'none';
-                if (opt.textContent === correct) {
-                    opt.classList.add('correct');
+            // Update UI
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                if (btn.onclick && btn.onclick.toString().includes(carId)) {
+                    btn.classList.toggle('active', favorites.includes(carId));
+                    btn.innerHTML = favorites.includes(carId) ? '❤️' : '🤍';
                 }
             });
+        }
+
+        // Share functions
+        function shareOnFacebook(carName) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Bekijk deze ${carName} bij Meyers Automotive`);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+        }
+
+        function shareOnTwitter(carName) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Bekijk deze ${carName} bij Meyers Automotive`);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function shareOnWhatsApp(carName) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Bekijk deze ${carName} bij Meyers Automotive: ${window.location.href}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        // Contact about car
+        function contactAboutCar(carName) {
+            showPage('contact');
+            // In a real implementation, you could pre-fill a contact form here
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            const brandFilter = document.getElementById('brand-filter');
+            const brands = [...new Set(allCars.map(car => car.merk))].sort();
             
-            stats.practiced++;
-            stats.total++;
+            brandFilter.innerHTML = '<option value="">Alle merken</option>' + 
+                brands.map(brand => `<option value="${brand}">${brand}</option>`).join('');
+        }
+
+        // Filter cars
+        function filterCars() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const brand = document.getElementById('brand-filter').value;
+            const fuel = document.getElementById('fuel-filter').value;
+            const year = document.getElementById('year-filter').value;
             
-            if (selected === correct) {
-                element.classList.add('correct');
-                document.getElementById('quiz-feedback').innerHTML = '<div class="feedback correct">✅ Correct!</div>';
-                quizScore++;
-                stats.correct++;
-            } else {
-                element.classList.add('incorrect');
-                document.getElementById('quiz-feedback').innerHTML = `<div class="feedback incorrect">❌ Fout. Juiste antwoord: "${correct}"</div>`;
+            filteredCars = allCars.filter(car => {
+                const matchesSearch = !search || 
+                    car.merk.toLowerCase().includes(search) || 
+                    car.model.toLowerCase().includes(search);
+                const matchesBrand = !brand || car.merk === brand;
+                const matchesFuel = !fuel || car.brandstof === fuel;
+                const matchesYear = !year || parseInt(car.bouwjaar) >= parseInt(year);
+                
+                return matchesSearch && matchesBrand && matchesFuel && matchesYear;
+            });
+            
+            displayCarGrid('all-cars', filteredCars);
+        }
+
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('brand-filter').value = '';
+            document.getElementById('fuel-filter').value = '';
+            document.getElementById('year-filter').value = '';
+            filteredCars = [...allCars];
+            displayCarGrid('all-cars', filteredCars);
+        }
+
+        // License plate lookup
+        async function lookupLicense() {
+            const license = document.getElementById('license-input').value.toUpperCase().replace(/-/g, '');
+            const resultDiv = document.getElementById('lookup-result');
+            
+            if (!license) {
+                alert('Voer een kenteken in');
+                return;
             }
-            
-            localStorage.setItem('stats', JSON.stringify(stats));
-            document.getElementById('quiz-next').classList.remove('hidden');
-        }
 
-        function nextQuiz() {
-            quizIndex++;
-            showQuizQuestion();
-        }
+            resultDiv.innerHTML = '<div class="loading">Kenteken wordt opgezocht...</div>';
+            resultDiv.classList.add('show');
 
-        // Stats
-        function updateStats() {
-            document.getElementById('stat-total').textContent = data.length;
-            document.getElementById('stat-favorites').textContent = favorites.length;
-            document.getElementById('stat-practiced').textContent = stats.practiced;
-            
-            const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').textContent = percentage + '%';
-        }
+            try {
+                const response = await fetch(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${license}`);
+                const data = await response.json();
 
-        function resetStats() {
-            if (confirm('Weet je zeker dat je alle statistieken wilt resetten?')) {
-                stats = {practiced: 0, correct: 0, total: 0};
-                favorites = [];
-                localStorage.setItem('stats', JSON.stringify(stats));
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                updateStats();
-                renderLearnTab();
+                if (data.length === 0) {
+                    resultDiv.innerHTML = `
+                        <div style="text-align: center; color: #E10600;">
+                            <h3>Geen resultaten gevonden</h3>
+                            <p>Het kenteken "${license}" is niet gevonden in de RDW database.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const vehicle = data[0];
+                resultDiv.innerHTML = `
+                    <h3 style="color: #E10600; margin-bottom: 1rem;">Voertuiggegevens</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span><strong>Kenteken:</strong></span>
+                            <span>${vehicle.kenteken || 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Merk:</strong></span>
+                            <span>${vehicle.merk || 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Handelsbenaming:</strong></span>
+                            <span>${vehicle.handelsbenaming || 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Voertuigsoort:</strong></span>
+                            <span>${vehicle.voertuigsoort || 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Gewicht ledig:</strong></span>
+                            <span>${vehicle.massa_ledig_voertuig || 'Onbekend'} kg</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Max. massa:</strong></span>
+                            <span>${vehicle.toegestane_maximum_massa_voertuig || 'Onbekend'} kg</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Brandstof:</strong></span>
+                            <span>${vehicle.brandstof_omschrijving || 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Bouwjaar:</strong></span>
+                            <span>${vehicle.datum_eerste_toelating ? vehicle.datum_eerste_toelating.substring(0, 4) : 'Onbekend'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span><strong>Carrosserie:</strong></span>
+                            <span>${vehicle.carrosserie_omschrijving || 'Onbekend'}</span>
+                        </div>
+                    </div>
+                    
+                    <details style="margin-top: 2rem;">
+                        <summary style="cursor: pointer; color: #E10600; margin-bottom: 1rem;">Toon volledige JSON data</summary>
+                        <pre style="background-color: #0B0B0B; padding: 1rem; border-radius: 5px; overflow-x: auto; font-size: 0.8rem;">${JSON.stringify(vehicle, null, 2)}</pre>
+                    </details>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="text-align: center; color: #E10600;">
+                        <h3>Fout bij opzoeken</h3>
+                        <p>Er is een fout opgetreden bij het opzoeken van het kenteken. Probeer het later opnieuw.</p>
+                        <p style="font-size: 0.9rem; color: #B0B0B0;">Foutmelding: ${error.message}</p>
+                    </div>
+                `;
             }
         }
 
-        // Utility
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
+        // Show page
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         }
 
-        // Start
-        init();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCars();
+            
+            // License plate input formatting
+            document.getElementById('license-input').addEventListener('input', function(e) {
+                let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                if (value.length > 2) value = value.substring(0, 2) + '-' + value.substring(2);
+                if (value.length > 5) value = value.substring(0, 5) + '-' + value.substring(5);
+                if (value.length > 8) value = value.substring(0, 8);
+                e.target.value = value;
+            });
+
+            // Enter key for license lookup
+            document.getElementById('license-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    lookupLicense();
+                }
+            });
+        });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9904318da3c40e39',t:'MTc2MDc1MDIyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
