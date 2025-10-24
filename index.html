@@ -3,2553 +3,876 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meyers Automotive – Premium Auto's & Diensten | Heemskerk & Amsterdam</title>
-    <meta name="description" content="Specialist in in- en verkoop, export, APK en reparatie. Vestigingen in Heemskerk en Amsterdam. Premium auto's met garantie.">
+    <title>Spaans ↔ Nederlands Leerapp</title>
     <style>
         body {
             box-sizing: border-box;
-        }
-        
-        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-red: #E10600;
-            --black: #1C1C1C;
-            --dark-gray: #3A3A3A;
-            --light-gray: #C0C0C0;
-            --white: #FFFFFF;
-            --shadow: 0 4px 20px rgba(0,0,0,0.3);
-            --border-radius: 12px;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
             line-height: 1.6;
-            color: var(--white);
-            background: var(--black);
         }
 
-        /* Header */
-        header {
-            background: var(--black);
-            box-shadow: var(--shadow);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--dark-gray);
-            transition: all 0.3s ease;
-        }
-
-        header.scrolled {
-            background: rgba(28, 28, 28, 0.95);
-            backdrop-filter: blur(10px);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--white);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--primary-red);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
-
-        .cta-call {
-            background: var(--primary-red);
-            color: var(--white);
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-
-        .cta-call:hover {
-            background: #B8050A;
-            transform: translateY(-2px);
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: var(--primary-red);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.postimg.cc/7hySXJn9/MAbedrijven.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            padding: 0 2rem;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-
-        .hero .subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            margin-bottom: 3rem;
-            color: var(--light-gray);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-primary {
-            background: var(--primary-red);
-            color: var(--white);
-            padding: 1.2rem 2.5rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
-        }
-
-        .cta-primary:hover {
-            background: #B8050A;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(225, 6, 0, 0.4);
-        }
-
-        .cta-secondary {
-            background: transparent;
-            color: var(--white);
-            padding: 1.2rem 2.5rem;
-            border: 2px solid var(--white);
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .cta-secondary:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            transform: translateY(-2px);
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--white);
-            animation: bounce 2s infinite;
-            cursor: pointer;
-        }
-
-        .scroll-arrow {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Intro Section */
-        .intro-section {
-            background: var(--dark-gray);
-            padding: 5rem 0;
-        }
-
-        .intro-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .intro-image {
-            width: 100%;
-            height: 400px;
-            background: url('https://i.postimg.cc/zBwyztTw/store-01-JQ2-FZ6-V9-E2-N50-B2-WQ9-FX89-E3-assets-. -photo-. .jpg');
-            background-size: cover;
-            background-position: center;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-
-        .intro-text {
-            color: var(--white);
-        }
-
-        .intro-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--white);
-        }
-
-        .intro-text .highlight {
-            color: var(--primary-red);
-        }
-
-        .intro-text p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--light-gray);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Main Content */
-        main {
-            margin-top: 80px;
-        }
-
-        .page {
-            display: none;
-            min-height: calc(100vh - 80px);
-        }
-
-        .page.active {
-            display: block;
+        * {
+            box-sizing: border-box;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 20px;
         }
 
-        .section {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
             text-align: center;
-            margin-bottom: 3rem;
-            font-weight: 700;
-            color: var(--white);
         }
 
-        .section-title .highlight {
-            color: var(--primary-red);
-        }
-
-        /* Breadcrumb */
-        .breadcrumb {
-            padding: 2rem 0 1rem;
-            color: var(--light-gray);
-            font-size: 0.9rem;
-        }
-
-        .breadcrumb a {
-            color: var(--light-gray);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--primary-red);
-        }
-
-        .breadcrumb span {
-            margin: 0 0.5rem;
-        }
-
-        /* Car Detail Page */
-        .car-detail {
-            padding: 2rem 0;
-        }
-
-        .car-header {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 2rem;
-            align-items: start;
-            margin-bottom: 3rem;
-        }
-
-        .car-title-section h1 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 1rem;
-            color: var(--white);
-        }
-
-        .car-price-section {
-            text-align: right;
-        }
-
-        .car-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            margin-bottom: 0.5rem;
-        }
-
-        .car-original-price {
-            font-size: 1.2rem;
-            color: var(--light-gray);
-            text-decoration: line-through;
-        }
-
-        /* Image Gallery */
-        .image-gallery {
-            margin-bottom: 3rem;
-        }
-
-        .main-image {
-            width: 100%;
-            height: 400px;
-            background: var(--dark-gray);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            background-size: cover;
-            background-position: center;
+        .direction-toggle {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: var(--light-gray);
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .direction-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .direction-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input, .category-select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .word-table th, .word-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .word-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .flashcard {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .main-image:hover {
-            transform: scale(1.02);
+        .flashcard:hover {
+            border-color: #4CAF50;
         }
 
-        .thumbnail-gallery {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            padding: 0.5rem 0;
+        .flashcard-word {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .thumbnail {
-            width: 100px;
-            height: 80px;
-            background: var(--dark-gray);
+        .flashcard-translation {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .flashcard-category {
+            font-size: 14px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light-gray);
-            font-size: 1.5rem;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-        }
-
-        .thumbnail:hover,
-        .thumbnail.active {
-            border-color: var(--primary-red);
-            transform: scale(1.05);
-        }
-
-        /* Car Info Grid */
-        .car-info-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .car-specs {
-            background: var(--dark-gray);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-
-        .car-specs h3 {
-            color: var(--primary-red);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .spec-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(192, 192, 192, 0.2);
-        }
-
-        .spec-label {
-            color: var(--light-gray);
-            font-weight: 600;
-        }
-
-        .spec-value {
-            color: var(--white);
-            font-weight: 500;
-        }
-
-        .car-description {
-            background: var(--dark-gray);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-
-        .car-description h3 {
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .car-description p {
-            color: var(--light-gray);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            background: var(--dark-gray);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            box-shadow: var(--shadow);
-            margin-bottom: 3rem;
-        }
-
-        .contact-section h3 {
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .contact-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
-        .btn-contact {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1rem;
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: var(--white);
-        }
-
-        .btn-whatsapp:hover {
-            background: #1DA851;
-            transform: translateY(-2px);
-        }
-
-        .btn-call {
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        .btn-call:hover {
-            background: #B8050A;
-            transform: translateY(-2px);
-        }
-
-        /* Social Share */
-        .social-share {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .social-share h4 {
-            color: var(--white);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            color: var(--white);
-        }
-
-        .share-btn.instagram {
-            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-        }
-
-        .share-btn.tiktok {
-            background: #000000;
-        }
-
-        .share-btn.facebook {
-            background: #1877F2;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-
-        /* Featured Cars Section */
-        .featured-cars {
-            margin-top: 4rem;
-        }
-
-        .featured-cars h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: var(--white);
             text-align: center;
         }
 
-        .featured-cars .highlight {
-            color: var(--primary-red);
+        .quiz-option:hover {
+            border-color: #4CAF50;
         }
 
-        /* Micro Question */
-        .micro-question {
-            background: var(--dark-gray);
-            padding: 3rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
         }
 
-        .micro-question h3 {
-            color: var(--white);
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
         }
 
-        .question-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .question-option {
-            background: var(--black);
-            color: var(--white);
-            padding: 1rem;
-            border: 2px solid var(--dark-gray);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .question-option:hover,
-        .question-option.selected {
-            border-color: var(--primary-red);
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        /* Car Filters */
-        .car-filters {
-            background: var(--dark-gray);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .filter-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .filter-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .car-filters select {
-            background: var(--black);
-            color: var(--white);
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            padding: 0.8rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .car-filters select:focus {
-            outline: none;
-            border-color: var(--primary-red);
-        }
-
-        .car-filters select:hover {
-            border-color: var(--primary-red);
-        }
-
-        .filter-reset {
-            background: var(--primary-red);
-            color: var(--white);
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .filter-reset:hover {
-            background: #B8050A;
-            transform: translateY(-2px);
-        }
-
-        /* Car Grid */
-        .car-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .car-card {
-            background: var(--dark-gray);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            border: 2px solid transparent;
-        }
-
-        .car-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(225, 6, 0, 0.3);
-            border-color: var(--primary-red);
-        }
-
-        .car-card.sold {
-            opacity: 0.5;
-            filter: grayscale(100%);
-        }
-
-        .car-image {
-            width: 100%;
-            height: 220px;
-            background: var(--black);
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--light-gray);
-        }
-
-        .car-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--primary-red);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .car-badge.sold {
-            background: var(--light-gray);
-            color: var(--black);
-        }
-
-        .viewing-indicator {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.8);
-            color: var(--white);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .car-content {
-            padding: 1.5rem;
-        }
-
-        .car-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--white);
-        }
-
-        .car-specs-inline {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--light-gray);
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .spec-item-inline {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .car-price-inline {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .current-price {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--primary-red);
-        }
-
-        .car-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-info {
-            flex: 1;
-            background: var(--primary-red);
-            color: var(--white);
-            padding: 0.8rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .btn-info:hover {
-            background: #B8050A;
-        }
-
-        .btn-favorite {
-            background: transparent;
-            color: var(--primary-red);
-            padding: 0.8rem;
-            border: 1px solid var(--primary-red);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .btn-favorite:hover,
-        .btn-favorite.active {
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        /* License Plate Lookup */
-        .license-lookup {
-            background: var(--dark-gray);
-            padding: 3rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
-        }
-
-        .license-input {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .license-input input {
-            padding: 1rem;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            text-align: center;
-            min-width: 200px;
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .license-input input:focus {
-            outline: none;
-            border-color: var(--primary-red);
-        }
-
-        .license-result {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: var(--black);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            text-align: left;
-        }
-
-        .license-result h3 {
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-        }
-
-        .license-data {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .license-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--dark-gray);
-        }
-
-        .license-item strong {
-            color: var(--light-gray);
-        }
-
-        .license-item span {
-            color: var(--white);
-        }
-
-        /* Reviews Section */
-        .reviews-section {
-            background: var(--dark-gray);
-            padding: 3rem 0;
-        }
-
-        .reviews-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .reviews {
-            text-align: center;
-        }
-
-        .stars {
-            color: #FFD700;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .rating-text {
-            color: var(--white);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .review-count {
-            color: var(--light-gray);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--white);
-            text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .social-link:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            color: var(--white);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--black);
-            color: var(--white);
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--dark-gray);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            color: var(--light-gray);
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--primary-red);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--dark-gray);
-            color: var(--light-gray);
-        }
-
-        /* Sticky Mobile CTA */
-        .mobile-cta {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--black);
-            padding: 1rem;
+        .hidden {
             display: none;
-            gap: 1rem;
-            z-index: 999;
-            border-top: 1px solid var(--dark-gray);
         }
 
-        .mobile-cta button {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-cta .btn-call {
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        .mobile-cta .btn-whatsapp {
-            background: #25D366;
-            color: var(--white);
-        }
-
-        /* Exit Popup */
-        .exit-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .popup-content {
-            background: var(--dark-gray);
-            padding: 3rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            max-width: 500px;
-            margin: 2rem;
-            position: relative;
-            border: 2px solid var(--primary-red);
-        }
-
-        .popup-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--white);
-        }
-
-        .popup-content h3 {
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .popup-options {
-            display: grid;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .popup-option {
-            padding: 1rem;
-            background: var(--black);
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: var(--white);
-        }
-
-        .popup-option:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            color: var(--white);
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--light-gray);
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--dark-gray);
-            border-top: 3px solid var(--primary-red);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        /* Back Button */
-        .back-button {
-            background: var(--dark-gray);
-            color: var(--white);
-            padding: 0.8rem 1.5rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-
-        .back-button:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            color: var(--white);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .controls {
+                flex-direction: column;
             }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
+            
+            .search-input, .category-select {
+                min-width: auto;
             }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
+            
+            .word-table {
+                font-size: 14px;
             }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
+            
+            .flashcard {
+                padding: 20px;
             }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            
+            .flashcard-word {
+                font-size: 24px;
+            }
+            
+            .tabs {
+                justify-content: center;
+            }
+            
+            .tab {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
         }
 
         .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+            animation: fadeIn 0.5s ease-in;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu {
-                display: flex;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .intro-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .car-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .car-info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .car-header {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .car-price-section {
-                text-align: center;
-            }
-
-            .license-input {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .social-links {
-                flex-direction: column;
-            }
-
-            .question-options {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-buttons {
-                flex-direction: column;
-            }
-
-            .mobile-cta {
-                display: flex;
-            }
-
-            main {
-                margin-bottom: 80px;
-            }
-
-            .car-filters {
-                padding: 1rem;
-            }
-
-            .filter-row {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .hero {
-                padding: 100px 0 60px;
-            }
-
-            .car-content {
-                padding: 1rem;
-            }
-
-            .popup-content {
-                margin: 1rem;
-                padding: 2rem;
-            }
-
-            .intro-content {
-                padding: 0 1rem;
-            }
-
-            .car-specs,
-            .car-description {
-                padding: 1.5rem;
-            }
-        }
-
-        /* About Section (combined hero + content) */
-#over-ons .about-section {
-    background: var(--black);
-    color: var(--white);
-    padding: 4rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-#over-ons .about-hero {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-#over-ons .about-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary-red);
-}
-
-#over-ons .about-hero .subtitle {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--white);
-}
-
-#over-ons .about-content h2 {
-    font-size: 2rem;
-    color: var(--primary-red);
-    margin: 1.5rem 0 1rem;
-}
-
-#over-ons .about-content p {
-    margin-bottom: 1rem;
-    line-height: 1.8;
-}
-
-#over-ons .about-content ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-#over-ons .about-content ul li {
-    margin-bottom: 0.5rem;
-    list-style: disc inside;
-}
-
-#over-ons .about-content a {
-    color: var(--primary-red);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-#over-ons .about-content a:hover {
-    color: var(--white);
-}
-
-/* Fade-in effect */
-.page {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.page.active {
-    display: block;
-    opacity: 1;
-}
-
     </style>
 </head>
 <body>
-    <header id="header">
-        <nav>
-            <a href="#" class="logo" onclick="showPage('home')">Meyers <span>Automotive</span></a>
-            <ul class="nav-links">
-                <li><a onclick="showPage('cars')">Voorraad</a></li>
-                <li><a onclick="showPage('over-ons')">Over ons</a></li>
-                <li><a onclick="showPage('contact')">Contact</a></li>
-                <li><a href="tel:+31657160395" class="cta-call">Bel Nu</a></li>
-            </ul>
-            <div class="mobile-menu" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Home Page -->
-        <div id="home" class="page active">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1>Meyers Automotive – Premium Auto's & Diensten</h1>
-                    <p class="subtitle">Specialist in in- en verkoop, export, APK en reparatie</p>
-                    <div class="hero-cta">
-                        <button class="cta-primary" onclick="showPage('cars')">Bekijk Voorraad</button>
-                        <button class="cta-secondary" onclick="showPage('kenteken')">Kenteken Zoeken</button>
-                    </div>
-                </div>
-                <div class="scroll-hint" onclick="scrollToSection()">
-                    <span class="scroll-arrow">↓</span>
-                    <span>Scroll voor meer</span>
-                </div>
-            </div>
-
-            <div class="intro-section">
-                <div class="intro-content">
-                    <div class="intro-image"></div>
-                    <div class="intro-text">
-                        <h2>Wat wij <span class="highlight">bieden</span></h2>
-                        <p>Wij bieden voertuigen gereed voor export, inclusief kentekenplaten. Zelf rijden of zonder rijmogelijkheid.</p>
-                        <p>Ook APK en reparatie beschikbaar.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container">
-                    <div class="micro-question">
-                        <h3>Wat voor auto zoekt u?</h3>
-                        <div class="question-options">
-                            <div class="question-option" onclick="selectCarType('sedan')">🚗 Sedan</div>
-                            <div class="question-option" onclick="selectCarType('suv')">🚙 SUV</div>
-                            <div class="question-option" onclick="selectCarType('hatchback')">🚘 Hatchback</div>
-                            <div class="question-option" onclick="selectCarType('station')">🚐 Stationwagon</div>
-                            <div class="question-option" onclick="selectCarType('coupe')">🏎️ Coupé</div>
-                            <div class="question-option" onclick="selectCarType('all')">🔍 Alle auto's</div>
-                        </div>
-                    </div>
-
-                    <h2 class="section-title">Beschikbare <span class="highlight">Auto's</span></h2>
-                    <div id="available-cars" class="car-grid">
-                        <div class="loading">
-                            <div class="loading-spinner"></div>
-                            <p>Auto's worden geladen...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container">
-                    <h2 class="section-title">Recent <span class="highlight">Verkocht</span></h2>
-                    <div id="sold-cars" class="car-grid">
-                        <div class="loading">
-                            <div class="loading-spinner"></div>
-                            <p>Verkochte auto's worden geladen...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="reviews-section">
-                <div class="container">
-                    <div class="reviews-content">
-                        <div class="reviews">
-                            <div class="stars">⭐⭐⭐⭐⭐</div>
-                            <div class="rating-text">4.8/5 Sterren</div>
-                            <div class="review-count">Gebaseerd op 127 reviews</div>
-                        </div>
-                        
-                        <div class="social-links">
-                            <a href="https://www.instagram.com/meyers_automotivendsm" target="_blank" rel="noopener noreferrer" class="social-link">
-                                📷 Instagram
-                            </a>
-                            <a href="https://www.tiktok.com/@meyers.automotive" target="_blank" rel="noopener noreferrer" class="social-link">
-                                🎵 TikTok
-                            </a>
-                            <a href="https://www.facebook.com/share/19dArkSBnc" target="_blank" rel="noopener noreferrer" class="social-link">
-                                📘 Facebook
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cars Overview Page -->
-        <div id="cars" class="page">
-            <div class="section">
-                <div class="container">
-                    <h1 class="section-title">Onze <span class="highlight">Voorraad</span></h1>
-                    
-                    <!-- Car Filters -->
-                    <div class="car-filters">
-                        <div class="filter-row">
-                            <select id="filter-merk" onchange="applyFilters()">
-                                <option value="">Alle merken</option>
-                            </select>
-                            
-                            <select id="filter-model" onchange="applyFilters()">
-                                <option value="">Alle modellen</option>
-                            </select>
-                            
-                            <select id="filter-bouwjaar" onchange="applyFilters()">
-                                <option value="">Alle bouwjaren</option>
-                            </select>
-                            
-                            <select id="filter-brandstof" onchange="applyFilters()">
-                                <option value="">Alle brandstoffen</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filter-row">
-                            <select id="filter-vermogen" onchange="applyFilters()">
-                                <option value="">Alle vermogens</option>
-                            </select>
-                            
-                            <select id="filter-transmissie" onchange="applyFilters()">
-                                <option value="">Alle transmissies</option>
-                            </select>
-                            
-                            <select id="filter-prijs" onchange="applyFilters()">
-                                <option value="">Alle prijzen</option>
-                                <option value="0-20000">€0 - €20.000</option>
-                                <option value="20000-30000">€20.000 - €30.000</option>
-                                <option value="30000-40000">€30.000 - €40.000</option>
-                                <option value="40000-50000">€40.000 - €50.000</option>
-                                <option value="50000+">€50.000+</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filter-row">
-                            <button class="filter-reset" onclick="resetFilters()">Reset Filters</button>
-                        </div>
-                    </div>
-                    
-                    <div id="all-cars" class="car-grid">
-                        <div class="loading">
-                            <div class="loading-spinner"></div>
-                            <p>Auto's worden geladen...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Car Detail Page -->
-        <div id="car-detail" class="page">
-            <div class="container">
-                <div class="breadcrumb">
-                    <a onclick="showPage('cars')">Auto's</a>
-                    <span>></span>
-                    <span id="breadcrumb-car-name">Auto Details</span>
-                </div>
-
-                <button class="back-button" onclick="showPage('cars')">
-                    ← Terug naar overzicht
-                </button>
-
-                <div class="car-detail">
-                    <div class="car-header">
-                        <div class="car-title-section">
-                            <h1 id="detail-car-title">Auto Details</h1>
-                        </div>
-                        <div class="car-price-section">
-                            <div class="car-price" id="detail-car-price">€0</div>
-                            <div class="car-original-price" id="detail-car-original-price" style="display: none;"></div>
-                        </div>
-                    </div>
-
-                    <div class="image-gallery">
-                        <div class="main-image" id="main-image">🚗</div>
-                        <div class="thumbnail-gallery" id="thumbnail-gallery">
-                            <!-- Thumbnails will be populated by JavaScript -->
-                        </div>
-                    </div>
-
-                    <div class="car-info-grid">
-                        <div class="car-specs">
-                            <h3>Specificaties</h3>
-                            <div class="specs-grid" id="car-specs-detail">
-                                <!-- Specs will be populated by JavaScript -->
-                            </div>
-                        </div>
-
-                        <div class="car-description">
-                            <h3>Beschrijving</h3>
-                            <p id="car-description-text">Geen beschrijving beschikbaar.</p>
-                            
-                            <div class="contact-section">
-                                <h3>Interesse in deze auto?</h3>
-                                <p>Neem direct contact met ons op voor meer informatie of een bezichtiging.</p>
-                                <div class="contact-buttons">
-                                    <a href="#" class="btn-contact btn-whatsapp" id="whatsapp-link">
-                                        💬 WhatsApp
-                                    </a>
-                                    <a href="tel:+31657160395" class="btn-contact btn-call">
-                                        📞 Bel Nu
-                                    </a>
-                                </div>
-                                
-                                <div class="social-share">
-                                    <h4>Deel deze auto:</h4>
-                                    <div class="share-buttons">
-                                        <button class="share-btn instagram" onclick="shareToInstagram()">
-                                            📷 Instagram
-                                        </button>
-                                        <button class="share-btn tiktok" onclick="shareToTikTok()">
-                                            🎵 TikTok
-                                        </button>
-                                        <button class="share-btn facebook" onclick="shareToFacebook()">
-                                            📘 Facebook
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="featured-cars">
-                        <h2>Uitgelichte <span class="highlight">Auto's</span></h2>
-                        <div id="featured-cars-grid" class="car-grid">
-                            <!-- Featured cars will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- License Plate Lookup Page -->
-        <div id="kenteken" class="page">
-            <div class="section">
-                <div class="container">
-                    <h1 class="section-title">Kenteken <span class="highlight">Zoeken</span></h1>
-                    
-                    <div class="license-lookup">
-                        <h3>Voer een kenteken in om voertuiggegevens op te halen</h3>
-                        <p>Officiële RDW gegevens direct uit de database</p>
-                        
-                        <div class="license-input">
-                            <input type="text" id="license-plate" placeholder="XX-11-YY" maxlength="8">
-                            <button class="cta-primary" onclick="lookupLicense()">Zoeken</button>
-                        </div>
-                        
-                        <div id="license-result" class="license-result" style="display: none;">
-                            <h3>Voertuiggegevens</h3>
-                            <div id="license-data" class="license-data"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Over Ons Page -->
-<div id="over-ons" class="page">
-    <section class="about-section container">
-        <div class="about-hero">
-            <h1>Over Meyers Automotive</h1>
-            <p class="subtitle">Passie voor auto's, service en kwaliteit sinds dag één</p>
-        </div>
-
-        <div class="about-content">
-            <h2>Wie wij zijn</h2>
-            <p>
-                Meyers Automotive is gespecialiseerd in verhuizvervoer, tweedehands auto's inkoop en verkoop, en de export van voertuigen. 
-                Wij zijn een eenmanszaak met KVK-nummer 84030712 en hebben meerdere vestigingen in Nederland:
-            </p>
-            <ul>
-                <li>Kerkweg 152, 1968KL Heemskerk</li>
-                <li>Kraanschip Ibisweg 3-5, 1033RA Amsterdam</li>
-            </ul>
-            <p>
-                Onze handelsnamen: Meyers Automotive & Moving Service Amsterdam. Wij staan voor betrouwbaarheid, kwaliteit en een persoonlijke aanpak.
-            </p>
-
-            <h2>Onze Diensten</h2>
-            <ul>
-                <li><strong>In- en verkoop van tweedehands auto's:</strong> Direct beschikbaar en zorgvuldig geselecteerd.</li>
-                <li><strong>APK & reparatie:</strong> Van kleine reparaties tot grote herstellingen en periodieke keuringen.</li>
-                <li><strong>Export van voertuigen:</strong> Inclusief kentekenplaten en transport naar het buitenland.</li>
-                <li><strong>Sleepdienst:</strong> 24/7 service in heel Nederland bij pech of ongelukken.</li>
-            </ul>
-
-            <h2>Onze Missie</h2>
-            <p>
-                Bij Meyers Automotive streven we ernaar uw rijervaring naar een hoger niveau te tillen. 
-                Uw auto is meer dan een voertuig – het is essentieel voor uw werk en privéleven. Daarom combineren wij een breed aanbod aan auto's met service van topkwaliteit.
-            </p>
-
-            <h2>Contact</h2>
-            <p>
-                Telefoon: <a href="tel:+31614435050">0614435050</a><br>
-                E-mail: <a href="mailto:info@meyeresautomotive.nl">info@meyeresautomotive.nl</a><br>
-                Twee locaties:
-            </p>
-            <ul>
-                <li>Kerkweg 152, 1968KL Heemskerk</li>
-                <li>Kraanschip Ibisweg 3-5, 1033RA Amsterdam</li>
-            </ul>
-        </div>
-    </section>
-</div>
-
-
-        <!-- Contact Page -->
-        <div id="contact" class="page">
-            <div class="section">
-                <div class="container">
-                    <h1 class="section-title">Contact & <span class="highlight">Locaties</span></h1>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                        <div style="background: var(--dark-gray); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow);">
-                            <h3 style="color: var(--primary-red); margin-bottom: 1rem;">Vestiging Heemskerk</h3>
-                            <p><strong>Adres:</strong> Kerkweg 152, 1968KL Heemskerk</p>
-                            <p><strong>Telefoon:</strong> <a href="tel:+31657160395">+31 6 57160395</a></p>
-                            <p><strong>E-mail:</strong> <a href="mailto:meyersautomotive@gmail.com">meyersautomotive@gmail.com</a></p>
-                            <p><strong>Openingstijden:</strong><br>
-                            Ma-Vr: 09:00 - 18:00<br>
-                            Za: 09:00 - 17:00<br>
-                            Zo: Op afspraak</p>
-                        </div>
-                        
-                        <div style="background: var(--dark-gray); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow);">
-                            <h3 style="color: var(--primary-red); margin-bottom: 1rem;">Vestiging Amsterdam</h3>
-                            <p><strong>Adres:</strong> Ibisweg 3-5, 1033RA Amsterdam</p>
-                            <p><strong>Telefoon:</strong> <a href="tel:+31657160395">+31 6 57160395</a></p>
-                            <p><strong>E-mail:</strong> <a href="mailto:meyersautomotive@gmail.com">meyersautomotive@gmail.com</a></p>
-                            <p><strong>Openingstijden:</strong><br>
-                            Ma-Vr: 09:00 - 18:00<br>
-                            Za: 09:00 - 17:00<br>
-                            Zo: Op afspraak</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Mobile Sticky CTA -->
-    <div class="mobile-cta">
-        <button class="btn-call" onclick="window.open('tel:+31657160395', '_self')">📞 Bel</button>
-        <button class="btn-whatsapp" onclick="window.open('https://wa.me/31657160395', '_blank', 'noopener,noreferrer')">💬 WhatsApp</button>
-    </div>
-
-    <!-- Exit Intent Popup -->
-    <div id="exit-popup" class="exit-popup">
-        <div class="popup-content">
-            <button class="popup-close" onclick="closeExitPopup()">&times;</button>
-            <h3>Nog aan het oriënteren?</h3>
-            <p>Laat weten wat u zoekt</p>
-            <div class="popup-options">
-                <button class="popup-option" onclick="showPage('cars'); closeExitPopup();">🚗 Ik zoek een auto</button>
-                <button class="popup-option" onclick="showPage('kenteken'); closeExitPopup();">🔍 Ik wil kenteken checken</button>
-                <button class="popup-option" onclick="window.open('tel:+31657160395', '_self'); closeExitPopup();">📞 Ik wil bellen</button>
-                <button class="popup-option" onclick="closeExitPopup();">❌ Nee, bedankt</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Meyers Automotive</h3>
-                    <p>Premium automotive solutions</p>
-                    <p><strong>Heemskerk</strong> — Kerkweg 152</p>
-                    <p><strong>Amsterdam</strong> — Ibisweg 3-5</p>
-                    <p>📞 +31 6 57160395</p>
-                    <p>📧 meyersautomotive@gmail.com</p>
-                    <p><strong>KvK:</strong> 84030712</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Snelle Links</h3>
-                    <a onclick="showPage('cars')">Auto-overzicht</a>
-                    <a onclick="showPage('kenteken')">Kenteken</a>
-                    <a href="https://www.instagram.com/meyers_automotivendsm" target="_blank" rel="noopener noreferrer">Instagram</a>
-                    <a href="https://www.tiktok.com/@meyers.automotive" target="_blank" rel="noopener noreferrer">TikTok</a>
-                </div>
-            </div>
+    <div class="container">
+        <header class="header fade-in">
+            <h1>🇪🇸 ↔ 🇳🇱 Spaans-Nederlands Leerapp</h1>
             
-            <div class="footer-bottom">
-                <p>&copy; 2025 Meyers Automotive</p>
+            <div class="direction-toggle">
+                <button class="direction-btn active" data-direction="es-nl">🇪🇸 → 🇳🇱</button>
+                <button class="direction-btn" data-direction="nl-es">🇳🇱 → 🇪🇸</button>
             </div>
-        </div>
-    </footer>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalWords">0</div>
+                    <div>📚 Totaal</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="favoriteWords">0</div>
+                    <div>❤️ Favorieten</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="practicedWords">0</div>
+                    <div>🎯 Geoefend</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="quizScore">0%</div>
+                    <div>🧠 Quiz Score</div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tabs fade-in">
+            <button class="tab active" data-tab="learn">📚 Learn</button>
+            <button class="tab" data-tab="flashcards">🃏 Flashcards</button>
+            <button class="tab" data-tab="typing">⌨️ Typing</button>
+            <button class="tab" data-tab="quiz">🧠 Quiz</button>
+        </nav>
+
+        <main class="content fade-in" id="content">
+            <!-- Content will be dynamically loaded here -->
+        </main>
+    </div>
 
     <script>
-        // Global variables
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToVqUqC3z-fZPfOZwMZzr1Ed0Hmzu9fgYVG4wvs80YGS5fXD07gmaZi-kLlxGpc4qj3NPmxR46vdaJ/pub?output=csv";
-        let allCars = [];
-        let availableCars = [];
-        let soldCars = [];
-        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        let exitIntentShown = false;
-        let currentCarDetail = null;
-
-        // Sample car data as fallback
-        const sampleCars = [
-            {
-                id: 1,
-                kenteken: "12-ABC-3",
-                merk: "BMW",
-                model: "320i",
-                type: "M-Sport",
-                bouwjaar: "2020",
-                kilometerstand: "45000",
-                brandstof: "Benzine",
-                vermogen: "184",
-                waarde: "€35,000",
-                originele_waarde: "€38,500",
-                prijs: "€32,500",
-                locatie: "Heemskerk",
-                afbeelding_1: "",
-                afbeelding_2: "",
-                afbeelding_3: "",
-                beschrijving: "Prachtige BMW 320i M-Sport in perfecte staat. Deze auto is voorzien van alle opties en rijdt als nieuw. Ideaal voor zowel zakelijk als privé gebruik.",
-                favoriet: "Nee",
-                winst: "€2,500",
-                beschikbaar: "Ja",
-                slug: "bmw-320i-m-sport-2020"
-            },
-            {
-                id: 2,
-                kenteken: "34-DEF-5",
-                merk: "Mercedes-Benz",
-                model: "C200",
-                type: "AMG Line",
-                bouwjaar: "2019",
-                kilometerstand: "38000",
-                brandstof: "Benzine",
-                vermogen: "184",
-                waarde: "€38,000",
-                originele_waarde: "€42,000",
-                prijs: "€35,900",
-                locatie: "Amsterdam",
-                afbeelding_1: "",
-                afbeelding_2: "",
-                afbeelding_3: "",
-                beschrijving: "Luxe Mercedes-Benz C200 AMG Line met sportief design en premium afwerking. Volledig onderhouden en in uitstekende staat.",
-                favoriet: "Nee",
-                winst: "€2,100",
-                beschikbaar: "Nee",
-                slug: "mercedes-c200-amg-line-2019"
-            },
-            {
-                id: 3,
-                kenteken: "56-GHI-7",
-                merk: "Audi",
-                model: "A4",
-                type: "Avant Quattro",
-                bouwjaar: "2021",
-                kilometerstand: "25000",
-                brandstof: "Diesel",
-                vermogen: "190",
-                waarde: "€40,000",
-                originele_waarde: "€43,500",
-                prijs: "€38,500",
-                locatie: "Heemskerk",
-                afbeelding_1: "",
-                afbeelding_2: "",
-                afbeelding_3: "",
-                beschrijving: "Sportieve Audi A4 Avant met quattro aandrijving. Perfect voor lange ritten en biedt veel ruimte voor bagage.",
-                favoriet: "Nee",
-                winst: "€1,500",
-                beschikbaar: "Ja",
-                slug: "audi-a4-avant-quattro-2021"
-            }
+        // Data
+        const data = [
+            // Bron A en B
+            {cat:"Bron A en B", es:"hola", nl:"hallo"},
+            {cat:"Bron A en B", es:"bien", nl:"goed"},
+            {cat:"Bron A en B", es:"no", nl:"nee"},
+            {cat:"Bron A en B", es:"sí", nl:"ja/wel"},
+            {cat:"Bron A en B", es:"la piscina", nl:"het zwembad"},
+            {cat:"Bron A en B", es:"el camping", nl:"de camping"},
+            {cat:"Bron A en B", es:"me llamo", nl:"ik heet"},
+            {cat:"Bron A en B", es:"hablas", nl:"je spreekt"},
+            {cat:"Bron A en B", es:"vas", nl:"je gaat"},
+            {cat:"Bron A en B", es:"voy", nl:"ik ga"},
+            {cat:"Bron A en B", es:"¿Y tú?", nl:"En jij?"},
+            
+            // Bron C
+            {cat:"Bron C", es:"marrón", nl:"bruin"},
+            {cat:"Bron C", es:"naranja", nl:"oranje"},
+            {cat:"Bron C", es:"gris", nl:"grijs"},
+            {cat:"Bron C", es:"¿Qué tal?", nl:"Hoe gaat het?"},
+            {cat:"Bron C", es:"hasta pronto", nl:"tot gauw"},
+            {cat:"Bron C", es:"buenos días", nl:"goedendag"},
+            {cat:"Bron C", es:"azul", nl:"blauw"},
+            {cat:"Bron C", es:"amarillo", nl:"geel"},
+            {cat:"Bron C", es:"negro", nl:"zwart"},
+            {cat:"Bron C", es:"¿dónde?", nl:"waar?"},
+            {cat:"Bron C", es:"yo", nl:"ik"},
+            {cat:"Bron C", es:"muy", nl:"heel, erg"},
+            {cat:"Bron C", es:"también", nl:"ook"},
+            {cat:"Bron C", es:"fantástico", nl:"fantastisch"},
+            {cat:"Bron C", es:"grande", nl:"groot"},
+            {cat:"Bron C", es:"en Barcelona", nl:"in Barcelona"},
+            {cat:"Bron C", es:"el chico", nl:"de jongen"},
+            {cat:"Bron C", es:"la chica", nl:"het meisje"},
+            {cat:"Bron C", es:"el amigo", nl:"de vriend"},
+            {cat:"Bron C", es:"la amiga", nl:"de vriendin"},
+            {cat:"Bron C", es:"la hermana", nl:"de zus"},
+            {cat:"Bron C", es:"el hermano", nl:"de broer"},
+            {cat:"Bron C", es:"la tienda", nl:"de tent"},
+            {cat:"Bron C", es:"las vacaciones", nl:"de vakantie"},
+            {cat:"Bron C", es:"la ciudad", nl:"de stad"},
+            {cat:"Bron C", es:"el pueblo", nl:"het dorp"},
+            {cat:"Bron C", es:"tengo", nl:"ik heb"},
+            {cat:"Bron C", es:"tenemos", nl:"wij hebben"},
+            {cat:"Bron C", es:"tiene 14 años", nl:"hij/zij is 14 jaar"},
+            {cat:"Bron C", es:"tengo 15 años", nl:"ik ben 15 jaar"},
+            {cat:"Bron C", es:"vivo en", nl:"ik woon in"},
+            {cat:"Bron C", es:"se llama", nl:"hij/zij heet"},
+            {cat:"Bron C", es:"te llamas", nl:"jij heet"},
+            
+            // Bron F, G en H
+            {cat:"Bron F, G en H", es:"buenas noches", nl:"goedenavond"},
+            {cat:"Bron F, G en H", es:"hasta luego", nl:"tot ziens"},
+            {cat:"Bron F, G en H", es:"bien hecho", nl:"goed gedaan"},
+            {cat:"Bron F, G en H", es:"primero/-a", nl:"eerste"},
+            {cat:"Bron F, G en H", es:"último/-a", nl:"laatste"},
+            {cat:"Bron F, G en H", es:"cerca de", nl:"vlakbij, dichtbij"},
+            {cat:"Bron F, G en H", es:"cantar", nl:"zingen"},
+            {cat:"Bron F, G en H", es:"el presentador", nl:"de presentator"},
+            {cat:"Bron F, G en H", es:"el participante", nl:"de deelnemer"},
+            {cat:"Bron F, G en H", es:"la participante", nl:"de deelneemster"},
+            {cat:"Bron F, G en H", es:"la canción", nl:"het liedje"},
+            {cat:"Bron F, G en H", es:"la canción preferida", nl:"het lievelingsliedje"},
+            {cat:"Bron F, G en H", es:"el número de teléfono", nl:"het telefoonnummer"},
+            {cat:"Bron F, G en H", es:"el hijo", nl:"de zoon"},
+            {cat:"Bron F, G en H", es:"la hija", nl:"de dochter"},
+            {cat:"Bron F, G en H", es:"vamos", nl:"wij gaan"},
+            {cat:"Bron F, G en H", es:"va", nl:"gaat"},
+            {cat:"Bron F, G en H", es:"soy", nl:"ik ben"},
+            {cat:"Bron F, G en H", es:"es", nl:"hij/zij is, u bent"},
+            {cat:"Bron F, G en H", es:"verde", nl:"groen"},
+            {cat:"Bron F, G en H", es:"violeta", nl:"paars"},
+            {cat:"Bron F, G en H", es:"inglés", nl:"Engels"},
+            {cat:"Bron F, G en H", es:"rosa", nl:"roze"},
+            
+            // Landen en talen
+            {cat:"Landen en talen", es:"blanco", nl:"wit"},
+            {cat:"Landen en talen", es:"rojo", nl:"rood"},
+            {cat:"Landen en talen", es:"Holanda", nl:"Nederland"},
+            {cat:"Landen en talen", es:"holandés/holandesa", nl:"Nederlander/Nederlandse"},
+            {cat:"Landen en talen", es:"Inglaterra", nl:"Engeland"},
+            {cat:"Landen en talen", es:"inglés/inglesa", nl:"Engelsman/Engelse"},
+            {cat:"Landen en talen", es:"España", nl:"Spanje"},
+            {cat:"Landen en talen", es:"español/española", nl:"Spanjaard/Spaanse"},
+            {cat:"Landen en talen", es:"Francia", nl:"Frankrijk"},
+            {cat:"Landen en talen", es:"francés/francesa", nl:"Fransman/Française"},
+            {cat:"Landen en talen", es:"Alemania", nl:"Duitsland"},
+            {cat:"Landen en talen", es:"alemán/alemana", nl:"Duitser/Duitse"},
+            {cat:"Landen en talen", es:"México", nl:"Mexico"},
+            {cat:"Landen en talen", es:"mexicano/mexicana", nl:"Mexicaan/Mexicaanse"},
+            {cat:"Landen en talen", es:"Italia", nl:"Italië"},
+            {cat:"Landen en talen", es:"italiano/italiana", nl:"Italiaan/Italiaanse"},
+            
+            // Frases clave
+            {cat:"Frases clave", es:"¿Cómo te llamas?", nl:"Hoe heet je?"},
+            {cat:"Frases clave", es:"¿Eres español/española?", nl:"Ben jij Spaans/Spaanse?"},
+            {cat:"Frases clave", es:"¿Hablas español?", nl:"Spreek je Spaans?"},
+            {cat:"Frases clave", es:"¿Dónde vives?", nl:"Waar woon je?"},
+            {cat:"Frases clave", es:"Tengo 14 años", nl:"Ik ben 14 jaar"},
+            {cat:"Frases clave", es:"Vivo en Amsterdam", nl:"Ik woon in Amsterdam"},
+            {cat:"Frases clave", es:"Me gusta mucho", nl:"Ik vind het heel leuk"},
+            {cat:"Frases clave", es:"No me gusta", nl:"Ik vind het niet leuk"},
+            {cat:"Frases clave", es:"¿Te gusta?", nl:"Vind je het leuk?"},
+            {cat:"Frases clave", es:"Muchas gracias", nl:"Heel erg bedankt"}
         ];
 
-        // Generate slug from car data
-        function generateSlug(car) {
-            if (car.slug) return car.slug;
-            return `${car.merk}-${car.model}-${car.type}-${car.bouwjaar}`
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
-        }
+        // State
+        let currentDirection = 'es-nl';
+        let currentTab = 'learn';
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let practiced = JSON.parse(localStorage.getItem('practiced') || '[]');
+        let quizStats = JSON.parse(localStorage.getItem('quizStats') || '{"correct": 0, "total": 0}');
+        let currentFlashcardIndex = 0;
+        let currentTypingWord = null;
+        let currentQuizWord = null;
+        let showingTranslation = false;
 
-        // Extract transmission from description or determine from car data
-        function getTransmission(car) {
-            // First check if transmission is explicitly provided
-            if (car.transmissie) return car.transmissie;
-            
-            // Check description for transmission keywords
-            if (car.beschrijving) {
-                const desc = car.beschrijving.toLowerCase();
-                if (desc.includes('automaat') || desc.includes('automatic')) return 'Automaat';
-                if (desc.includes('handgeschakeld') || desc.includes('manual')) return 'Handgeschakeld';
-                if (desc.includes('cvt')) return 'CVT';
-                if (desc.includes('dsg')) return 'DSG';
-                if (desc.includes('tiptronic')) return 'Tiptronic';
-            }
-            
-            // Default fallback
-            return 'Handgeschakeld';
-        }
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            updateStats();
+            showTab('learn');
+        });
 
-        // Filter functionality
-        let currentFilters = {
-            merk: '',
-            model: '',
-            bouwjaar: '',
-            brandstof: '',
-            vermogen: '',
-            prijs: ''
-        };
-
-        function populateFilterOptions() {
-            const merken = [...new Set(availableCars.map(car => car.merk))].sort();
-            const modellen = [...new Set(availableCars.map(car => car.model))].sort();
-            const bouwjaren = [...new Set(availableCars.map(car => car.bouwjaar))].sort((a, b) => b - a);
-            const brandstoffen = [...new Set(availableCars.map(car => car.brandstof))].sort();
-            const vermogens = [...new Set(availableCars.map(car => car.vermogen))].sort((a, b) => parseInt(a) - parseInt(b));
-            const transmissies = [...new Set(availableCars.map(car => getTransmission(car)))].sort();
-
-            // Populate dropdowns
-            populateSelect('filter-merk', merken);
-            populateSelect('filter-model', modellen);
-            populateSelect('filter-bouwjaar', bouwjaren);
-            populateSelect('filter-brandstof', brandstoffen);
-            populateSelect('filter-vermogen', vermogens.map(v => v + ' pk'));
-            populateSelect('filter-transmissie', transmissies);
-        }
-
-        function populateSelect(selectId, options) {
-            const select = document.getElementById(selectId);
-            if (!select) return;
-            
-            // Keep first option (All...)
-            const firstOption = select.options[0];
-            select.innerHTML = '';
-            select.appendChild(firstOption);
-            
-            options.forEach(option => {
-                if (option) {
-                    const optionEl = document.createElement('option');
-                    optionEl.value = option;
-                    optionEl.textContent = option;
-                    select.appendChild(optionEl);
-                }
-            });
-        }
-
-        function applyFilters() {
-            // Get current filter values
-            currentFilters.merk = document.getElementById('filter-merk')?.value || '';
-            currentFilters.model = document.getElementById('filter-model')?.value || '';
-            currentFilters.bouwjaar = document.getElementById('filter-bouwjaar')?.value || '';
-            currentFilters.brandstof = document.getElementById('filter-brandstof')?.value || '';
-            currentFilters.vermogen = document.getElementById('filter-vermogen')?.value.replace(' pk', '') || '';
-            currentFilters.transmissie = document.getElementById('filter-transmissie')?.value || '';
-            currentFilters.prijs = document.getElementById('filter-prijs')?.value || '';
-
-            // Filter cars
-            let filteredCars = availableCars.filter(car => {
-                if (currentFilters.merk && car.merk !== currentFilters.merk) return false;
-                if (currentFilters.model && car.model !== currentFilters.model) return false;
-                if (currentFilters.bouwjaar && car.bouwjaar !== currentFilters.bouwjaar) return false;
-                if (currentFilters.brandstof && car.brandstof !== currentFilters.brandstof) return false;
-                if (currentFilters.vermogen && car.vermogen !== currentFilters.vermogen) return false;
-                if (currentFilters.transmissie && getTransmission(car) !== currentFilters.transmissie) return false;
-                
-                if (currentFilters.prijs) {
-                    const carPrice = parseFloat(car.prijs?.replace(/[€.,]/g, '') || '0');
-                    const [min, max] = currentFilters.prijs.split('-').map(p => parseFloat(p.replace('+', '')));
-                    
-                    if (currentFilters.prijs.includes('+')) {
-                        if (carPrice < min) return false;
-                    } else {
-                        if (carPrice < min || carPrice > max) return false;
-                    }
-                }
-                
-                return true;
-            });
-
-            // Display filtered results
-            displayCarGrid('all-cars', filteredCars);
-        }
-
-        function resetFilters() {
-            // Reset all filter dropdowns
-            document.getElementById('filter-merk').value = '';
-            document.getElementById('filter-model').value = '';
-            document.getElementById('filter-bouwjaar').value = '';
-            document.getElementById('filter-brandstof').value = '';
-            document.getElementById('filter-vermogen').value = '';
-            document.getElementById('filter-transmissie').value = '';
-            document.getElementById('filter-prijs').value = '';
-            
-            // Reset filters object
-            currentFilters = {
-                merk: '',
-                model: '',
-                bouwjaar: '',
-                brandstof: '',
-                vermogen: '',
-                transmissie: '',
-                prijs: ''
-            };
-            
-            // Show all cars
-            displayCarGrid('all-cars', availableCars);
-        }
-
-        // Load cars from Google Sheets or use sample data
-        async function loadCars() {
-            try {
-                console.log('Loading cars from Google Sheets...');
-                const response = await fetch(sheetUrl, {
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'text/csv,text/plain,*/*'
-                    }
+        function setupEventListeners() {
+            // Direction toggle
+            document.querySelectorAll('.direction-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.direction-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDirection = this.dataset.direction;
+                    showTab(currentTab); // Refresh current tab
                 });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const csvText = await response.text();
-                console.log('CSV data received');
-                
-                const rows = csvText.trim().split("\n");
-                if (rows.length < 2) {
-                    throw new Error('No data rows found in CSV');
-                }
-                
-                // Parse CSV data
-                allCars = [];
-                for (let i = 1; i < rows.length; i++) {
-                    const values = rows[i].split(",").map(v => v.replace(/"/g, '').trim());
-                    if (values.length >= 10 && values[0]) {
-                        const car = {
-                            id: i,
-                            kenteken: values[0] || '',
-                            merk: values[1] || '',
-                            model: values[2] || '',
-                            type: values[3] || '',
-                            bouwjaar: values[4] || '',
-                            kilometerstand: values[5] || '',
-                            brandstof: values[6] || '',
-                            vermogen: values[7] || '',
-                            waarde: values[8] || '',
-                            originele_waarde: values[9] || '',
-                            prijs: values[10] || '',
-                            locatie: values[11] || '',
-                            afbeelding_1: values[12] || '',
-                            afbeelding_2: values[13] || '',
-                            afbeelding_3: values[14] || '',
-                            beschrijving: values[15] || '',
-                            favoriet: values[16] || 'Nee',
-                            winst: values[17] || '',
-                            beschikbaar: values[18] || 'Ja'
-                        };
-                        car.slug = generateSlug(car);
-                        allCars.push(car);
+            });
+
+            // Tab navigation
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTab = this.dataset.tab;
+                    showTab(currentTab);
+                });
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('totalWords').textContent = data.length;
+            document.getElementById('favoriteWords').textContent = favorites.length;
+            document.getElementById('practicedWords').textContent = practiced.length;
+            
+            const percentage = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : 0;
+            document.getElementById('quizScore').textContent = percentage + '%';
+        }
+
+        function showTab(tabName) {
+            const content = document.getElementById('content');
+            content.className = 'content fade-in';
+            
+            switch(tabName) {
+                case 'learn':
+                    showLearnTab();
+                    break;
+                case 'flashcards':
+                    showFlashcardsTab();
+                    break;
+                case 'typing':
+                    showTypingTab();
+                    break;
+                case 'quiz':
+                    showQuizTab();
+                    break;
+            }
+        }
+
+        function showLearnTab() {
+            const categories = [...new Set(data.map(item => item.cat))];
+            
+            const content = `
+                <h2>📚 Woordenlijst</h2>
+                <div class="controls">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Zoek woorden...">
+                    <select class="category-select" id="categorySelect">
+                        <option value="">Alle categorieën</option>
+                        ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    </select>
+                    <button class="btn" onclick="showFavoritesOnly()">❤️ Alleen favorieten</button>
+                </div>
+                <div id="wordList"></div>
+            `;
+            
+            document.getElementById('content').innerHTML = content;
+            
+            document.getElementById('searchInput').addEventListener('input', filterWords);
+            document.getElementById('categorySelect').addEventListener('change', filterWords);
+            
+            filterWords();
+        }
+
+        function filterWords() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categorySelect').value;
+            
+            let filteredData = data.filter(item => {
+                const matchesSearch = item.es.toLowerCase().includes(searchTerm) || 
+                                    item.nl.toLowerCase().includes(searchTerm);
+                const matchesCategory = !selectedCategory || item.cat === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+            
+            displayWordList(filteredData);
+        }
+
+        function showFavoritesOnly() {
+            const favoriteWords = data.filter(item => 
+                favorites.includes(`${item.es}-${item.nl}`)
+            );
+            displayWordList(favoriteWords);
+        }
+
+        function displayWordList(words) {
+            const isEsNl = currentDirection === 'es-nl';
+            
+            const table = `
+                <table class="word-table">
+                    <thead>
+                        <tr>
+                            <th>${isEsNl ? '🇪🇸 Spaans' : '🇳🇱 Nederlands'}</th>
+                            <th>${isEsNl ? '🇳🇱 Nederlands' : '🇪🇸 Spaans'}</th>
+                            <th>📂 Categorie</th>
+                            <th>❤️</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${words.map(word => {
+                            const wordId = `${word.es}-${word.nl}`;
+                            const isFavorite = favorites.includes(wordId);
+                            return `
+                                <tr>
+                                    <td><strong>${isEsNl ? word.es : word.nl}</strong></td>
+                                    <td>${isEsNl ? word.nl : word.es}</td>
+                                    <td><small>${word.cat}</small></td>
+                                    <td>
+                                        <button class="favorite-btn" onclick="toggleFavorite('${wordId}')">
+                                            ${isFavorite ? '❤️' : '🤍'}
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('wordList').innerHTML = table;
+        }
+
+        function toggleFavorite(wordId) {
+            if (favorites.includes(wordId)) {
+                favorites = favorites.filter(id => id !== wordId);
+            } else {
+                favorites.push(wordId);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateStats();
+            filterWords(); // Refresh the display
+        }
+
+        function showFlashcardsTab() {
+            const content = `
+                <h2>🃏 Flashcards</h2>
+                <div id="flashcardContainer"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="previousFlashcard()">⬅️ Vorige</button>
+                    <button class="btn" onclick="nextFlashcard()">Volgende ➡️</button>
+                </div>
+            `;
+            
+            document.getElementById('content').innerHTML = content;
+            showFlashcard();
+        }
+
+        function showFlashcard() {
+            if (data.length === 0) return;
+            
+            const word = data[currentFlashcardIndex];
+            const isEsNl = currentDirection === 'es-nl';
+            
+            const flashcard = `
+                <div class="flashcard" onclick="flipFlashcard()">
+                    <div class="flashcard-word">
+                        ${showingTranslation ? 
+                            (isEsNl ? word.nl : word.es) : 
+                            (isEsNl ? word.es : word.nl)
+                        }
+                    </div>
+                    ${showingTranslation ? 
+                        `<div class="flashcard-translation">Klik voor het ${isEsNl ? 'Spaanse' : 'Nederlandse'} woord</div>` :
+                        `<div class="flashcard-translation">Klik voor de vertaling</div>`
                     }
-                }
-                
-                console.log(`Loaded ${allCars.length} cars from sheet`);
-                
-            } catch (error) {
-                console.error('Error loading from Google Sheets:', error);
-                console.log('Using sample data');
-                allCars = [...sampleCars];
-            }
+                    <div class="flashcard-category">${word.cat}</div>
+                </div>
+            `;
             
-            // Separate available and sold cars - maintain sheet order
-            availableCars = allCars.filter(car => car.beschikbaar !== "Nee");
-            
-            soldCars = allCars.filter(car => car.beschikbaar === "Nee");
-            
-            displayCars();
+            document.getElementById('flashcardContainer').innerHTML = flashcard;
         }
 
-        // Display cars in different sections
-        function displayCars() {
-            displayCarGrid('available-cars', availableCars.slice(0, 6));
-            displayCarGrid('sold-cars', soldCars.slice(0, 4), true);
-            displayCarGrid('all-cars', availableCars);
-            
-            // Populate filter options after cars are loaded
-            populateFilterOptions();
+        function flipFlashcard() {
+            if (!showingTranslation) {
+                showingTranslation = true;
+                showFlashcard();
+                // Auto advance to next card after showing translation
+                setTimeout(() => {
+                    nextFlashcard();
+                }, 2000);
+            }
         }
 
-        // Create car grid HTML
-        function displayCarGrid(containerId, cars, isSold = false) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        function nextFlashcard() {
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % data.length;
+            showingTranslation = false;
+            showFlashcard();
+        }
+
+        function previousFlashcard() {
+            currentFlashcardIndex = currentFlashcardIndex === 0 ? data.length - 1 : currentFlashcardIndex - 1;
+            showingTranslation = false;
+            showFlashcard();
+        }
+
+        function showTypingTab() {
+            const content = `
+                <h2>⌨️ Typing Oefening</h2>
+                <div id="typingContainer"></div>
+            `;
             
-            if (cars.length === 0) {
-                container.innerHTML = '<div class="loading"><p>Geen auto\'s beschikbaar</p></div>';
-                return;
+            document.getElementById('content').innerHTML = content;
+            startTypingExercise();
+        }
+
+        function startTypingExercise() {
+            currentTypingWord = data[Math.floor(Math.random() * data.length)];
+            const isEsNl = currentDirection === 'es-nl';
+            
+            const exercise = `
+                <div style="text-align: center;">
+                    <h3>Typ de vertaling van:</h3>
+                    <div class="flashcard-word" style="margin: 20px 0;">
+                        ${isEsNl ? currentTypingWord.es : currentTypingWord.nl}
+                    </div>
+                    <input type="text" class="typing-input" id="typingInput" placeholder="Typ hier je antwoord..." autocomplete="off">
+                    <br>
+                    <button class="btn" onclick="checkTypingAnswer()">Controleer</button>
+                    <button class="btn" onclick="skipTypingWord()">Overslaan</button>
+                </div>
+                <div id="typingFeedback"></div>
+            `;
+            
+            document.getElementById('typingContainer').innerHTML = exercise;
+            document.getElementById('typingInput').focus();
+            
+            document.getElementById('typingInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkTypingAnswer();
+                }
+            });
+        }
+
+        function checkTypingAnswer() {
+            const userAnswer = document.getElementById('typingInput').value.trim().toLowerCase();
+            const isEsNl = currentDirection === 'es-nl';
+            const correctAnswer = (isEsNl ? currentTypingWord.nl : currentTypingWord.es).toLowerCase();
+            
+            const wordId = `${currentTypingWord.es}-${currentTypingWord.nl}`;
+            if (!practiced.includes(wordId)) {
+                practiced.push(wordId);
+                localStorage.setItem('practiced', JSON.stringify(practiced));
+                updateStats();
             }
             
-            container.innerHTML = cars.map(car => {
-                const viewingCount = Math.floor(Math.random() * 8) + 2;
-                
-                // Determine main image
-                let mainImage = '🚗';
-                if (car.afbeelding_1 && car.afbeelding_1.startsWith('http')) {
-                    mainImage = '';
-                }
-                
-                return `
-                    <div class="car-card ${isSold ? 'sold' : ''} fade-in">
-                        <div class="car-image" style="${car.afbeelding_1 && car.afbeelding_1.startsWith('http') ? `background-image: url('${car.afbeelding_1}'); background-size: cover; background-position: center;` : 'background: var(--dark-gray);'}">
-                            ${!car.afbeelding_1 || !car.afbeelding_1.startsWith('http') ? '<div style="color: var(--light-gray); font-size: 2rem;">Geen afbeelding</div>' : ''}
-                            ${isSold ? '<div class="car-badge sold">VERKOCHT</div>' : ''}
-                            ${!isSold ? `<div class="viewing-indicator">${viewingCount} mensen bekijken</div>` : ''}
-                        </div>
-                        
-                        <div class="car-content">
-                            <h3 class="car-title">${car.merk} ${car.model} ${car.type}</h3>
-                            
-                            <div class="car-specs-inline">
-                                <div class="spec-item-inline">${car.bouwjaar}</div>
-                                <div class="spec-item-inline">${car.brandstof}</div>
-                                <div class="spec-item-inline">${formatNumber(car.kilometerstand)} km</div>
-                                <div class="spec-item-inline">${car.vermogen} pk</div>
-                                <div class="spec-item-inline">${getTransmission(car)}</div>
-                            </div>
-                            
-                            <div class="car-price-inline">
-                                <span class="current-price">${car.prijs}</span>
-                            </div>
-                            
-                            ${!isSold ? `
-                                <div class="car-actions">
-                                    <button class="btn-info" onclick="showCarDetail(${car.id})">Meer Info</button>
-                                    <button class="btn-favorite ${favorites.includes(car.id) ? 'active' : ''}" onclick="toggleFavorite(${car.id})">
-                                        ${favorites.includes(car.id) ? '❤️' : '🤍'}
-                                    </button>
-                                </div>
-                            ` : ''}
-                        </div>
+            const feedbackDiv = document.getElementById('typingFeedback');
+            
+            if (userAnswer === correctAnswer) {
+                feedbackDiv.innerHTML = `
+                    <div class="feedback correct">
+                        ✅ Correct! Volgende woord komt...
                     </div>
                 `;
-            }).join('');
-            
-            // Trigger fade-in animation
-            setTimeout(() => {
-                container.querySelectorAll('.fade-in').forEach((el, index) => {
-                    setTimeout(() => {
-                        el.classList.add('visible');
-                    }, index * 100);
-                });
-            }, 100);
-        }
-
-        // Show car detail page
-        function showCarDetail(carId) {
-            const car = allCars.find(c => c.id === carId);
-            if (!car) return;
-            
-            currentCarDetail = car;
-            
-            // Update breadcrumb
-            document.getElementById('breadcrumb-car-name').textContent = `${car.merk} ${car.model}`;
-            
-            // Update title and price
-            document.getElementById('detail-car-title').textContent = `${car.merk} ${car.model} ${car.type}`;
-            document.getElementById('detail-car-price').textContent = car.prijs;
-            
-            // Hide original price section as per requirements
-            const originalPriceEl = document.getElementById('detail-car-original-price');
-            originalPriceEl.style.display = 'none';
-            
-            // Update images
-            updateCarImages(car);
-            
-            // Update specifications
-            updateCarSpecs(car);
-            
-            // Update description
-            document.getElementById('car-description-text').textContent = car.beschrijving || 'Geen beschrijving beschikbaar.';
-            
-            // Update WhatsApp link
-            const message = encodeURIComponent(`Hallo, ik ben geïnteresseerd in de ${car.merk} ${car.model} ${car.type} (${car.bouwjaar}). Kunnen we contact opnemen?`);
-            document.getElementById('whatsapp-link').href = `https://wa.me/31657160395?text=${message}`;
-            
-            // Show featured cars (random selection excluding current car)
-            const featuredCars = availableCars
-                .filter(c => c.id !== carId)
-                .sort(() => 0.5 - Math.random())
-                .slice(0, 3);
-            displayCarGrid('featured-cars-grid', featuredCars);
-            
-            // Show detail page
-            showPage('car-detail');
-        }
-
-        // Update car images in detail view
-        function updateCarImages(car) {
-            const mainImage = document.getElementById('main-image');
-            const thumbnailGallery = document.getElementById('thumbnail-gallery');
-            
-            const images = [car.afbeelding_1, car.afbeelding_2, car.afbeelding_3].filter(img => img && img.startsWith('http'));
-            
-            if (images.length > 0) {
-                // Set main image
-                mainImage.style.backgroundImage = `url('${images[0]}')`;
-                mainImage.style.backgroundSize = 'cover';
-                mainImage.style.backgroundPosition = 'center';
-                mainImage.textContent = '';
-                
-                // Create thumbnails
-                thumbnailGallery.innerHTML = images.map((img, index) => `
-                    <div class="thumbnail ${index === 0 ? 'active' : ''}" 
-                         style="background-image: url('${img}'); background-size: cover; background-position: center;"
-                         onclick="setMainImage('${img}', ${index})">
+                setTimeout(() => {
+                    startTypingExercise();
+                }, 800);
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="feedback incorrect">
+                        ❌ Fout. Het juiste antwoord is: "${isEsNl ? currentTypingWord.nl : currentTypingWord.es}"
+                        <br><small>Probeer het opnieuw...</small>
                     </div>
-                `).join('');
-            } else {
-                // No images available
-                mainImage.style.backgroundImage = '';
-                mainImage.style.background = 'var(--dark-gray)';
-                mainImage.innerHTML = '<div style="color: var(--light-gray); font-size: 2rem;">Geen afbeelding beschikbaar</div>';
-                thumbnailGallery.innerHTML = '<div class="thumbnail active" style="background: var(--dark-gray); color: var(--light-gray);">Geen foto</div>';
+                `;
+                document.getElementById('typingInput').value = '';
+                document.getElementById('typingInput').focus();
             }
         }
 
-        // Set main image from thumbnail click
-        function setMainImage(imageUrl, index) {
-            const mainImage = document.getElementById('main-image');
-            mainImage.style.backgroundImage = `url('${imageUrl}')`;
-            
-            // Update active thumbnail
-            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
+        function skipTypingWord() {
+            startTypingExercise();
         }
 
-        // Update car specifications
-        function updateCarSpecs(car) {
-            const specsContainer = document.getElementById('car-specs-detail');
+        function showQuizTab() {
+            const content = `
+                <h2>🧠 Quiz</h2>
+                <div id="quizContainer"></div>
+            `;
             
-            const specs = [
-                { label: 'Kenteken', value: car.kenteken },
-                { label: 'Merk', value: car.merk },
-                { label: 'Model', value: car.model },
-                { label: 'Type', value: car.type },
-                { label: 'Bouwjaar', value: car.bouwjaar },
-                { label: 'Kilometerstand', value: formatNumber(car.kilometerstand) + ' km' },
-                { label: 'Brandstof', value: car.brandstof },
-                { label: 'Vermogen', value: car.vermogen + ' pk' },
-                { label: 'Transmissie', value: getTransmission(car) },
-                { label: 'Locatie', value: car.locatie },
-                { label: 'Prijs', value: car.prijs }
-            ].filter(spec => spec.value);
+            document.getElementById('content').innerHTML = content;
+            startQuiz();
+        }
+
+        function startQuiz() {
+            currentQuizWord = data[Math.floor(Math.random() * data.length)];
+            const isEsNl = currentDirection === 'es-nl';
             
-            specsContainer.innerHTML = specs.map(spec => `
-                <div class="spec-item">
-                    <span class="spec-label">${spec.label}:</span>
-                    <span class="spec-value">${spec.value}</span>
+            // Generate wrong answers
+            const wrongAnswers = [];
+            while (wrongAnswers.length < 3) {
+                const randomWord = data[Math.floor(Math.random() * data.length)];
+                const wrongAnswer = isEsNl ? randomWord.nl : randomWord.es;
+                const correctAnswer = isEsNl ? currentQuizWord.nl : currentQuizWord.es;
+                
+                if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
+                    wrongAnswers.push(wrongAnswer);
+                }
+            }
+            
+            // Mix correct answer with wrong answers
+            const allOptions = [...wrongAnswers, isEsNl ? currentQuizWord.nl : currentQuizWord.es];
+            const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
+            
+            const quiz = `
+                <div style="text-align: center;">
+                    <h3>Wat betekent:</h3>
+                    <div class="flashcard-word" style="margin: 20px 0;">
+                        ${isEsNl ? currentQuizWord.es : currentQuizWord.nl}
+                    </div>
+                    <div class="quiz-options">
+                        ${shuffledOptions.map(option => `
+                            <div class="quiz-option" onclick="selectQuizAnswer('${option}')">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-            `).join('');
+                <div id="quizFeedback"></div>
+            `;
+            
+            document.getElementById('quizContainer').innerHTML = quiz;
         }
 
-        // Car type selection
-        function selectCarType(type) {
-            // Update UI
-            document.querySelectorAll('.question-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
+        function selectQuizAnswer(selectedAnswer) {
+            const isEsNl = currentDirection === 'es-nl';
+            const correctAnswer = isEsNl ? currentQuizWord.nl : currentQuizWord.es;
+            const isCorrect = selectedAnswer === correctAnswer;
             
-            // Filter cars or show all
-            if (type === 'all') {
-                showPage('cars');
-            } else {
-                // Apply basic filtering based on type
-                const filteredCars = availableCars.filter(car => {
-                    const carModel = car.model.toLowerCase();
-                    switch(type) {
-                        case 'suv':
-                            return carModel.includes('suv') || carModel.includes('cayenne') || carModel.includes('x5') || carModel.includes('q7');
-                        case 'sedan':
-                            return carModel.includes('sedan') || car.merk === 'BMW' && carModel.includes('3') || car.merk === 'Mercedes-Benz' && carModel.includes('c');
-                        case 'hatchback':
-                            return carModel.includes('golf') || carModel.includes('polo') || carModel.includes('a3');
-                        case 'station':
-                            return carModel.includes('avant') || carModel.includes('touring') || carModel.includes('estate');
-                        case 'coupe':
-                            return carModel.includes('coupe') || carModel.includes('gti');
-                        default:
-                            return true;
-                    }
-                });
-                displayCarGrid('available-cars', filteredCars.slice(0, 6));
+            // Update quiz statistics
+            quizStats.total++;
+            if (isCorrect) {
+                quizStats.correct++;
             }
-        }
-
-        // Favorite functionality
-        function toggleFavorite(carId) {
-            if (favorites.includes(carId)) {
-                favorites = favorites.filter(id => id !== carId);
-            } else {
-                favorites.push(carId);
-            }
-            localStorage.setItem('favorites', JSON.stringify(favorites));
+            localStorage.setItem('quizStats', JSON.stringify(quizStats));
+            updateStats();
             
-            // Update UI
-            displayCars();
+            // Mark practiced
+            const wordId = `${currentQuizWord.es}-${currentQuizWord.nl}`;
+            if (!practiced.includes(wordId)) {
+                practiced.push(wordId);
+                localStorage.setItem('practiced', JSON.stringify(practiced));
+                updateStats();
+            }
             
             // Show feedback
-            const car = allCars.find(c => c.id === carId);
-            if (car) {
-                const action = favorites.includes(carId) ? 'toegevoegd aan favorieten' : 'verwijderd uit favorieten';
-                showNotification(`${car.merk} ${car.model} ${action}`);
-            }
-        }
-
-        // Contact about specific car
-        function contactAboutCar(carName) {
-            const message = encodeURIComponent(`Hallo, ik ben geïnteresseerd in de ${carName}. Kunnen we contact opnemen?`);
-            window.open(`https://wa.me/31657160395?text=${message}`, '_blank', 'noopener,noreferrer');
-        }
-
-        // Social sharing functions
-        function shareToInstagram() {
-            if (!currentCarDetail) return;
-            
-            const text = `Bekijk deze ${currentCarDetail.merk} ${currentCarDetail.model} bij Meyers Automotive! ${currentCarDetail.waarde}`;
-            
-            // Instagram doesn't support direct sharing, so copy text to clipboard
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Tekst gekopieerd! Plak in Instagram');
-                window.open('https://www.instagram.com/meyers_automotivendsm', '_blank', 'noopener,noreferrer');
-            }).catch(() => {
-                window.open('https://www.instagram.com/meyers_automotivendsm', '_blank', 'noopener,noreferrer');
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.textContent.trim() === correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.textContent.trim() === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
             });
-        }
-
-        function shareToTikTok() {
-            if (!currentCarDetail) return;
             
-            const text = `Bekijk deze ${currentCarDetail.merk} ${currentCarDetail.model} bij Meyers Automotive! ${currentCarDetail.waarde}`;
+            const feedbackDiv = document.getElementById('quizFeedback');
             
-            // TikTok doesn't support direct sharing, so copy text to clipboard
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Tekst gekopieerd! Plak in TikTok');
-                window.open('https://www.tiktok.com/@meyers.automotive', '_blank', 'noopener,noreferrer');
-            }).catch(() => {
-                window.open('https://www.tiktok.com/@meyers.automotive', '_blank', 'noopener,noreferrer');
-            });
-        }
-
-        function shareToFacebook() {
-            if (!currentCarDetail) return;
-            
-            const text = encodeURIComponent(`Bekijk deze ${currentCarDetail.merk} ${currentCarDetail.model} bij Meyers Automotive! ${currentCarDetail.waarde}`);
-            const url = encodeURIComponent(window.location.href);
-            
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank', 'noopener,noreferrer');
-        }
-
-       // Notification helper
-function showNotification(message) {
-    alert(message);
-}
-
-async function lookupLicense() {
-    const licensePlate = document.getElementById('license-plate').value.trim().toUpperCase();
-    const resultDiv = document.getElementById('license-result');
-    const dataDiv = document.getElementById('license-data');
-
-    if (!licensePlate) {
-        showNotification('Voer een kenteken in');
-        return;
-    }
-
-    // Toon resultaat div
-    resultDiv.style.display = 'block';
-    dataDiv.innerHTML = '<p class="text-center">Zoeken...</p>';
-
-    try {
-        const response = await fetch(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${licensePlate}`, {
-            headers: { 'Accept': 'application/json' }
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-
-        if (data.length === 0) {
-            dataDiv.innerHTML = '<p class="text-red-600">Geen gegevens gevonden voor dit kenteken.</p>';
-            return;
-        }
-
-        const vehicle = data[0];
-        const bouwjaar = vehicle.datum_eerste_toelating ? vehicle.datum_eerste_toelating.slice(0, 4) : 'Onbekend';
-
-        dataDiv.innerHTML = `
-            <div class="bg-gray-800 p-4 rounded-lg shadow-md space-y-2">
-                <h3 class="font-bold text-lg mb-2">Voertuig Gevonden</h3>
-                <p><strong>Kenteken:</strong> ${vehicle.kenteken || 'Onbekend'}</p>
-                <p><strong>Merk:</strong> ${vehicle.merk || 'Onbekend'}</p>
-                <p><strong>Model / Handelsbenaming:</strong> ${vehicle.handelsbenaming || 'Onbekend'}</p>
-                <p><strong>Bouwjaar / Eerste toelating:</strong> ${bouwjaar}</p>
-                <p><strong>Gewicht:</strong> ${vehicle.massa_leeg_voertuig || 'Onbekend'} kg</p>
-                <p><strong>Brandstof:</strong> ${vehicle.brandstof_omschrijving || 'Onbekend'}</p>
-                <p><strong>Carrosserie:</strong> ${vehicle.carrosserie || 'Onbekend'}</p>
-            </div>
-        `;
-
-    } catch (error) {
-        console.error('Error fetching license data:', error);
-        dataDiv.innerHTML = '<p class="text-red-600">Fout bij het ophalen van gegevens. Probeer het later opnieuw.</p>';
-    }
-}
-
-
-        // Utility functions
-        function formatNumber(num) {
-            return parseInt(num.toString().replace(/[^\d]/g, '')).toLocaleString('nl-NL');
-        }
-
-        // Page navigation
-        function showPage(pageName) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageName).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        // Scroll to section
-        function scrollToSection() {
-            document.querySelector('.intro-section').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-        }
-
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.display = 'none';
+            if (isCorrect) {
+                feedbackDiv.innerHTML = `
+                    <div class="feedback correct" style="text-align: center;">
+                        ✅ Correct! Volgende vraag komt...
+                    </div>
+                `;
+                setTimeout(() => {
+                    startQuiz();
+                }, 800);
             } else {
-                navLinks.style.display = 'flex';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.right = '0';
-                navLinks.style.background = 'var(--black)';
-                navLinks.style.padding = '2rem';
-                navLinks.style.boxShadow = 'var(--shadow)';
-                navLinks.style.border = '1px solid var(--dark-gray)';
+                feedbackDiv.innerHTML = `
+                    <div class="feedback incorrect" style="text-align: center;">
+                        ❌ Fout. Het juiste antwoord is: ${correctAnswer}
+                        <br><small>Volgende vraag komt...</small>
+                    </div>
+                `;
+                setTimeout(() => {
+                    startQuiz();
+                }, 2000);
             }
         }
-
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Exit intent popup
-        function showExitPopup() {
-            if (!exitIntentShown) {
-                document.getElementById('exit-popup').style.display = 'flex';
-                exitIntentShown = true;
-            }
-        }
-
-        function closeExitPopup() {
-            document.getElementById('exit-popup').style.display = 'none';
-        }
-
-        // Exit intent detection
-        document.addEventListener('mouseleave', function(e) {
-            if (e.clientY <= 0) {
-                showExitPopup();
-            }
-        });
-
-        // License plate input formatting
-        function setupLicenseInput() {
-            const input = document.getElementById('license-plate');
-            if (input) {
-                input.addEventListener('input', function(e) {
-                    let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                    if (value.length > 2 && value.length <= 5) {
-                        value = value.slice(0, 2) + '-' + value.slice(2);
-                    } else if (value.length > 5) {
-                        value = value.slice(0, 2) + '-' + value.slice(2, 5) + '-' + value.slice(5, 6);
-                    }
-                    e.target.value = value;
-                });
-                
-                input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        lookupLicense();
-                    }
-                });
-            }
-        }
-
-        // Notification system
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: var(--primary-red);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 8px;
-                z-index: 10001;
-                animation: slideIn 0.3s ease;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCars();
-            setupLicenseInput();
-            
-            // Add fade-in animation observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9906adc4e4058239',t:'MTc2MDc3NjI3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b46d06456670f',t:'MTc2MTMyNzgwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
