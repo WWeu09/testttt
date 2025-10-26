@@ -1,878 +1,1223 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="nl" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaans ↔ Nederlands Leerapp</title>
+    <title>Yaiden Languages - Woordenleer App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
         }
-
-        * {
-            box-sizing: border-box;
+        
+        .flip-card {
+            perspective: 1000px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
         }
-
-        .header {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            text-align: center;
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
         }
-
-        .direction-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
+        
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
         }
-
-        .direction-btn {
-            padding: 10px 20px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
         }
-
-        .direction-btn.active {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        .tab {
-            padding: 12px 20px;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .tab.active {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .content {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 400px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .search-input, .category-select {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .word-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .word-table th, .word-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .word-table th {
-            background: #f8f9fa;
-            font-weight: bold;
-        }
-
-        .favorite-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .flashcard {
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            margin: 20px 0;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .flashcard:hover {
-            border-color: #4CAF50;
-        }
-
-        .flashcard-word {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .flashcard-translation {
-            font-size: 20px;
-            color: #666;
-        }
-
-        .flashcard-category {
-            font-size: 14px;
-            color: #999;
-            margin-top: 10px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            margin: 5px;
-        }
-
-        .btn:hover {
-            background: #45a049;
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .typing-input {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .feedback {
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .quiz-options {
-            display: grid;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .quiz-option {
-            padding: 15px;
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .quiz-option:hover {
-            border-color: #4CAF50;
-        }
-
-        .quiz-option.correct {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .quiz-option.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            .search-input, .category-select {
-                min-width: auto;
-            }
-            
-            .word-table {
-                font-size: 14px;
-            }
-            
-            .flashcard {
-                padding: 20px;
-            }
-            
-            .flashcard-word {
-                font-size: 24px;
-            }
-            
-            .tabs {
-                justify-content: center;
-            }
-            
-            .tab {
-                font-size: 14px;
-                padding: 10px 15px;
-            }
-        }
-
+        
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .pulse-success {
+            animation: pulseSuccess 0.5s ease-in-out;
+        }
+        
+        @keyframes pulseSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .progress-bar {
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .language-card {
+            transition: all 0.3s ease;
+        }
+        
+        .language-card:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header class="header fade-in">
-            <h1>🇪🇸 ↔ 🇳🇱 Spaans-Nederlands Leerapp</h1>
+<body class="h-full bg-gray-50">
+    <main class="h-full">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="min-h-full p-6 fade-in">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Yaiden Languages</h1>
+                <p class="text-gray-600">Leer woorden uit verschillende talen</p>
+            </header>
             
-            <div class="direction-toggle">
-                <button class="direction-btn active" data-direction="es-nl">🇪🇸 → 🇳🇱</button>
-                <button class="direction-btn" data-direction="nl-es">🇳🇱 → 🇪🇸</button>
+            <div id="languageCards" class="max-w-md mx-auto space-y-4">
+                <!-- Language cards will be dynamically generated here -->
             </div>
-
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalWords">0</div>
-                    <div>📚 Totaal</div>
+            
+            <div class="max-w-md mx-auto mt-8">
+                <button onclick="showSettings()" class="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-2xl font-medium hover:bg-gray-300 transition-colors">
+                    ⚙️ Instellingen
+                </button>
+            </div>
+        </div>
+        
+        <!-- Language Selection Screen -->
+        <div id="languageScreen" class="min-h-full p-6 hidden">
+            <header class="flex items-center mb-8">
+                <button onclick="showHome()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    ← Terug
+                </button>
+                <div>
+                    <h1 id="languageTitle" class="text-2xl font-bold text-gray-900"></h1>
+                    <p id="languageSubtitle" class="text-gray-600"></p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="favoriteWords">0</div>
-                    <div>❤️ Favorieten</div>
+            </header>
+            
+            <div class="max-w-md mx-auto space-y-4">
+                <button onclick="startExercise('flipcard')" class="w-full bg-blue-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
+                    🔄 Flipkaarten
+                </button>
+                
+                <button onclick="startExercise('typing')" class="w-full bg-green-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-green-600 transition-colors">
+                    ⌨️ Typoefeningen
+                </button>
+                
+                <button onclick="startExercise('multiple')" class="w-full bg-purple-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-purple-600 transition-colors">
+                    ✅ Meerkeuzevragen
+                </button>
+                
+                <button onclick="showAddWords()" class="w-full bg-orange-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-orange-600 transition-colors" id="addWordsBtn" style="display: none;">
+                    ➕ Woorden toevoegen
+                </button>
+            </div>
+        </div>
+        
+        <!-- Exercise Screen -->
+        <div id="exerciseScreen" class="min-h-full p-6 hidden">
+            <header class="flex items-center justify-between mb-8">
+                <button onclick="showLanguageScreen()" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    ← Terug
+                </button>
+                <div class="text-center">
+                    <div id="progressBar" class="bg-gray-200 rounded-full h-2 w-32 mx-auto mb-2">
+                        <div class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <span id="progressText" class="text-sm text-gray-600">1 / 10</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="practicedWords">0</div>
-                    <div>🎯 Geoefend</div>
+                <div class="w-8"></div>
+            </header>
+            
+            <!-- Flipcard Exercise -->
+            <div id="flipcardExercise" class="max-w-md mx-auto hidden">
+                <div class="flip-card w-full h-80 mb-8" onclick="flipCard()">
+                    <div class="flip-card-inner relative w-full h-full">
+                        <div class="flip-card-front absolute w-full h-full bg-white rounded-2xl shadow-lg flex items-center justify-center p-6">
+                            <div class="text-center">
+                                <h2 id="flipcardWord" class="text-2xl font-bold text-gray-900 mb-4"></h2>
+                                <p class="text-gray-500">Tik om om te draaien</p>
+                            </div>
+                        </div>
+                        <div class="flip-card-back absolute w-full h-full bg-blue-500 rounded-2xl shadow-lg flex items-center justify-center p-6">
+                            <div class="text-center text-white">
+                                <h2 id="flipcardMeaning" class="text-xl font-semibold mb-4"></h2>
+                                <p class="text-blue-100">Tik om terug te draaien</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="quizScore">0%</div>
-                    <div>🧠 Quiz Score</div>
+                
+                <div class="flex space-x-4">
+                    <button onclick="markDifficult()" class="flex-1 bg-red-100 text-red-700 py-3 px-4 rounded-2xl font-medium hover:bg-red-200 transition-colors">
+                        😓 Moeilijk
+                    </button>
+                    <button onclick="markEasy()" class="flex-1 bg-green-100 text-green-700 py-3 px-4 rounded-2xl font-medium hover:bg-green-200 transition-colors">
+                        😊 Makkelijk
+                    </button>
                 </div>
             </div>
-        </header>
-
-        <nav class="tabs fade-in">
-            <button class="tab active" data-tab="learn">📚 Learn</button>
-            <button class="tab" data-tab="flashcards">🃏 Flashcards</button>
-            <button class="tab" data-tab="typing">⌨️ Typing</button>
-            <button class="tab" data-tab="quiz">🧠 Quiz</button>
-        </nav>
-
-        <main class="content fade-in" id="content">
-            <!-- Content will be dynamically loaded here -->
-        </main>
-    </div>
+            
+            <!-- Typing Exercise -->
+            <div id="typingExercise" class="max-w-md mx-auto hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                    <h2 id="typingWord" class="text-2xl font-bold text-gray-900 mb-4 text-center"></h2>
+                    <p class="text-gray-600 mb-6 text-center">Typ de betekenis/vertaling:</p>
+                    
+                    <input type="text" id="typingInput" class="w-full p-4 border-2 border-gray-200 rounded-2xl text-lg focus:border-blue-500 focus:outline-none" placeholder="Typ hier je antwoord...">
+                    
+                    <div class="mt-4 flex space-x-4">
+                        <button onclick="showHint()" class="flex-1 bg-yellow-100 text-yellow-700 py-3 px-4 rounded-2xl font-medium hover:bg-yellow-200 transition-colors">
+                            💡 Hint
+                        </button>
+                        <button onclick="checkTypingAnswer()" class="flex-1 bg-blue-500 text-white py-3 px-4 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
+                            ✓ Controleer
+                        </button>
+                    </div>
+                    
+                    <div id="typingFeedback" class="mt-4 p-4 rounded-2xl hidden"></div>
+                </div>
+            </div>
+            
+            <!-- Multiple Choice Exercise -->
+            <div id="multipleExercise" class="max-w-md mx-auto hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                    <h2 id="multipleWord" class="text-2xl font-bold text-gray-900 mb-6 text-center"></h2>
+                    
+                    <div id="multipleOptions" class="space-y-3">
+                        <!-- Options will be generated here -->
+                    </div>
+                    
+                    <div id="multipleFeedback" class="mt-6 p-4 rounded-2xl hidden"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="min-h-full p-6 hidden">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Resultaten</h1>
+                <p class="text-gray-600">Goed gedaan!</p>
+            </header>
+            
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <div class="text-center mb-6">
+                        <div class="text-6xl mb-4">🎉</div>
+                        <h2 id="finalScore" class="text-2xl font-bold text-gray-900 mb-2"></h2>
+                        <p id="finalTime" class="text-gray-600"></p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Juiste antwoorden:</span>
+                            <span id="correctCount" class="font-semibold text-green-600"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Foute antwoorden:</span>
+                            <span id="incorrectCount" class="font-semibold text-red-600"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Moeilijke woorden:</span>
+                            <span id="difficultCount" class="font-semibold text-orange-600"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <button onclick="restartExercise()" class="w-full bg-blue-500 text-white py-3 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
+                        🔄 Opnieuw oefenen
+                    </button>
+                    <button onclick="showLanguageScreen()" class="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-2xl font-medium hover:bg-gray-300 transition-colors">
+                        📚 Andere oefening
+                    </button>
+                    <button onclick="showHome()" class="w-full bg-gray-100 text-gray-600 py-3 px-6 rounded-2xl font-medium hover:bg-gray-200 transition-colors">
+                        🏠 Naar hoofdmenu
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Words Screen -->
+        <div id="addWordsScreen" class="min-h-full p-6 hidden">
+            <header class="flex items-center mb-8">
+                <button onclick="showLanguageScreen()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    ← Terug
+                </button>
+                <h1 class="text-2xl font-bold text-gray-900">Woorden toevoegen</h1>
+            </header>
+            
+            <div class="max-w-md mx-auto">
+                <form id="addWordForm" class="bg-white rounded-2xl shadow-lg p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="wordInput" class="block text-sm font-medium text-gray-700 mb-2">Woord</label>
+                            <input type="text" id="wordInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                        
+                        <div>
+                            <label for="meaningInput" class="block text-sm font-medium text-gray-700 mb-2">Betekenis/Vertaling</label>
+                            <input type="text" id="meaningInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                        
+                        <div>
+                            <label for="themeInput" class="block text-sm font-medium text-gray-700 mb-2">Thema (optioneel)</label>
+                            <input type="text" id="themeInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" placeholder="bijv. Familie, Eten, etc.">
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-blue-500 text-white py-3 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
+                            ➕ Woord toevoegen
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="addWordFeedback" class="mt-4 p-4 rounded-2xl hidden"></div>
+            </div>
+        </div>
+        
+        <!-- Settings Screen -->
+        <div id="settingsScreen" class="min-h-full p-6 hidden">
+            <header class="flex items-center mb-8">
+                <button onclick="showHome()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    ← Terug
+                </button>
+                <h1 class="text-2xl font-bold text-gray-900">Instellingen</h1>
+            </header>
+            
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700 font-medium">Donkere modus</span>
+                        <button onclick="toggleDarkMode()" class="bg-gray-200 rounded-full w-12 h-6 relative transition-colors" id="darkModeToggle">
+                            <div class="bg-white w-5 h-5 rounded-full absolute top-0.5 left-0.5 transition-transform"></div>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700 font-medium">Geluid</span>
+                        <button onclick="toggleSound()" class="bg-blue-500 rounded-full w-12 h-6 relative transition-colors" id="soundToggle">
+                            <div class="bg-white w-5 h-5 rounded-full absolute top-0.5 right-0.5 transition-transform"></div>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Beschikbare taalsets</label>
+                        <div id="languageDirections" class="space-y-2 text-sm">
+                            <!-- Language directions will be populated here -->
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Elke richting is vast ingesteld per woordenlijst</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // Data
-        const data = [
-            // Bron A en B
-            {cat:"Bron A en B", es:"hola", nl:"hallo"},
-            {cat:"Bron A en B", es:"bien", nl:"goed"},
-            {cat:"Bron A en B", es:"no", nl:"nee"},
-            {cat:"Bron A en B", es:"sí", nl:"ja/wel"},
-            {cat:"Bron A en B", es:"la piscina", nl:"het zwembad"},
-            {cat:"Bron A en B", es:"el camping", nl:"de camping"},
-            {cat:"Bron A en B", es:"me llamo", nl:"ik heet"},
-            {cat:"Bron A en B", es:"hablas", nl:"je spreekt"},
-            {cat:"Bron A en B", es:"vas", nl:"je gaat"},
-            {cat:"Bron A en B", es:"voy", nl:"ik ga"},
-            {cat:"Bron A en B", es:"¿Y tú?", nl:"En jij?"},
-            
-            // Bron C
-            {cat:"Bron C", es:"marrón", nl:"bruin"},
-            {cat:"Bron C", es:"naranja", nl:"oranje"},
-            {cat:"Bron C", es:"gris", nl:"grijs"},
-            {cat:"Bron C", es:"¿Qué tal?", nl:"Hoe gaat het?"},
-            {cat:"Bron C", es:"hasta pronto", nl:"tot gauw"},
-            {cat:"Bron C", es:"buenos días", nl:"goedendag"},
-            {cat:"Bron C", es:"azul", nl:"blauw"},
-            {cat:"Bron C", es:"amarillo", nl:"geel"},
-            {cat:"Bron C", es:"negro", nl:"zwart"},
-            {cat:"Bron C", es:"¿dónde?", nl:"waar?"},
-            {cat:"Bron C", es:"yo", nl:"ik"},
-            {cat:"Bron C", es:"muy", nl:"heel, erg"},
-            {cat:"Bron C", es:"también", nl:"ook"},
-            {cat:"Bron C", es:"fantástico", nl:"fantastisch"},
-            {cat:"Bron C", es:"grande", nl:"groot"},
-            {cat:"Bron C", es:"en Barcelona", nl:"in Barcelona"},
-            {cat:"Bron C", es:"el chico", nl:"de jongen"},
-            {cat:"Bron C", es:"la chica", nl:"het meisje"},
-            {cat:"Bron C", es:"el amigo", nl:"de vriend"},
-            {cat:"Bron C", es:"la amiga", nl:"de vriendin"},
-            {cat:"Bron C", es:"la hermana", nl:"de zus"},
-            {cat:"Bron C", es:"el hermano", nl:"de broer"},
-            {cat:"Bron C", es:"la tienda", nl:"de tent"},
-            {cat:"Bron C", es:"las vacaciones", nl:"de vakantie"},
-            {cat:"Bron C", es:"la ciudad", nl:"de stad"},
-            {cat:"Bron C", es:"el pueblo", nl:"het dorp"},
-            {cat:"Bron C", es:"tengo", nl:"ik heb"},
-            {cat:"Bron C", es:"tenemos", nl:"wij hebben"},
-            {cat:"Bron C", es:"tiene 14 años", nl:"hij/zij is 14 jaar"},
-            {cat:"Bron C", es:"tengo 15 años", nl:"ik ben 15 jaar"},
-            {cat:"Bron C", es:"vivo en", nl:"ik woon in"},
-            {cat:"Bron C", es:"se llama", nl:"hij/zij heet"},
-            {cat:"Bron C", es:"te llamas", nl:"jij heet"},
-            
-            // Bron F, G en H
-            {cat:"Bron F, G en H", es:"buenas noches", nl:"goedenavond"},
-            {cat:"Bron F, G en H", es:"hasta luego", nl:"tot ziens"},
-            {cat:"Bron F, G en H", es:"bien hecho", nl:"goed gedaan"},
-            {cat:"Bron F, G en H", es:"primero/-a", nl:"eerste"},
-            {cat:"Bron F, G en H", es:"último/-a", nl:"laatste"},
-            {cat:"Bron F, G en H", es:"cerca de", nl:"vlakbij, dichtbij"},
-            {cat:"Bron F, G en H", es:"cantar", nl:"zingen"},
-            {cat:"Bron F, G en H", es:"el presentador", nl:"de presentator"},
-            {cat:"Bron F, G en H", es:"el participante", nl:"de deelnemer"},
-            {cat:"Bron F, G en H", es:"la participante", nl:"de deelneemster"},
-            {cat:"Bron F, G en H", es:"la canción", nl:"het liedje"},
-            {cat:"Bron F, G en H", es:"la canción preferida", nl:"het lievelingsliedje"},
-            {cat:"Bron F, G en H", es:"el número de teléfono", nl:"het telefoonnummer"},
-            {cat:"Bron F, G en H", es:"el hijo", nl:"de zoon"},
-            {cat:"Bron F, G en H", es:"la hija", nl:"de dochter"},
-            {cat:"Bron F, G en H", es:"vamos", nl:"wij gaan"},
-            {cat:"Bron F, G en H", es:"va", nl:"gaat"},
-            {cat:"Bron F, G en H", es:"soy", nl:"ik ben"},
-            {cat:"Bron F, G en H", es:"es", nl:"hij/zij is, u bent"},
-            {cat:"Bron F, G en H", es:"verde", nl:"groen"},
-            {cat:"Bron F, G en H", es:"violeta", nl:"paars"},
-            {cat:"Bron F, G en H", es:"inglés", nl:"Engels"},
-            {cat:"Bron F, G en H", es:"rosa", nl:"roze"},
-            
-            // Landen en talen
-            {cat:"Landen en talen", es:"blanco", nl:"wit"},
-            {cat:"Landen en talen", es:"rojo", nl:"rood"},
-            {cat:"Landen en talen", es:"Holanda", nl:"Nederland"},
-            {cat:"Landen en talen", es:"holandés/holandesa", nl:"Nederlander/Nederlandse"},
-            {cat:"Landen en talen", es:"Inglaterra", nl:"Engeland"},
-            {cat:"Landen en talen", es:"inglés/inglesa", nl:"Engelsman/Engelse"},
-            {cat:"Landen en talen", es:"España", nl:"Spanje"},
-            {cat:"Landen en talen", es:"español/española", nl:"Spanjaard/Spaanse"},
-            {cat:"Landen en talen", es:"Francia", nl:"Frankrijk"},
-            {cat:"Landen en talen", es:"francés/francesa", nl:"Fransman/Française"},
-            {cat:"Landen en talen", es:"Alemania", nl:"Duitsland"},
-            {cat:"Landen en talen", es:"alemán/alemana", nl:"Duitser/Duitse"},
-            {cat:"Landen en talen", es:"México", nl:"Mexico"},
-            {cat:"Landen en talen", es:"mexicano/mexicana", nl:"Mexicaan/Mexicaanse"},
-            {cat:"Landen en talen", es:"Italia", nl:"Italië"},
-            {cat:"Landen en talen", es:"italiano/italiana", nl:"Italiaan/Italiaanse"},
-            
-            // Frases clave
-            {cat:"Frases clave", es:"¿Cómo te llamas?", nl:"Hoe heet je?"},
-            {cat:"Frases clave", es:"¿Eres español/española?", nl:"Ben jij Spaans/Spaanse?"},
-            {cat:"Frases clave", es:"¿Hablas español?", nl:"Spreek je Spaans?"},
-            {cat:"Frases clave", es:"¿Dónde vives?", nl:"Waar woon je?"},
-            {cat:"Frases clave", es:"Tengo 14 años", nl:"Ik ben 14 jaar"},
-            {cat:"Frases clave", es:"Vivo en Amsterdam", nl:"Ik woon in Amsterdam"},
-            {cat:"Frases clave", es:"Me gusta mucho", nl:"Ik vind het heel leuk"},
-            {cat:"Frases clave", es:"No me gusta", nl:"Ik vind het niet leuk"},
-            {cat:"Frases clave", es:"¿Te gusta?", nl:"Vind je het leuk?"},
-            {cat:"Frases clave", es:"Muchas gracias", nl:"Heel erg bedankt"}
-        ];
-
-        // State
-        let currentDirection = 'es-nl';
-        let currentTab = 'learn';
-        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        let practiced = JSON.parse(localStorage.getItem('practiced') || '[]');
-        let quizStats = JSON.parse(localStorage.getItem('quizStats') || '{"correct": 0, "total": 0}');
-        let currentFlashcardIndex = 0;
-        let currentTypingWord = null;
-        let currentQuizWord = null;
-        let showingTranslation = false;
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            updateStats();
-            showTab('learn');
-        });
-
-        function setupEventListeners() {
-            // Direction toggle
-            document.querySelectorAll('.direction-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.direction-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentDirection = this.dataset.direction;
-                    showTab(currentTab); // Refresh current tab
-                });
-            });
-
-            // Tab navigation
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    currentTab = this.dataset.tab;
-                    showTab(currentTab);
-                });
-            });
-        }
-
-        function updateStats() {
-            document.getElementById('totalWords').textContent = data.length;
-            document.getElementById('favoriteWords').textContent = favorites.length;
-            document.getElementById('practicedWords').textContent = practiced.length;
-            
-            const percentage = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : 0;
-            document.getElementById('quizScore').textContent = percentage + '%';
-        }
-
-        function showTab(tabName) {
-            const content = document.getElementById('content');
-            content.className = 'content fade-in';
-            
-            switch(tabName) {
-                case 'learn':
-                    showLearnTab();
-                    break;
-                case 'flashcards':
-                    showFlashcardsTab();
-                    break;
-                case 'typing':
-                    showTypingTab();
-                    break;
-                case 'quiz':
-                    showQuizTab();
-                    break;
+        // App State
+        let currentLanguage = '';
+        let currentExerciseType = '';
+        let currentWords = [];
+        let currentWordIndex = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let difficultWords = [];
+        let startTime = 0;
+        let isFlipped = false;
+        
+        // Settings structure
+        const defaultSettings = {
+            darkMode: false,
+            sound: true,
+            languageDirection: {
+                "English": "EN→EN",
+                "French": "FR→NL", 
+                "Spanish": "ES→NL"
             }
-        }
-
-        function showLearnTab() {
-            const categories = [...new Set(data.map(item => item.cat))];
-            
-            const content = `
-                <h2>📚 Woordenlijst</h2>
-                <div class="controls">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Zoek woorden...">
-                    <select class="category-select" id="categorySelect">
-                        <option value="">Alle categorieën</option>
-                        ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
-                    </select>
-                    <button class="btn" onclick="showFavoritesOnly()">❤️ Alleen favorieten</button>
-                </div>
-                <div id="wordList"></div>
-            `;
-            
-            document.getElementById('content').innerHTML = content;
-            
-            document.getElementById('searchInput').addEventListener('input', filterWords);
-            document.getElementById('categorySelect').addEventListener('change', filterWords);
-            
-            filterWords();
-        }
-
-        function filterWords() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const selectedCategory = document.getElementById('categorySelect').value;
-            
-            let filteredData = data.filter(item => {
-                const matchesSearch = item.es.toLowerCase().includes(searchTerm) || 
-                                    item.nl.toLowerCase().includes(searchTerm);
-                const matchesCategory = !selectedCategory || item.cat === selectedCategory;
-                return matchesSearch && matchesCategory;
-            });
-            
-            displayWordList(filteredData);
-        }
-
-        function showFavoritesOnly() {
-            const favoriteWords = data.filter(item => 
-                favorites.includes(`${item.es}-${item.nl}`)
-            );
-            displayWordList(favoriteWords);
-        }
-
-        function displayWordList(words) {
-            const isEsNl = currentDirection === 'es-nl';
-            
-            const table = `
-                <table class="word-table">
-                    <thead>
-                        <tr>
-                            <th>${isEsNl ? '🇪🇸 Spaans' : '🇳🇱 Nederlands'}</th>
-                            <th>${isEsNl ? '🇳🇱 Nederlands' : '🇪🇸 Spaans'}</th>
-                            <th>📂 Categorie</th>
-                            <th>❤️</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${words.map(word => {
-                            const wordId = `${word.es}-${word.nl}`;
-                            const isFavorite = favorites.includes(wordId);
-                            return `
-                                <tr>
-                                    <td><strong>${isEsNl ? word.es : word.nl}</strong></td>
-                                    <td>${isEsNl ? word.nl : word.es}</td>
-                                    <td><small>${word.cat}</small></td>
-                                    <td>
-                                        <button class="favorite-btn" onclick="toggleFavorite('${wordId}')">
-                                            ${isFavorite ? '❤️' : '🤍'}
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        }).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('wordList').innerHTML = table;
-        }
-
-        function toggleFavorite(wordId) {
-            if (favorites.includes(wordId)) {
-                favorites = favorites.filter(id => id !== wordId);
-            } else {
-                favorites.push(wordId);
-            }
-            
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateStats();
-            filterWords(); // Refresh the display
-        }
-
-        function showFlashcardsTab() {
-            const content = `
-                <h2>🃏 Flashcards</h2>
-                <div id="flashcardContainer"></div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn" onclick="previousFlashcard()">⬅️ Vorige</button>
-                    <button class="btn" onclick="nextFlashcard()">Volgende ➡️</button>
-                </div>
-            `;
-            
-            document.getElementById('content').innerHTML = content;
-            showFlashcard();
-        }
-
-        function showFlashcard() {
-            if (data.length === 0) return;
-            
-            const word = data[currentFlashcardIndex];
-            const isEsNl = currentDirection === 'es-nl';
-            
-            const flashcard = `
-                <div class="flashcard" onclick="flipFlashcard()">
-                    <div class="flashcard-word">
-                        ${showingTranslation ? 
-                            (isEsNl ? word.nl : word.es) : 
-                            (isEsNl ? word.es : word.nl)
-                        }
-                    </div>
-                    ${showingTranslation ? 
-                        `<div class="flashcard-translation">Klik voor het ${isEsNl ? 'Spaanse' : 'Nederlandse'} woord</div>` :
-                        `<div class="flashcard-translation">Klik voor de vertaling</div>`
-                    }
-                    <div class="flashcard-category">${word.cat}</div>
-                </div>
-            `;
-            
-            document.getElementById('flashcardContainer').innerHTML = flashcard;
-        }
-
-        function flipFlashcard() {
-            if (!showingTranslation) {
-                showingTranslation = true;
-                showFlashcard();
-                // Auto advance to next card after showing translation
-                setTimeout(() => {
-                    nextFlashcard();
-                }, 2000);
-            }
-        }
-
-        function nextFlashcard() {
-            currentFlashcardIndex = (currentFlashcardIndex + 1) % data.length;
-            showingTranslation = false;
-            showFlashcard();
-        }
-
-        function previousFlashcard() {
-            currentFlashcardIndex = currentFlashcardIndex === 0 ? data.length - 1 : currentFlashcardIndex - 1;
-            showingTranslation = false;
-            showFlashcard();
-        }
-
-        function showTypingTab() {
-            const content = `
-                <h2>⌨️ Typing Oefening</h2>
-                <div id="typingContainer"></div>
-            `;
-            
-            document.getElementById('content').innerHTML = content;
-            startTypingExercise();
-        }
-
-        function startTypingExercise() {
-            currentTypingWord = data[Math.floor(Math.random() * data.length)];
-            const isEsNl = currentDirection === 'es-nl';
-            
-            const exercise = `
-                <div style="text-align: center;">
-                    <h3>Typ de vertaling van:</h3>
-                    <div class="flashcard-word" style="margin: 20px 0;">
-                        ${isEsNl ? currentTypingWord.es : currentTypingWord.nl}
-                    </div>
-                    <input type="text" class="typing-input" id="typingInput" placeholder="Typ hier je antwoord..." autocomplete="off">
-                    <br>
-                    <button class="btn" onclick="checkTypingAnswer()">Controleer</button>
-                    <button class="btn" onclick="skipTypingWord()">Overslaan</button>
-                </div>
-                <div id="typingFeedback"></div>
-            `;
-            
-            document.getElementById('typingContainer').innerHTML = exercise;
-            document.getElementById('typingInput').focus();
-            
-            document.getElementById('typingInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkTypingAnswer();
+        };
+        
+        let appSettings = JSON.parse(localStorage.getItem('appSettings') || JSON.stringify(defaultSettings));
+        
+        // Progress tracking
+        let progressData = JSON.parse(localStorage.getItem('languageProgress') || '{}');
+        
+        // Initialize progress data structure from JSON
+        function initializeProgress() {
+            languageData.languageSets.forEach((langSet, index) => {
+                // Create unique key for each language set
+                const langKey = `${langSet.language.toLowerCase()}_${langSet.direction.replace('→', '_').toLowerCase()}_${index}`;
+                if (!progressData[langKey]) {
+                    progressData[langKey] = {
+                        language: langSet.language,
+                        direction: langSet.direction,
+                        flag: langSet.flag,
+                        listName: langSet.listName,
+                        totalWords: langSet.words.length,
+                        wordsLearned: 0,
+                        learnedWords: []
+                    };
                 }
             });
-        }
-
-        function checkTypingAnswer() {
-            const userAnswer = document.getElementById('typingInput').value.trim().toLowerCase();
-            const isEsNl = currentDirection === 'es-nl';
-            const correctAnswer = (isEsNl ? currentTypingWord.nl : currentTypingWord.es).toLowerCase();
             
-            const wordId = `${currentTypingWord.es}-${currentTypingWord.nl}`;
-            if (!practiced.includes(wordId)) {
-                practiced.push(wordId);
-                localStorage.setItem('practiced', JSON.stringify(practiced));
-                updateStats();
+            saveProgress();
+        }
+        
+        function saveProgress() {
+            localStorage.setItem('languageProgress', JSON.stringify(progressData));
+        }
+        
+        function saveSettings() {
+            localStorage.setItem('appSettings', JSON.stringify(appSettings));
+        }
+        
+        function updateProgress(language, wordId, learned = true) {
+            if (!progressData[language]) return;
+            
+            const langProgress = progressData[language];
+            const wordIndex = langProgress.learnedWords.indexOf(wordId);
+            
+            if (learned && wordIndex === -1) {
+                langProgress.learnedWords.push(wordId);
+                langProgress.wordsLearned = langProgress.learnedWords.length;
+            } else if (!learned && wordIndex !== -1) {
+                langProgress.learnedWords.splice(wordIndex, 1);
+                langProgress.wordsLearned = langProgress.learnedWords.length;
             }
             
-            const feedbackDiv = document.getElementById('typingFeedback');
-            
-            if (userAnswer === correctAnswer) {
-                feedbackDiv.innerHTML = `
-                    <div class="feedback correct">
-                        ✅ Correct! Volgende woord komt...
-                    </div>
-                `;
-                setTimeout(() => {
-                    startTypingExercise();
-                }, 800);
-            } else {
-                feedbackDiv.innerHTML = `
-                    <div class="feedback incorrect">
-                        ❌ Fout. Het juiste antwoord is: "${isEsNl ? currentTypingWord.nl : currentTypingWord.es}"
-                        <br><small>Probeer het opnieuw...</small>
-                    </div>
-                `;
-                document.getElementById('typingInput').value = '';
-                document.getElementById('typingInput').focus();
-            }
+            saveProgress();
+            updateProgressDisplay();
         }
-
-        function skipTypingWord() {
-            startTypingExercise();
-        }
-
-        function showQuizTab() {
-            const content = `
-                <h2>🧠 Quiz</h2>
-                <div id="quizContainer"></div>
-            `;
-            
-            document.getElementById('content').innerHTML = content;
-            startQuiz();
-        }
-
-        function startQuiz() {
-            currentQuizWord = data[Math.floor(Math.random() * data.length)];
-            const isEsNl = currentDirection === 'es-nl';
-            
-            // Generate wrong answers
-            const wrongAnswers = [];
-            while (wrongAnswers.length < 3) {
-                const randomWord = data[Math.floor(Math.random() * data.length)];
-                const wrongAnswer = isEsNl ? randomWord.nl : randomWord.es;
-                const correctAnswer = isEsNl ? currentQuizWord.nl : currentQuizWord.es;
+        
+        function updateProgressDisplay() {
+            Object.keys(progressData).forEach(lang => {
+                const progress = progressData[lang];
+                const percentage = Math.round((progress.wordsLearned / progress.totalWords) * 100);
                 
-                if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
-                    wrongAnswers.push(wrongAnswer);
-                }
-            }
-            
-            // Mix correct answer with wrong answers
-            const allOptions = [...wrongAnswers, isEsNl ? currentQuizWord.nl : currentQuizWord.es];
-            const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
-            
-            const quiz = `
-                <div style="text-align: center;">
-                    <h3>Wat betekent:</h3>
-                    <div class="flashcard-word" style="margin: 20px 0;">
-                        ${isEsNl ? currentQuizWord.es : currentQuizWord.nl}
-                    </div>
-                    <div class="quiz-options">
-                        ${shuffledOptions.map(option => `
-                            <div class="quiz-option" onclick="selectQuizAnswer('${option}')">
-                                ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <div id="quizFeedback"></div>
-            `;
-            
-            document.getElementById('quizContainer').innerHTML = quiz;
-        }
-
-        function selectQuizAnswer(selectedAnswer) {
-            const isEsNl = currentDirection === 'es-nl';
-            const correctAnswer = isEsNl ? currentQuizWord.nl : currentQuizWord.es;
-            const isCorrect = selectedAnswer === correctAnswer;
-            
-            // Update quiz statistics
-            quizStats.total++;
-            if (isCorrect) {
-                quizStats.correct++;
-            }
-            localStorage.setItem('quizStats', JSON.stringify(quizStats));
-            updateStats();
-            
-            // Mark practiced
-            const wordId = `${currentQuizWord.es}-${currentQuizWord.nl}`;
-            if (!practiced.includes(wordId)) {
-                practiced.push(wordId);
-                localStorage.setItem('practiced', JSON.stringify(practiced));
-                updateStats();
-            }
-            
-            // Show feedback
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(option => {
-                option.style.pointerEvents = 'none';
-                if (option.textContent.trim() === correctAnswer) {
-                    option.classList.add('correct');
-                } else if (option.textContent.trim() === selectedAnswer && !isCorrect) {
-                    option.classList.add('incorrect');
+                // Update progress bar and text
+                const progressBar = document.querySelector(`[data-language="${lang}"] .progress-bar`);
+                const progressText = document.querySelector(`[data-language="${lang}"] .progress-text`);
+                
+                if (progressBar && progressText) {
+                    progressBar.style.width = percentage + '%';
+                    progressText.textContent = `${percentage}% voltooid`;
                 }
             });
+        }
+
+        // New JSON structure with fixed language directions per word
+        const languageData = {
+            "languageSets": [
+                {
+                    "language": "English",
+                    "direction": "EN→EN",
+                    "listName": "HAVO/VWO Words in Progress",
+                    "flag": "🇬🇧",
+                    "words": [
+                        { "id": 1, "word": "biodegradable", "explanation": "Capable of being broken down naturally by bacteria", "type": "flipcard" },
+                        { "id": 2, "word": "sustainable", "explanation": "Able to continue over time without harm", "type": "flipcard" },
+                        { "id": 3, "word": "renewable", "explanation": "Can be replaced naturally", "type": "flipcard" },
+                        { "id": 4, "word": "ecosystem", "explanation": "Community of living things and their environment", "type": "flipcard" },
+                        { "id": 5, "word": "conservation", "explanation": "Protection of natural resources", "type": "flipcard" },
+                        { "id": 6, "word": "pollution", "explanation": "Harmful substances in the environment", "type": "flipcard" },
+                        { "id": 7, "word": "deforestation", "explanation": "Clearing forests from an area", "type": "flipcard" },
+                        { "id": 8, "word": "climate change", "explanation": "Long-term shifts in global weather patterns", "type": "flipcard" },
+                        { "id": 9, "word": "carbon footprint", "explanation": "Amount of CO2 released by activities", "type": "flipcard" },
+                        { "id": 10, "word": "greenhouse effect", "explanation": "Heat trapped in atmosphere by gases", "type": "flipcard" }
+                    ]
+                },
+                {
+                    "language": "Spanish",
+                    "direction": "ES→NL",
+                    "listName": "Vocabulario español (Hoofdstuk 1–3)",
+                    "flag": "🇪🇸",
+                    "words": [
+                        { "id": 101, "word": "casa", "other": "huis", "type": "flipcard" },
+                        { "id": 102, "word": "comer", "other": "eten", "type": "flipcard" },
+                        { "id": 103, "word": "agua", "other": "water", "type": "flipcard" },
+                        { "id": 104, "word": "familia", "other": "familie", "type": "flipcard" },
+                        { "id": 105, "word": "escuela", "other": "school", "type": "flipcard" },
+                        { "id": 106, "word": "libro", "other": "boek", "type": "flipcard" },
+                        { "id": 107, "word": "tiempo", "other": "tijd/weer", "type": "flipcard" },
+                        { "id": 108, "word": "amigo", "other": "vriend", "type": "flipcard" },
+                        { "id": 109, "word": "trabajo", "other": "werk", "type": "flipcard" },
+                        { "id": 110, "word": "ciudad", "other": "stad", "type": "flipcard" },
+                        { "id": 111, "word": "perro", "other": "hond", "type": "flipcard" },
+                        { "id": 112, "word": "gato", "other": "kat", "type": "flipcard" },
+                        { "id": 113, "word": "coche", "other": "auto", "type": "flipcard" },
+                        { "id": 114, "word": "mesa", "other": "tafel", "type": "flipcard" },
+                        { "id": 115, "word": "silla", "other": "stoel", "type": "flipcard" },
+                        { "id": 116, "word": "ventana", "other": "raam", "type": "flipcard" },
+                        { "id": 117, "word": "puerta", "other": "deur", "type": "flipcard" },
+                        { "id": 118, "word": "cocina", "other": "keuken", "type": "flipcard" },
+                        { "id": 119, "word": "baño", "other": "badkamer", "type": "flipcard" },
+                        { "id": 120, "word": "dormitorio", "other": "slaapkamer", "type": "flipcard" }
+                    ]
+                },
+                {
+                    "language": "Spanish",
+                    "direction": "NL→ES",
+                    "listName": "Spaans oefenen (Hoofdstuk 4–6)",
+                    "flag": "🇳🇱",
+                    "words": [
+                        { "id": 201, "word": "huis", "other": "casa", "type": "type" },
+                        { "id": 202, "word": "eten", "other": "comer", "type": "type" },
+                        { "id": 203, "word": "water", "other": "agua", "type": "type" },
+                        { "id": 204, "word": "familie", "other": "familia", "type": "type" },
+                        { "id": 205, "word": "school", "other": "escuela", "type": "type" },
+                        { "id": 206, "word": "boek", "other": "libro", "type": "type" },
+                        { "id": 207, "word": "tijd", "other": "tiempo", "type": "type" },
+                        { "id": 208, "word": "vriend", "other": "amigo", "type": "type" },
+                        { "id": 209, "word": "werk", "other": "trabajo", "type": "type" },
+                        { "id": 210, "word": "stad", "other": "ciudad", "type": "type" },
+                        { "id": 211, "word": "mooi", "other": "bonito", "type": "type" },
+                        { "id": 212, "word": "groot", "other": "grande", "type": "type" },
+                        { "id": 213, "word": "klein", "other": "pequeño", "type": "type" },
+                        { "id": 214, "word": "nieuw", "other": "nuevo", "type": "type" },
+                        { "id": 215, "word": "oud", "other": "viejo", "type": "type" },
+                        { "id": 216, "word": "rood", "other": "rojo", "type": "type" },
+                        { "id": 217, "word": "blauw", "other": "azul", "type": "type" },
+                        { "id": 218, "word": "groen", "other": "verde", "type": "type" },
+                        { "id": 219, "word": "geel", "other": "amarillo", "type": "type" },
+                        { "id": 220, "word": "zwart", "other": "negro", "type": "type" }
+                    ]
+                },
+                {
+                    "language": "Spanish",
+                    "direction": "MIXED",
+                    "listName": "Spaans Gemixt (Alle hoofdstukken)",
+                    "flag": "🇪🇸",
+                    "words": []
+                },
+           {
+                    "language": "French",
+                    "direction": "FR→NL",
+                    "listName": "Vocabulaire français (Alle hoofdstukken)",
+                    "flag": "🇫🇷",
+                    "words": [
+                        { "id": 301, "word": "entretenir", "other": "onderhouden", "type": "flipcard" },
+                        { "id": 302, "word": "appartenir à", "other": "behoren tot", "type": "flipcard" },
+                        { "id": 303, "word": "la ressemblance", "other": "de gelijkenis", "type": "flipcard" },
+                        { "id": 304, "word": "adopter", "other": "aannemen, adopteren", "type": "flipcard" },
+                        { "id": 305, "word": "la naissance", "other": "de geboorte", "type": "flipcard" },
+                        { "id": 306, "word": "baptiser", "other": "dopen", "type": "flipcard" },
+                        { "id": 307, "word": "gâter", "other": "verwennen", "type": "flipcard" },
+                        { "id": 308, "word": "contribuer à", "other": "bijdragen aan", "type": "flipcard" },
+                        { "id": 309, "word": "l'amitié", "other": "de vriendschap", "type": "flipcard" },
+                        { "id": 310, "word": "mal élevé", "other": "slecht opgevoed", "type": "flipcard" },
+                        { "id": 311, "word": "un époux, une épouse", "other": "een echtgenote, echtgenoot", "type": "flipcard" },
+                        { "id": 312, "word": "détester", "other": "een hekel hebben aan", "type": "flipcard" },
+                        { "id": 313, "word": "confier", "other": "toevertrouwen", "type": "flipcard" },
+                        { "id": 314, "word": "plaire à", "other": "bevallen, in de smaak vallen", "type": "flipcard" },
+                        { "id": 315, "word": "ainé", "other": "oudste", "type": "flipcard" },
+                        { "id": 316, "word": "cadet", "other": "jongste", "type": "flipcard" },
+                        { "id": 317, "word": "la rupture", "other": "de breuk, het verbreken", "type": "flipcard" },
+                        { "id": 318, "word": "obéissant", "other": "gehoorzaam", "type": "flipcard" },
+                        { "id": 319, "word": "une nièce, un neveu", "other": "een neef, een nicht", "type": "flipcard" },
+                        { "id": 320, "word": "une enfance", "other": "de kinderjaren", "type": "flipcard" },
+                        { "id": 321, "word": "un adulte", "other": "een volwassene", "type": "flipcard" },
+                        { "id": 322, "word": "consacrer à", "other": "wijden aan, besteden aan", "type": "flipcard" },
+                        { "id": 323, "word": "fréquenter", "other": "omgaan met", "type": "flipcard" },
+                        { "id": 324, "word": "le comportement", "other": "het gedrag", "type": "flipcard" },
+                        { "id": 325, "word": "responsable de", "other": "verantwoordelijk voor", "type": "flipcard" },
+                        { "id": 326, "word": "abandonner", "other": "in de steek laten", "type": "flipcard" },
+                        { "id": 327, "word": "célébrer", "other": "vieren", "type": "flipcard" },
+                        { "id": 328, "word": "divorcer", "other": "scheiden", "type": "flipcard" },
+                        { "id": 329, "word": "la pauvreté", "other": "de armoede", "type": "flipcard" },
+                        { "id": 330, "word": "insupportable", "other": "onuitstaanbaar", "type": "flipcard" },
+                        { "id": 331, "word": "hériter", "other": "erven", "type": "flipcard" },
+                        { "id": 332, "word": "mourir", "other": "sterven", "type": "flipcard" },
+                        { "id": 333, "word": "conseiller", "other": "aanraden, advies geven", "type": "flipcard" },
+                        { "id": 334, "word": "un entretien", "other": "een gesprek, een onderhoud", "type": "flipcard" },
+                        { "id": 335, "word": "la tension", "other": "de spanning", "type": "flipcard" },
+                        { "id": 336, "word": "ridiculiser", "other": "belachelijk maken", "type": "flipcard" },
+                        { "id": 337, "word": "le soutien", "other": "de steun", "type": "flipcard" },
+                        { "id": 338, "word": "reprocher", "other": "verwijten", "type": "flipcard" },
+                        { "id": 339, "word": "compréhensif", "other": "begripvol, begrijpend", "type": "flipcard" },
+                        { "id": 340, "word": "faire appel à", "other": "een beroep doen op", "type": "flipcard" },
+                        { "id": 341, "word": "les coordonnées", "other": "de persoonlijke gegevens", "type": "flipcard" },
+                        { "id": 342, "word": "le prénom", "other": "de voornaam", "type": "flipcard" },
+                        { "id": 343, "word": "le nom de famille", "other": "de achternaam", "type": "flipcard" },
+                        { "id": 344, "word": "le lieu de naissance", "other": "de geboorteplaats", "type": "flipcard" },
+                        { "id": 345, "word": "la date de naissance", "other": "de geboortedatum", "type": "flipcard" },
+                        { "id": 346, "word": "le domicile", "other": "de woonplaats, de verblijfplaats", "type": "flipcard" },
+                        { "id": 347, "word": "quel âge", "other": "hoe oud", "type": "flipcard" },
+                        { "id": 348, "word": "un célibataire", "other": "een vrijgezel", "type": "flipcard" },
+                        { "id": 349, "word": "la solitude", "other": "de eenzaamheid", "type": "flipcard" },
+                        { "id": 350, "word": "amoureux, amoureuse de", "other": "verliefd op", "type": "flipcard" },
+                        { "id": 351, "word": "un copain, une copine", "other": "een vriend, vriendin", "type": "flipcard" },
+                        { "id": 352, "word": "le fiancé, la fiancée", "other": "de verloofde", "type": "flipcard" },
+                        { "id": 353, "word": "marié", "other": "getrouwd", "type": "flipcard" },
+                        { "id": 354, "word": "malheureux, malheureuse", "other": "ongelukkig", "type": "flipcard" },
+                        { "id": 355, "word": "(il n'y a) pas de soucis", "other": "geen zorgen", "type": "flipcard" },
+                        { "id": 356, "word": "l'Education nationale", "other": "het onderwijs", "type": "flipcard" },
+                        { "id": 357, "word": "le bac", "other": "het eindexamen", "type": "flipcard" },
+                        { "id": 358, "word": "l'ambiance", "other": "de sfeer, de stemming", "type": "flipcard" },
+                        { "id": 359, "word": "la solution", "other": "de oplossing", "type": "flipcard" },
+                        { "id": 360, "word": "un enseignant", "other": "een docent", "type": "flipcard" },
+                        { "id": 361, "word": "le proviseur", "other": "de rector", "type": "flipcard" },
+                        { "id": 362, "word": "le bulletin", "other": "het rapport", "type": "flipcard" },
+                        { "id": 363, "word": "redoubler", "other": "overdoen, blijven zitten", "type": "flipcard" },
+                        { "id": 364, "word": "réussir", "other": "slagen", "type": "flipcard" },
+                        { "id": 365, "word": "fier de", "other": "trots op", "type": "flipcard" },
+                        { "id": 366, "word": "poursuivre", "other": "vervolgen, voortzetten", "type": "flipcard" },
+                        { "id": 367, "word": "obtenir", "other": "halen, behalen", "type": "flipcard" },
+                        { "id": 368, "word": "un ordinateur", "other": "een computer", "type": "flipcard" },
+                        { "id": 369, "word": "les devoirs", "other": "het huiswerk", "type": "flipcard" },
+                        { "id": 370, "word": "être en train de", "other": "bezig zijn te, bezig zijn met", "type": "flipcard" },
+                        { "id": 371, "word": "se tromper", "other": "zich vergissen", "type": "flipcard" },
+                        { "id": 372, "word": "réduire", "other": "verminderen", "type": "flipcard" },
+                        { "id": 373, "word": "l'emploi du temps", "other": "het (les)rooster", "type": "flipcard" },
+                        { "id": 374, "word": "le manuel", "other": "het schoolboek", "type": "flipcard" },
+                        { "id": 375, "word": "améliorer", "other": "verbeteren", "type": "flipcard" },
+                        { "id": 376, "word": "traiter", "other": "behandelen", "type": "flipcard" },
+                        { "id": 377, "word": "efficace", "other": "doeltreffend", "type": "flipcard" },
+                        { "id": 378, "word": "la condition", "other": "de omstandigheid", "type": "flipcard" },
+                        { "id": 379, "word": "la preuve", "other": "het bewijs", "type": "flipcard" },
+                        { "id": 380, "word": "indifférent", "other": "onverschillig", "type": "flipcard" },
+                        { "id": 381, "word": "hésiter", "other": "aarzelen", "type": "flipcard" },
+                        { "id": 382, "word": "interdire", "other": "verbieden", "type": "flipcard" },
+                        { "id": 383, "word": "obligatoire", "other": "verplicht", "type": "flipcard" },
+                        { "id": 384, "word": "décourager", "other": "ontmoedigen", "type": "flipcard" },
+                        { "id": 385, "word": "punir", "other": "straffen", "type": "flipcard" },
+                        { "id": 386, "word": "la valeur", "other": "de waarde", "type": "flipcard" },
+                        { "id": 387, "word": "convaincre", "other": "overtuigen", "type": "flipcard" },
+                        { "id": 388, "word": "le siècle", "other": "de eeuw", "type": "flipcard" },
+                        { "id": 389, "word": "le départ", "other": "het vertrek", "type": "flipcard" },
+                        { "id": 390, "word": "artificiel", "other": "kunstmatig", "type": "flipcard" },
+                        { "id": 391, "word": "la performance", "other": "de prestatie", "type": "flipcard" },
+                        { "id": 392, "word": "la confiance", "other": "het vertrouwen", "type": "flipcard" },
+                        { "id": 393, "word": "le sujet", "other": "het onderwerp", "type": "flipcard" },
+                        { "id": 394, "word": "impatient", "other": "ongeduldig", "type": "flipcard" },
+                        { "id": 395, "word": "permettre", "other": "toestaan", "type": "flipcard" },
+                        { "id": 396, "word": "passer le bac", "other": "eindexamen doen", "type": "flipcard" },
+                        { "id": 397, "word": "faire des études", "other": "studeren", "type": "flipcard" },
+                        { "id": 398, "word": "un cours", "other": "een college", "type": "flipcard" },
+                        { "id": 399, "word": "difficile", "other": "moeilijk", "type": "flipcard" },
+                        { "id": 400, "word": "la note", "other": "het cijfer", "type": "flipcard" },
+                        { "id": 401, "word": "une note suffisante", "other": "een voldoende", "type": "flipcard" },
+                        { "id": 402, "word": "une langue étrangère", "other": "een vreemde taal", "type": "flipcard" },
+                        { "id": 403, "word": "expliquer", "other": "uitleggen", "type": "flipcard" },
+                        { "id": 404, "word": "la récréation", "other": "de pauze", "type": "flipcard" },
+                        { "id": 405, "word": "libre", "other": "vrij", "type": "flipcard" },
+                        { "id": 406, "word": "un étudiant, une étudiante", "other": "een student, een studente", "type": "flipcard" },
+                        { "id": 407, "word": "à l'étranger", "other": "in het buitenland", "type": "flipcard" },
+                        { "id": 408, "word": "une chambre", "other": "een kamer", "type": "flipcard" },
+                        { "id": 409, "word": "habiter", "other": "wonen", "type": "flipcard" },
+                        { "id": 410, "word": "le cuisinier, la cuisinière", "other": "de kok, de kokkin", "type": "flipcard" },
+                        { "id": 411, "word": "le consommateur", "other": "de consument", "type": "flipcard" },
+                        { "id": 412, "word": "l'avis", "other": "de mening", "type": "flipcard" },
+                        { "id": 413, "word": "l'alimentation", "other": "de voeding", "type": "flipcard" },
+                        { "id": 414, "word": "la boisson", "other": "de drank", "type": "flipcard" },
+                        { "id": 415, "word": "grossir", "other": "dikker worden", "type": "flipcard" },
+                        { "id": 416, "word": "un régime", "other": "een dieet", "type": "flipcard" },
+                        { "id": 417, "word": "maigrir", "other": "vermageren, mager worden", "type": "flipcard" },
+                        { "id": 418, "word": "le prétexte", "other": "het voorwendsel, de smoes", "type": "flipcard" },
+                        { "id": 419, "word": "dépenser", "other": "uitgeven", "type": "flipcard" },
+                        { "id": 420, "word": "la nourriture", "other": "de voeding, het voedsel", "type": "flipcard" },
+                        { "id": 421, "word": "se nourrir", "other": "zich voeden", "type": "flipcard" },
+                        { "id": 422, "word": "contenir", "other": "bevatten", "type": "flipcard" },
+                        { "id": 423, "word": "il s'agit de", "other": "het gaat om, het betreft", "type": "flipcard" },
+                        { "id": 424, "word": "l'emballage", "other": "de verpakking", "type": "flipcard" },
+                        { "id": 425, "word": "la boîte", "other": "het blik, het blikje", "type": "flipcard" },
+                        { "id": 426, "word": "le goût", "other": "de smaak", "type": "flipcard" },
+                        { "id": 427, "word": "l'agriculture", "other": "de landbouw", "type": "flipcard" },
+                        { "id": 428, "word": "provenir de", "other": "afkomstig zijn van", "type": "flipcard" },
+                        { "id": 429, "word": "comparer", "other": "vergelijken", "type": "flipcard" },
+                        { "id": 430, "word": "le marché", "other": "de markt", "type": "flipcard" },
+                        { "id": 431, "word": "la pâtisserie", "other": "de banketbakkerij", "type": "flipcard" },
+                        { "id": 432, "word": "la viande", "other": "het vlees", "type": "flipcard" },
+                        { "id": 433, "word": "le poisson", "other": "de vis", "type": "flipcard" },
+                        { "id": 434, "word": "une truite", "other": "een forel", "type": "flipcard" },
+                        { "id": 435, "word": "l'huile", "other": "de olie", "type": "flipcard" },
+                        { "id": 436, "word": "le poids", "other": "het gewicht", "type": "flipcard" },
+                        { "id": 437, "word": "le choix", "other": "de keus", "type": "flipcard" },
+                        { "id": 438, "word": "adorer", "other": "gek zijn op", "type": "flipcard" },
+                        { "id": 439, "word": "bon marché", "other": "goedkoop", "type": "flipcard" },
+                        { "id": 440, "word": "la dégustation", "other": "een proeverij", "type": "flipcard" },
+                        { "id": 441, "word": "une glace", "other": "een ijsje", "type": "flipcard" },
+                        { "id": 442, "word": "le gâteau", "other": "het koekje, het taartje", "type": "flipcard" },
+                        { "id": 443, "word": "goûter", "other": "proeven", "type": "flipcard" },
+                        { "id": 444, "word": "le robinet", "other": "de kraan", "type": "flipcard" },
+                        { "id": 445, "word": "l'addition", "other": "de rekening", "type": "flipcard" },
+                        { "id": 446, "word": "une entrée", "other": "een voorgerecht", "type": "flipcard" },
+                        { "id": 447, "word": "le lait", "other": "de melk", "type": "flipcard" },
+                        { "id": 448, "word": "se plaindre", "other": "klagen, zich beklagen", "type": "flipcard" },
+                        { "id": 449, "word": "avoir soif", "other": "dorst hebben", "type": "flipcard" },
+                        { "id": 450, "word": "l'eau", "other": "het water", "type": "flipcard" },
+                        { "id": 451, "word": "un demi", "other": "een biertje", "type": "flipcard" },
+                        { "id": 452, "word": "le verre", "other": "het glas", "type": "flipcard" },
+                        { "id": 453, "word": "gros, grosse", "other": "dik", "type": "flipcard" },
+                        { "id": 454, "word": "maigre", "other": "mager", "type": "flipcard" },
+                        { "id": 455, "word": "assez", "other": "genoeg, voldoende", "type": "flipcard" },
+                        { "id": 456, "word": "le déjeuner", "other": "de lunch", "type": "flipcard" },
+                        { "id": 457, "word": "la confiture", "other": "de jam", "type": "flipcard" },
+                        { "id": 458, "word": "le beurre", "other": "de boter", "type": "flipcard" },
+                        { "id": 459, "word": "le dessert", "other": "het toetje", "type": "flipcard" },
+                        { "id": 460, "word": "le pourboire", "other": "de fooi", "type": "flipcard" },
+                        { "id": 461, "word": "c'est combien?", "other": "hoeveel is het?", "type": "flipcard" },
+                        { "id": 462, "word": "une habitude", "other": "een gewoonte", "type": "flipcard" },
+                        { "id": 463, "word": "le sentiment", "other": "het gevoel", "type": "flipcard" },
+                        { "id": 464, "word": "la haine", "other": "de haat", "type": "flipcard" },
+                        { "id": 465, "word": "une attitude", "other": "een houding", "type": "flipcard" },
+                        { "id": 466, "word": "avoir honte", "other": "zich schamen", "type": "flipcard" },
+                        { "id": 467, "word": "le soupir", "other": "de zucht, de adem", "type": "flipcard" },
+                        { "id": 468, "word": "la pitié", "other": "het medelijden", "type": "flipcard" },
+                        { "id": 469, "word": "sensible", "other": "gevoelig", "type": "flipcard" },
+                        { "id": 470, "word": "approuver", "other": "goedkeuren", "type": "flipcard" },
+                        { "id": 471, "word": "désagréable", "other": "onaangenaam", "type": "flipcard" },
+                        { "id": 472, "word": "exemplaire", "other": "voorbeeldig", "type": "flipcard" },
+                        { "id": 473, "word": "se moquer de", "other": "spotten met", "type": "flipcard" },
+                        { "id": 474, "word": "douter de", "other": "twijfelen aan", "type": "flipcard" },
+                        { "id": 475, "word": "la tendresse", "other": "de tederheid", "type": "flipcard" },
+                        { "id": 476, "word": "la déception", "other": "de teleurstelling", "type": "flipcard" },
+                        { "id": 477, "word": "méfiant", "other": "wantrouwend", "type": "flipcard" },
+                        { "id": 478, "word": "maladroit", "other": "onhandig", "type": "flipcard" },
+                        { "id": 479, "word": "furieux, furieuse", "other": "woedend", "type": "flipcard" },
+                        { "id": 480, "word": "déçu", "other": "teleurgesteld", "type": "flipcard" },
+                        { "id": 481, "word": "ennuyé", "other": "bezorgd, ontstemd", "type": "flipcard" },
+                        { "id": 482, "word": "regretter", "other": "betreuren, spijt hebben van", "type": "flipcard" },
+                        { "id": 483, "word": "consoler", "other": "troosten", "type": "flipcard" },
+                        { "id": 484, "word": "craindre", "other": "vrezen, bang zijn voor", "type": "flipcard" },
+                        { "id": 485, "word": "souffrir", "other": "lijden, veel verdriet hebben", "type": "flipcard" },
+                        { "id": 486, "word": "avoir du mal à", "other": "moeite hebben om", "type": "flipcard" },
+                        { "id": 487, "word": "convenir", "other": "passen, schikken", "type": "flipcard" },
+                        { "id": 488, "word": "avoir tort de", "other": "ongelijk hebben", "type": "flipcard" },
+                        { "id": 489, "word": "la sincérité", "other": "de oprechtheid", "type": "flipcard" },
+                        { "id": 490, "word": "gêné", "other": "in verlegenheid", "type": "flipcard" },
+                        { "id": 491, "word": "le malheur", "other": "het onheil, het ongeluk", "type": "flipcard" },
+                        { "id": 492, "word": "généreux, généreuse", "other": "vrijgevig, edelmoedig", "type": "flipcard" },
+                        { "id": 493, "word": "tenter de", "other": "proberen", "type": "flipcard" },
+                        { "id": 494, "word": "aimable", "other": "vriendelijk", "type": "flipcard" },
+                        { "id": 495, "word": "disponible", "other": "beschikbaar", "type": "flipcard" },
+                        { "id": 496, "word": "faire mal", "other": "pijn doen", "type": "flipcard" },
+                        { "id": 497, "word": "injuste", "other": "onrechtvaardig", "type": "flipcard" },
+                        { "id": 498, "word": "trembler", "other": "beven, trillen", "type": "flipcard" },
+                        { "id": 499, "word": "envier", "other": "benijden, jaloers zijn op", "type": "flipcard" },
+                        { "id": 500, "word": "désolé", "other": "spijt(ig), bedroefd", "type": "flipcard" },
+                        { "id": 501, "word": "s'habituer à", "other": "wennen aan", "type": "flipcard" },
+                        { "id": 502, "word": "avoir l'habitude de", "other": "de gewoonte hebben", "type": "flipcard" },
+                        { "id": 503, "word": "en avoir marre", "other": "het spuugzat zijn", "type": "flipcard" },
+                        { "id": 504, "word": "être désolé", "other": "spijten", "type": "flipcard" },
+                        { "id": 505, "word": "avoir envie de", "other": "zin hebben om", "type": "flipcard" },
+                        { "id": 506, "word": "refuser de", "other": "weigeren", "type": "flipcard" },
+                        { "id": 507, "word": "tant mieux", "other": "des te beter", "type": "flipcard" },
+                        { "id": 508, "word": "se demander si", "other": "zich afvragen of", "type": "flipcard" },
+                        { "id": 509, "word": "dommage", "other": "jammer", "type": "flipcard" },
+                        { "id": 510, "word": "enchanté", "other": "aangenaam", "type": "flipcard" },
+                        { "id": 511, "word": "mécontent", "other": "ontevreden", "type": "flipcard" },
+                        { "id": 512, "word": "seul", "other": "alleen", "type": "flipcard" },
+                        { "id": 513, "word": "inquiet, inquiète", "other": "ongerust", "type": "flipcard" },
+                        { "id": 514, "word": "fort", "other": "zeer, sterk, heel", "type": "flipcard" },
+                        { "id": 515, "word": "extrêmement", "other": "enorm, uitermate", "type": "flipcard" },
+                        { "id": 516, "word": "innombrable", "other": "talrijk", "type": "flipcard" },
+                        { "id": 517, "word": "la plupart des", "other": "de meeste", "type": "flipcard" },
+                        { "id": 518, "word": "ne...aucun", "other": "geen enkele", "type": "flipcard" },
+                        { "id": 519, "word": "une centaine", "other": "een honderdtal", "type": "flipcard" },
+                        { "id": 520, "word": "plusieurs", "other": "verscheidene", "type": "flipcard" },
+                        { "id": 521, "word": "la moitié", "other": "de helft", "type": "flipcard" },
+                        { "id": 522, "word": "autant, autant de", "other": "evenveel", "type": "flipcard" },
+                        { "id": 523, "word": "suffire", "other": "voldoende zijn", "type": "flipcard" },
+                        { "id": 524, "word": "un morceau", "other": "een stuk, een klontje", "type": "flipcard" },
+                        { "id": 525, "word": "parfaitement", "other": "volkomen, absoluut", "type": "flipcard" },
+                        { "id": 526, "word": "couramment", "other": "vlot, vloeiend", "type": "flipcard" },
+                        { "id": 527, "word": "mériter", "other": "verdienen, waard zijn", "type": "flipcard" },
+                        { "id": 528, "word": "indispensable", "other": "noodzakelijk, onontbeerlijk", "type": "flipcard" },
+                        { "id": 529, "word": "mesurer", "other": "meten", "type": "flipcard" },
+                        { "id": 530, "word": "immense", "other": "enorm, ontzaglijk", "type": "flipcard" },
+                        { "id": 531, "word": "impressionnant", "other": "indrukwekkend", "type": "flipcard" },
+                        { "id": 532, "word": "diminuer", "other": "afnemen, verminderen", "type": "flipcard" },
+                        { "id": 533, "word": "notamment", "other": "vooral, met name", "type": "flipcard" },
+                        { "id": 534, "word": "élevé", "other": "hoog, groot", "type": "flipcard" },
+                        { "id": 535, "word": "déconseiller", "other": "afraden", "type": "flipcard" },
+                        { "id": 536, "word": "raisonnable", "other": "redelijk", "type": "flipcard" },
+                        { "id": 537, "word": "un avantage", "other": "een voordeel", "type": "flipcard" },
+                        { "id": 538, "word": "particulièrement", "other": "bijzonder, buitengewoon", "type": "flipcard" },
+                        { "id": 539, "word": "ignorer", "other": "niet weten", "type": "flipcard" },
+                        { "id": 540, "word": "pire", "other": "erger", "type": "flipcard" },
+                        { "id": 541, "word": "dommage", "other": "jammer", "type": "flipcard" },
+                        { "id": 542, "word": "essentiellement", "other": "met name, voornamelijk", "type": "flipcard" },
+                        { "id": 543, "word": "surtout", "other": "vooral", "type": "flipcard" },
+                        { "id": 544, "word": "en majorité", "other": "in meerderheid", "type": "flipcard" },
+                        { "id": 545, "word": "moyen", "other": "gemiddeld", "type": "flipcard" },
+                        { "id": 546, "word": "apprécier", "other": "waarderen", "type": "flipcard" },
+                        { "id": 547, "word": "irrésistible", "other": "onweerstaanbaar", "type": "flipcard" },
+                        { "id": 548, "word": "augmenter", "other": "verhogen, toenemen", "type": "flipcard" },
+                        { "id": 549, "word": "épouvantable", "other": "vreselijk, afschuwelijk", "type": "flipcard" },
+                        { "id": 550, "word": "bref", "other": "kort, kortom", "type": "flipcard" },
+                        { "id": 551, "word": "à peu près", "other": "ongeveer, zo ongeveer", "type": "flipcard" },
+                        { "id": 552, "word": "utile", "other": "nuttig", "type": "flipcard" },
+                        { "id": 553, "word": "le progrès", "other": "de vooruitgang, de voortgang", "type": "flipcard" },
+                        { "id": 554, "word": "avantageux, avantageuse", "other": "voordelig", "type": "flipcard" },
+                        { "id": 555, "word": "assez", "other": "tamelijk", "type": "flipcard" },
+                        { "id": 556, "word": "nécessaire", "other": "noodzakelijk", "type": "flipcard" },
+                        { "id": 557, "word": "plein, plein de", "other": "vol", "type": "flipcard" },
+                        { "id": 558, "word": "un désavantage", "other": "een nadeel", "type": "flipcard" },
+                        { "id": 559, "word": "ne...jamais", "other": "nooit", "type": "flipcard" },
+                        { "id": 560, "word": "environ", "other": "ongeveer", "type": "flipcard" },
+                        { "id": 561, "word": "pourtant", "other": "toch", "type": "flipcard" },
+                        { "id": 562, "word": "excellent", "other": "uitstekend", "type": "flipcard" },
+                        { "id": 563, "word": "nombreux", "other": "talrijk", "type": "flipcard" },
+                        { "id": 564, "word": "admirer", "other": "bewonderen", "type": "flipcard" },
+                        { "id": 565, "word": "barbant", "other": "saai", "type": "flipcard" },
+                        { "id": 566, "word": "dangereux", "other": "gevaarlijk", "type": "flipcard" },
+                        { "id": 567, "word": "principal", "other": "belangrijkste", "type": "flipcard" }
+                    ]
+                },
+                {
+                    "language": "French",
+                    "direction": "MIXED",
+                    "listName": "Frans Gemixt (Alle hoofdstukken)",
+                    "flag": "🇫🇷",
+                    "words": []
+                },
+                {
+                    "language": "All",
+                    "direction": "MIXED",
+                    "listName": "Alles Samen (Alle talen gemixt)",
+                    "flag": "🌍",
+                    "words": []
+                }
+            ]
+        };
+        
+        // Convert new JSON structure to compatible format and generate mixed sets
+        const wordData = {};
+        languageData.languageSets.forEach((langSet, index) => {
+            const langKey = `${langSet.language.toLowerCase()}_${langSet.direction.replace('→', '_').toLowerCase()}_${index}`;
             
-            const feedbackDiv = document.getElementById('quizFeedback');
+            if (langSet.direction === 'MIXED') {
+                // Generate mixed word sets
+                if (langSet.language === 'Spanish') {
+                    // Combine ES→NL and NL→ES Spanish words
+                    const esNlWords = languageData.languageSets.find(set => 
+                        set.language === 'Spanish' && set.direction === 'ES→NL'
+                    )?.words || [];
+                    const nlEsWords = languageData.languageSets.find(set => 
+                        set.language === 'Spanish' && set.direction === 'NL→ES'
+                    )?.words || [];
+                    
+                    langSet.words = [...esNlWords, ...nlEsWords];
+                } else if (langSet.language === 'French') {
+                    // Combine FR→NL and NL→FR French words
+                    const frNlWords = languageData.languageSets.find(set => 
+                        set.language === 'French' && set.direction === 'FR→NL'
+                    )?.words || [];
+                    const nlFrWords = languageData.languageSets.find(set => 
+                        set.language === 'French' && set.direction === 'NL→FR'
+                    )?.words || [];
+                    
+                    langSet.words = [...frNlWords, ...nlFrWords];
+                } else if (langSet.language === 'All') {
+                    // Combine all words from all languages
+                    const allWords = [];
+                    languageData.languageSets.forEach(set => {
+                        if (set.direction !== 'MIXED' && set.words.length > 0) {
+                            allWords.push(...set.words);
+                        }
+                    });
+                    langSet.words = allWords;
+                }
+            }
             
-            if (isCorrect) {
-                feedbackDiv.innerHTML = `
-                    <div class="feedback correct" style="text-align: center;">
-                        ✅ Correct! Volgende vraag komt...
+            wordData[langKey] = langSet.words;
+        });
+        
+        // Generate language cards dynamically
+        function generateLanguageCards() {
+            const container = document.getElementById('languageCards');
+            container.innerHTML = '';
+            
+            // Get all available language sets
+            const availableLanguages = Object.keys(progressData);
+            
+            availableLanguages.forEach(lang => {
+                const progress = progressData[lang];
+                const percentage = Math.round((progress.wordsLearned / progress.totalWords) * 100);
+                
+                const card = document.createElement('div');
+                card.className = 'language-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300';
+                card.setAttribute('data-language', lang);
+                card.onclick = () => selectLanguage(lang);
+                
+                // Show direction in the title for clarity
+                const displayTitle = progress.direction ? 
+                    `${progress.language} (${progress.direction})` : 
+                    progress.language;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${displayTitle}</h3>
+                            <p class="text-gray-600 text-sm">${progress.listName}</p>
+                            <div class="mt-2">
+                                <div class="bg-blue-100 rounded-full h-2 w-32">
+                                    <div class="progress-bar bg-blue-500 h-2 rounded-full" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="progress-text text-sm text-gray-500 mt-1 block">${percentage}% voltooid</span>
+                            </div>
+                        </div>
+                        <div class="text-3xl">${progress.flag}</div>
                     </div>
                 `;
-                setTimeout(() => {
-                    startQuiz();
-                }, 800);
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Navigation functions
+        function showHome() {
+            hideAllScreens();
+            document.getElementById('homeScreen').classList.remove('hidden');
+            generateLanguageCards();
+        }
+        
+        function showLanguageScreen() {
+            hideAllScreens();
+            document.getElementById('languageScreen').classList.remove('hidden');
+        }
+        
+        function showSettings() {
+            hideAllScreens();
+            document.getElementById('settingsScreen').classList.remove('hidden');
+            populateLanguageDirections();
+        }
+        
+        function populateLanguageDirections() {
+            const container = document.getElementById('languageDirections');
+            container.innerHTML = '';
+            
+            languageData.languageSets.forEach(langSet => {
+                const directionDiv = document.createElement('div');
+                directionDiv.className = 'flex justify-between items-center py-1';
+                directionDiv.innerHTML = `
+                    <span class="text-sm">${langSet.flag} ${langSet.listName}</span>
+                    <span class="font-mono text-blue-600 text-xs">${langSet.direction}</span>
+                `;
+                container.appendChild(directionDiv);
+            });
+        }
+        
+        function showAddWords() {
+            hideAllScreens();
+            document.getElementById('addWordsScreen').classList.remove('hidden');
+        }
+        
+        function hideAllScreens() {
+            const screens = ['homeScreen', 'languageScreen', 'exerciseScreen', 'resultsScreen', 'addWordsScreen', 'settingsScreen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+        }
+        
+        // Language selection
+        function selectLanguage(language) {
+            currentLanguage = language;
+            
+            const progress = progressData[language];
+            if (progress) {
+                const displayTitle = progress.direction ? 
+                    `${progress.language} (${progress.direction})` : 
+                    progress.language;
+                document.getElementById('languageTitle').textContent = displayTitle;
+                document.getElementById('languageSubtitle').textContent = progress.listName;
+            }
+            
+            // Hide add words button (not needed for these languages)
+            const addWordsBtn = document.getElementById('addWordsBtn');
+            addWordsBtn.style.display = 'none';
+            
+            showLanguageScreen();
+        }
+        
+        // Exercise functions
+        function startExercise(type) {
+            currentExerciseType = type;
+            
+            // Get words for current language set
+            const availableWords = wordData[currentLanguage] || [];
+            
+            // For mixed sets, ensure we have a good variety
+            let selectedWords;
+            if (availableWords.length > 20) {
+                // For large mixed sets, take 15 words for more variety
+                selectedWords = [...availableWords].sort(() => Math.random() - 0.5).slice(0, 15);
             } else {
-                feedbackDiv.innerHTML = `
-                    <div class="feedback incorrect" style="text-align: center;">
-                        ❌ Fout. Het juiste antwoord is: ${correctAnswer}
-                        <br><small>Volgende vraag komt...</small>
-                    </div>
-                `;
-                setTimeout(() => {
-                    startQuiz();
-                }, 2000);
+                // For smaller sets, take up to 10 words
+                selectedWords = [...availableWords].sort(() => Math.random() - 0.5).slice(0, Math.min(10, availableWords.length));
+            }
+            
+            currentWords = selectedWords;
+            currentWordIndex = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            difficultWords = [];
+            startTime = Date.now();
+            
+            hideAllScreens();
+            document.getElementById('exerciseScreen').classList.remove('hidden');
+            
+            // Hide all exercise types
+            document.getElementById('flipcardExercise').classList.add('hidden');
+            document.getElementById('typingExercise').classList.add('hidden');
+            document.getElementById('multipleExercise').classList.add('hidden');
+            
+            // Show current exercise type
+            document.getElementById(type + 'Exercise').classList.remove('hidden');
+            
+            loadCurrentWord();
+        }
+        
+        function loadCurrentWord() {
+            if (currentWordIndex >= currentWords.length) {
+                showResults();
+                return;
+            }
+            
+            const word = currentWords[currentWordIndex];
+            updateProgress();
+            
+            if (currentExerciseType === 'flipcard') {
+                loadFlipcard(word);
+            } else if (currentExerciseType === 'typing') {
+                loadTyping(word);
+            } else if (currentExerciseType === 'multiple') {
+                loadMultiple(word);
             }
         }
+        
+        function updateProgress() {
+            const progress = ((currentWordIndex) / currentWords.length) * 100;
+            document.querySelector('#progressBar .bg-blue-500').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentWordIndex + 1} / ${currentWords.length}`;
+        }
+        
+        // Flipcard functions
+        function loadFlipcard(word) {
+            document.getElementById('flipcardWord').textContent = word.word;
+            
+            // Use explanation for English (EN→EN), other for translations
+            const backText = word.explanation || word.other;
+            document.getElementById('flipcardMeaning').textContent = backText;
+            
+            // Reset flip state
+            document.querySelector('.flip-card').classList.remove('flipped');
+            isFlipped = false;
+        }
+        
+        function flipCard() {
+            const card = document.querySelector('.flip-card');
+            card.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+        
+        function markDifficult() {
+            difficultWords.push(currentWords[currentWordIndex]);
+            nextWord();
+        }
+        
+        function markEasy() {
+            correctAnswers++;
+            const currentWord = currentWords[currentWordIndex];
+            updateProgress(currentLanguage, currentWord.id, true);
+            nextWord();
+        }
+        
+        // Typing functions
+        function loadTyping(word) {
+            document.getElementById('typingWord').textContent = word.word;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingFeedback').classList.add('hidden');
+            document.getElementById('typingInput').focus();
+        }
+        
+        function showHint() {
+            const word = currentWords[currentWordIndex];
+            const answer = word.explanation || word.other;
+            const hint = answer.charAt(0) + '...';
+            
+            const feedback = document.getElementById('typingFeedback');
+            feedback.className = 'mt-4 p-4 rounded-2xl bg-yellow-100 text-yellow-800';
+            feedback.textContent = `Hint: ${hint}`;
+            feedback.classList.remove('hidden');
+        }
+        
+        function checkTypingAnswer() {
+            const input = document.getElementById('typingInput').value.trim().toLowerCase();
+            const word = currentWords[currentWordIndex];
+            const correctAnswer = (word.explanation || word.other).toLowerCase();
+            
+            const feedback = document.getElementById('typingFeedback');
+            
+            if (input === correctAnswer || correctAnswer.includes(input)) {
+                feedback.className = 'mt-4 p-4 rounded-2xl bg-green-100 text-green-800';
+                feedback.textContent = '✅ Correct! Goed gedaan!';
+                correctAnswers++;
+                updateProgress(currentLanguage, word.id, true);
+                
+                setTimeout(() => {
+                    nextWord();
+                }, 1500);
+            } else {
+                feedback.className = 'mt-4 p-4 rounded-2xl bg-red-100 text-red-800';
+                feedback.textContent = `❌ Goed geprobeerd! Het juiste antwoord is: ${word.explanation || word.other}`;
+                incorrectAnswers++;
+                
+                setTimeout(() => {
+                    nextWord();
+                }, 3000);
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+        
+        // Multiple choice functions
+        function loadMultiple(word) {
+            document.getElementById('multipleWord').textContent = word.word;
+            document.getElementById('multipleFeedback').classList.add('hidden');
+            
+            const correctAnswer = word.explanation || word.other;
+            
+            // For mixed sets, get wrong answers from the current word set to ensure compatibility
+            const allWords = currentWords.length > 4 ? currentWords : wordData[currentLanguage];
+            const wrongAnswers = allWords
+                .filter(w => w.id !== word.id)
+                .map(w => w.explanation || w.other)
+                .filter(answer => answer !== correctAnswer) // Ensure no duplicates
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+            
+            // If we don't have enough wrong answers, pad with some generic ones
+            while (wrongAnswers.length < 3) {
+                const genericAnswers = ['niet correct', 'fout antwoord', 'andere betekenis'];
+                const generic = genericAnswers[wrongAnswers.length];
+                if (!wrongAnswers.includes(generic)) {
+                    wrongAnswers.push(generic);
+                }
+            }
+            
+            const options = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            
+            const optionsContainer = document.getElementById('multipleOptions');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'w-full p-4 text-left border-2 border-gray-200 rounded-2xl hover:border-blue-300 transition-colors';
+                button.textContent = option;
+                button.onclick = () => checkMultipleAnswer(option, correctAnswer, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function checkMultipleAnswer(selected, correct, button) {
+            const feedback = document.getElementById('multipleFeedback');
+            const allButtons = document.querySelectorAll('#multipleOptions button');
+            
+            // Disable all buttons
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50');
+            });
+            
+            if (selected === correct) {
+                button.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                feedback.className = 'mt-6 p-4 rounded-2xl bg-green-100 text-green-800';
+                feedback.textContent = '✅ Correct! Goed gedaan!';
+                correctAnswers++;
+                const currentWord = currentWords[currentWordIndex];
+                updateProgress(currentLanguage, currentWord.id, true);
+            } else {
+                button.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                
+                // Highlight correct answer
+                allButtons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                    }
+                });
+                
+                feedback.className = 'mt-6 p-4 rounded-2xl bg-red-100 text-red-800';
+                feedback.textContent = `❌ Helaas! Het juiste antwoord is: ${correct}`;
+                incorrectAnswers++;
+            }
+            
+            feedback.classList.remove('hidden');
+            
+            setTimeout(() => {
+                nextWord();
+            }, 2000);
+        }
+        
+        function nextWord() {
+            currentWordIndex++;
+            loadCurrentWord();
+        }
+        
+        // Results functions
+        function showResults() {
+            hideAllScreens();
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            
+            const totalTime = Math.round((Date.now() - startTime) / 1000);
+            const score = Math.round((correctAnswers / currentWords.length) * 100);
+            
+            document.getElementById('finalScore').textContent = `${score}% Score`;
+            document.getElementById('finalTime').textContent = `Tijd: ${totalTime} seconden`;
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = incorrectAnswers;
+            document.getElementById('difficultCount').textContent = difficultWords.length;
+        }
+        
+        function restartExercise() {
+            startExercise(currentExerciseType);
+        }
+        
+
+        
+        // Settings functions
+        function toggleDarkMode() {
+            // This would implement dark mode toggle
+            const toggle = document.getElementById('darkModeToggle');
+            toggle.classList.toggle('bg-gray-800');
+            
+            const dot = toggle.querySelector('div');
+            dot.classList.toggle('translate-x-6');
+        }
+        
+        function toggleSound() {
+            const toggle = document.getElementById('soundToggle');
+            toggle.classList.toggle('bg-gray-300');
+            toggle.classList.toggle('bg-blue-500');
+            
+            const dot = toggle.querySelector('div');
+            dot.classList.toggle('translate-x-6');
+        }
+        
+        // Keyboard support for typing exercise
+        document.getElementById('typingInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkTypingAnswer();
+            }
+        });
+        
+        // Initialize app
+        function initializeApp() {
+            initializeProgress();
+            showHome();
+        }
+        
+        // Start the app
+        initializeApp();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b46d06456670f',t:'MTc2MTMyNzgwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994c5d3197e6910e',t:'MTc2MTUwNjk4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
