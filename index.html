@@ -1,1223 +1,1415 @@
-<!DOCTYPE html>
-<html lang="nl" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yaiden Languages - Woordenleer App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .flip-card {
-            perspective: 1000px;
-        }
-        
-        .flip-card-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .flip-card-front, .flip-card-back {
-            backface-visibility: hidden;
-        }
-        
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        
-        .pulse-success {
-            animation: pulseSuccess 0.5s ease-in-out;
-        }
-        
-        @keyframes pulseSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .progress-bar {
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .language-card {
-            transition: all 0.3s ease;
-        }
-        
-        .language-card:hover {
-            transform: translateY(-2px);
-        }
-    </style>
-</head>
-<body class="h-full bg-gray-50">
-    <main class="h-full">
-        <!-- Home Screen -->
-        <div id="homeScreen" class="min-h-full p-6 fade-in">
-            <header class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-2">Yaiden Languages</h1>
-                <p class="text-gray-600">Leer woorden uit verschillende talen</p>
-            </header>
-            
-            <div id="languageCards" class="max-w-md mx-auto space-y-4">
-                <!-- Language cards will be dynamically generated here -->
-            </div>
-            
-            <div class="max-w-md mx-auto mt-8">
-                <button onclick="showSettings()" class="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-2xl font-medium hover:bg-gray-300 transition-colors">
-                    ⚙️ Instellingen
-                </button>
-            </div>
+<!doctype html>
+<html lang="nl">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meyers Automotive - Betrouwbare Occasions &amp; Complete Autoservice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    html, body {
+      height: 100%;
+    }
+    
+    .spinner {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #FF4B4B;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .hero-bg {
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    }
+    
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .accordion-content.active {
+      max-height: 5000px;
+      transition: max-height 0.5s ease-in;
+    }
+    
+    .gallery-container {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .gallery-item {
+      scroll-snap-align: start;
+    }
+    
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .submenu.active {
+      max-height: 200px;
+    }
+    
+    .badge-favoriet {
+      background: #FF4B4B;
+      color: white;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .badge-verkocht {
+      background: #6B7280;
+      color: white;
+      font-weight: 700;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.25rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-white text-gray-900"><!-- Header -->
+  <header class="bg-black text-white shadow-lg sticky top-0 z-50">
+   <div class="bg-gray-900 py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex flex-wrap justify-center sm:justify-between items-center gap-2 text-sm"><a href="tel:+31657160395" class="hover:text-red-500 transition-colors">+31 6 57 16 03 95</a> <a href="mailto:Meyersautomotives@gmail.com" class="hover:text-red-500 transition-colors">Meyersautomotives@gmail.com</a>
+     </div>
+    </div>
+   </div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex justify-between items-center"><a href="#home" class="text-xl sm:text-2xl lg:text-3xl font-bold"> <span class="text-white">Meyers</span> <span class="text-red-500">Automotive</span> </a> <button id="mobileMenuBtn" class="md:hidden text-3xl font-bold text-white w-12 h-12 flex items-center justify-center hover:text-red-500 transition-colors">☰</button>
+     <nav class="hidden md:flex gap-6 lg:gap-8"><a href="#home" class="font-medium hover:text-red-500 transition-colors">Home</a> <a href="#aanbod" class="font-medium hover:text-red-500 transition-colors">Aanbod</a> <a href="#diensten" class="font-medium hover:text-red-500 transition-colors">Diensten</a> <a href="#over" class="font-medium hover:text-red-500 transition-colors">Over Ons</a>
+      <div class="relative group"><button class="font-medium hover:text-red-500 transition-colors">Locaties</button>
+       <div class="absolute hidden group-hover:block bg-black shadow-lg rounded-lg mt-2 py-2 min-w-[150px]"><a href="#locatie-amsterdam" class="block px-4 py-2 hover:bg-gray-900 hover:text-red-500">Amsterdam</a> <a href="#locatie-heemskerk" class="block px-4 py-2 hover:bg-gray-900 hover:text-red-500">Heemskerk</a>
+       </div>
+      </div><a href="#contact" class="font-medium hover:text-red-500 transition-colors">Contact</a>
+     </nav>
+    </div>
+   </div>
+   <nav id="mobileNav" class="hidden md:hidden bg-gray-900 border-t border-gray-700 shadow-2xl"><a href="#home" class="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Home</a> <a href="#aanbod" class="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Aanbod</a> <a href="#diensten" class="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Diensten</a> <a href="#over" class="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Over Ons</a>
+    <div class="border-b border-gray-800"><button id="locatiesToggle" class="w-full text-left px-6 py-4 hover:bg-gray-800 hover:text-red-500 flex justify-between items-center transition-colors text-base font-medium"> <span>Locaties</span> <span id="locatiesIcon" class="text-xl">+</span> </button>
+     <div id="locatiesSubmenu" class="submenu bg-gray-800"><a href="#locatie-amsterdam" class="block pl-10 pr-6 py-3 hover:text-red-500 transition-colors border-b border-gray-700">Amsterdam</a> <a href="#locatie-heemskerk" class="block pl-10 pr-6 py-3 hover:text-red-500 transition-colors">Heemskerk</a>
+     </div>
+    </div><a href="#contact" class="block px-6 py-4 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Contact</a>
+   </nav>
+  </header><!-- HERO -->
+  <section id="home" class="hero-bg text-white py-20 sm:py-32 relative overflow-hidden">
+   <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0 bg-gradient-to-br from-red-500 to-transparent"></div>
+   </div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">Betrouwbare Occasions &amp; Complete Autoservice</h1>
+     <p class="text-lg sm:text-xl mb-10 text-gray-300 leading-relaxed max-w-3xl mx-auto">Kwaliteitsvolle tweedehands auto's, deskundige service en eerlijke prijzen. Van aankoop tot export, van APK tot onderhoud.</p>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="#aanbod" class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-10 rounded-lg transition-all transform hover:scale-105 text-lg shadow-lg">Aanbod bekijken</a> <a href="#contact" class="inline-block bg-transparent border-2 border-red-500 hover:bg-red-500 text-white font-bold py-4 px-10 rounded-lg transition-all text-lg">Contact opnemen</a>
+     </div>
+    </div>
+   </div>
+  </section><!-- Waarom Wij - Snelle Conversie -->
+  <section class="bg-white py-12 sm:py-16 border-b-2 border-gray-100">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+     <div>
+      <div class="text-4xl font-bold text-red-500 mb-2">
+       10+
+      </div>
+      <p class="text-gray-700 font-medium">Jaar ervaring</p>
+     </div>
+     <div>
+      <div class="text-4xl font-bold text-red-500 mb-2">
+       2
+      </div>
+      <p class="text-gray-700 font-medium">Locaties</p>
+     </div>
+     <div>
+      <div class="text-4xl font-bold text-red-500 mb-2">
+       24/7
+      </div>
+      <p class="text-gray-700 font-medium">Sleepdienst</p>
+     </div>
+     <div>
+      <div class="text-4xl font-bold text-red-500 mb-2">
+       100%
+      </div>
+      <p class="text-gray-700 font-medium">Eerlijke prijzen</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- ONS AANBOD -->
+  <section id="aanbod" class="bg-gray-50 py-12 sm:py-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+     <h2 class="text-3xl sm:text-4xl font-bold mb-3">Ons Aanbod</h2>
+     <p class="text-gray-600 text-lg">Ontdek onze actuele voorraad met volledige RDW-gegevens</p>
+    </div><!-- Filter Bar -->
+    <div id="filterBar" class="mb-8"><!-- Filter Toggle Button (All Devices) --> <button id="filterToggleBtn" class="w-full bg-white border-2 border-gray-300 rounded-lg p-4 font-bold text-left flex justify-between items-center hover:border-red-500 transition-colors shadow-sm"> <span class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+       </svg> Filters &amp; Zoeken </span> <span id="filterToggleIcon" class="text-2xl text-red-500">+</span> </button> <!-- Filter Container -->
+     <div id="filterContainer" class="hidden bg-white border-2 border-gray-200 rounded-xl p-6 shadow-sm mt-4"><!-- Search Bar -->
+      <div class="mb-6"><label for="searchInput" class="block font-bold mb-2 text-gray-900">Zoeken</label> <input type="text" id="searchInput" placeholder="Zoek op merk, model, brandstof..." class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none">
+      </div><!-- Sort -->
+      <div class="mb-6"><label for="sortSelect" class="block font-bold mb-2 text-gray-900">Sorteren</label> <select id="sortSelect" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Standaard</option> <option value="price-asc">Prijs: laag → hoog</option> <option value="price-desc">Prijs: hoog → laag</option> <option value="km-asc">Kilometerstand: laag → hoog</option> <option value="year-desc">Bouwjaar: nieuw → oud</option> <option value="efficiency">Zuinigheidsscore</option> <option value="alpha">Alfabetisch (merk)</option> </select>
+      </div><!-- Filters Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Prijs Filter -->
+       <div><label class="block font-bold mb-2 text-gray-900">Prijs</label>
+        <div class="space-y-2"><input type="range" id="priceMin" min="0" max="100000" step="1000" class="w-full"> <input type="range" id="priceMax" min="0" max="100000" step="1000" class="w-full">
+         <div class="flex gap-2"><input type="number" id="priceMinInput" placeholder="Min" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm"> <input type="number" id="priceMaxInput" placeholder="Max" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm">
+         </div>
         </div>
-        
-        <!-- Language Selection Screen -->
-        <div id="languageScreen" class="min-h-full p-6 hidden">
-            <header class="flex items-center mb-8">
-                <button onclick="showHome()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
-                    ← Terug
-                </button>
-                <div>
-                    <h1 id="languageTitle" class="text-2xl font-bold text-gray-900"></h1>
-                    <p id="languageSubtitle" class="text-gray-600"></p>
-                </div>
-            </header>
-            
-            <div class="max-w-md mx-auto space-y-4">
-                <button onclick="startExercise('flipcard')" class="w-full bg-blue-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
-                    🔄 Flipkaarten
-                </button>
-                
-                <button onclick="startExercise('typing')" class="w-full bg-green-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-green-600 transition-colors">
-                    ⌨️ Typoefeningen
-                </button>
-                
-                <button onclick="startExercise('multiple')" class="w-full bg-purple-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-purple-600 transition-colors">
-                    ✅ Meerkeuzevragen
-                </button>
-                
-                <button onclick="showAddWords()" class="w-full bg-orange-500 text-white py-4 px-6 rounded-2xl font-medium hover:bg-orange-600 transition-colors" id="addWordsBtn" style="display: none;">
-                    ➕ Woorden toevoegen
-                </button>
-            </div>
+       </div><!-- Bouwjaar Filter -->
+       <div><label class="block font-bold mb-2 text-gray-900">Bouwjaar</label>
+        <div class="space-y-2"><input type="range" id="yearMin" min="1990" max="2024" step="1" class="w-full"> <input type="range" id="yearMax" min="1990" max="2024" step="1" class="w-full">
+         <div class="flex gap-2"><input type="number" id="yearMinInput" placeholder="Min" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm"> <input type="number" id="yearMaxInput" placeholder="Max" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm">
+         </div>
         </div>
-        
-        <!-- Exercise Screen -->
-        <div id="exerciseScreen" class="min-h-full p-6 hidden">
-            <header class="flex items-center justify-between mb-8">
-                <button onclick="showLanguageScreen()" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
-                    ← Terug
-                </button>
-                <div class="text-center">
-                    <div id="progressBar" class="bg-gray-200 rounded-full h-2 w-32 mx-auto mb-2">
-                        <div class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <span id="progressText" class="text-sm text-gray-600">1 / 10</span>
-                </div>
-                <div class="w-8"></div>
-            </header>
-            
-            <!-- Flipcard Exercise -->
-            <div id="flipcardExercise" class="max-w-md mx-auto hidden">
-                <div class="flip-card w-full h-80 mb-8" onclick="flipCard()">
-                    <div class="flip-card-inner relative w-full h-full">
-                        <div class="flip-card-front absolute w-full h-full bg-white rounded-2xl shadow-lg flex items-center justify-center p-6">
-                            <div class="text-center">
-                                <h2 id="flipcardWord" class="text-2xl font-bold text-gray-900 mb-4"></h2>
-                                <p class="text-gray-500">Tik om om te draaien</p>
-                            </div>
-                        </div>
-                        <div class="flip-card-back absolute w-full h-full bg-blue-500 rounded-2xl shadow-lg flex items-center justify-center p-6">
-                            <div class="text-center text-white">
-                                <h2 id="flipcardMeaning" class="text-xl font-semibold mb-4"></h2>
-                                <p class="text-blue-100">Tik om terug te draaien</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex space-x-4">
-                    <button onclick="markDifficult()" class="flex-1 bg-red-100 text-red-700 py-3 px-4 rounded-2xl font-medium hover:bg-red-200 transition-colors">
-                        😓 Moeilijk
-                    </button>
-                    <button onclick="markEasy()" class="flex-1 bg-green-100 text-green-700 py-3 px-4 rounded-2xl font-medium hover:bg-green-200 transition-colors">
-                        😊 Makkelijk
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Typing Exercise -->
-            <div id="typingExercise" class="max-w-md mx-auto hidden">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h2 id="typingWord" class="text-2xl font-bold text-gray-900 mb-4 text-center"></h2>
-                    <p class="text-gray-600 mb-6 text-center">Typ de betekenis/vertaling:</p>
-                    
-                    <input type="text" id="typingInput" class="w-full p-4 border-2 border-gray-200 rounded-2xl text-lg focus:border-blue-500 focus:outline-none" placeholder="Typ hier je antwoord...">
-                    
-                    <div class="mt-4 flex space-x-4">
-                        <button onclick="showHint()" class="flex-1 bg-yellow-100 text-yellow-700 py-3 px-4 rounded-2xl font-medium hover:bg-yellow-200 transition-colors">
-                            💡 Hint
-                        </button>
-                        <button onclick="checkTypingAnswer()" class="flex-1 bg-blue-500 text-white py-3 px-4 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
-                            ✓ Controleer
-                        </button>
-                    </div>
-                    
-                    <div id="typingFeedback" class="mt-4 p-4 rounded-2xl hidden"></div>
-                </div>
-            </div>
-            
-            <!-- Multiple Choice Exercise -->
-            <div id="multipleExercise" class="max-w-md mx-auto hidden">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h2 id="multipleWord" class="text-2xl font-bold text-gray-900 mb-6 text-center"></h2>
-                    
-                    <div id="multipleOptions" class="space-y-3">
-                        <!-- Options will be generated here -->
-                    </div>
-                    
-                    <div id="multipleFeedback" class="mt-6 p-4 rounded-2xl hidden"></div>
-                </div>
-            </div>
+       </div><!-- Kilometerstand Filter -->
+       <div><label class="block font-bold mb-2 text-gray-900">Kilometerstand</label>
+        <div class="space-y-2"><input type="range" id="kmMin" min="0" max="300000" step="10000" class="w-full"> <input type="range" id="kmMax" min="0" max="300000" step="10000" class="w-full">
+         <div class="flex gap-2"><input type="number" id="kmMinInput" placeholder="Min" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm"> <input type="number" id="kmMaxInput" placeholder="Max" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm">
+         </div>
         </div>
-        
-        <!-- Results Screen -->
-        <div id="resultsScreen" class="min-h-full p-6 hidden">
-            <header class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">Resultaten</h1>
-                <p class="text-gray-600">Goed gedaan!</p>
-            </header>
-            
-            <div class="max-w-md mx-auto">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                    <div class="text-center mb-6">
-                        <div class="text-6xl mb-4">🎉</div>
-                        <h2 id="finalScore" class="text-2xl font-bold text-gray-900 mb-2"></h2>
-                        <p id="finalTime" class="text-gray-600"></p>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Juiste antwoorden:</span>
-                            <span id="correctCount" class="font-semibold text-green-600"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Foute antwoorden:</span>
-                            <span id="incorrectCount" class="font-semibold text-red-600"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Moeilijke woorden:</span>
-                            <span id="difficultCount" class="font-semibold text-orange-600"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="space-y-3">
-                    <button onclick="restartExercise()" class="w-full bg-blue-500 text-white py-3 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
-                        🔄 Opnieuw oefenen
-                    </button>
-                    <button onclick="showLanguageScreen()" class="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-2xl font-medium hover:bg-gray-300 transition-colors">
-                        📚 Andere oefening
-                    </button>
-                    <button onclick="showHome()" class="w-full bg-gray-100 text-gray-600 py-3 px-6 rounded-2xl font-medium hover:bg-gray-200 transition-colors">
-                        🏠 Naar hoofdmenu
-                    </button>
-                </div>
-            </div>
+       </div><!-- Brandstof Filter -->
+       <div><label for="brandstofFilter" class="block font-bold mb-2 text-gray-900">Brandstof</label> <select id="brandstofFilter" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Alle</option> </select>
+       </div><!-- Transmissie Filter -->
+       <div><label for="transmissieFilter" class="block font-bold mb-2 text-gray-900">Transmissie</label> <select id="transmissieFilter" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Alle</option> </select>
+       </div><!-- Cilinderinhoud Filter -->
+       <div><label class="block font-bold mb-2 text-gray-900">Cilinderinhoud</label>
+        <div class="space-y-2"><input type="range" id="ccMin" min="0" max="5000" step="100" class="w-full"> <input type="range" id="ccMax" min="0" max="5000" step="100" class="w-full">
+         <div class="flex gap-2"><input type="number" id="ccMinInput" placeholder="Min cc" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm"> <input type="number" id="ccMaxInput" placeholder="Max cc" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm">
+         </div>
         </div>
-        
-        <!-- Add Words Screen -->
-        <div id="addWordsScreen" class="min-h-full p-6 hidden">
-            <header class="flex items-center mb-8">
-                <button onclick="showLanguageScreen()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
-                    ← Terug
-                </button>
-                <h1 class="text-2xl font-bold text-gray-900">Woorden toevoegen</h1>
-            </header>
-            
-            <div class="max-w-md mx-auto">
-                <form id="addWordForm" class="bg-white rounded-2xl shadow-lg p-6">
-                    <div class="space-y-4">
-                        <div>
-                            <label for="wordInput" class="block text-sm font-medium text-gray-700 mb-2">Woord</label>
-                            <input type="text" id="wordInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" required>
-                        </div>
-                        
-                        <div>
-                            <label for="meaningInput" class="block text-sm font-medium text-gray-700 mb-2">Betekenis/Vertaling</label>
-                            <input type="text" id="meaningInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" required>
-                        </div>
-                        
-                        <div>
-                            <label for="themeInput" class="block text-sm font-medium text-gray-700 mb-2">Thema (optioneel)</label>
-                            <input type="text" id="themeInput" class="w-full p-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none" placeholder="bijv. Familie, Eten, etc.">
-                        </div>
-                        
-                        <button type="submit" class="w-full bg-blue-500 text-white py-3 px-6 rounded-2xl font-medium hover:bg-blue-600 transition-colors">
-                            ➕ Woord toevoegen
-                        </button>
-                    </div>
-                </form>
-                
-                <div id="addWordFeedback" class="mt-4 p-4 rounded-2xl hidden"></div>
-            </div>
-        </div>
-        
-        <!-- Settings Screen -->
-        <div id="settingsScreen" class="min-h-full p-6 hidden">
-            <header class="flex items-center mb-8">
-                <button onclick="showHome()" class="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors">
-                    ← Terug
-                </button>
-                <h1 class="text-2xl font-bold text-gray-900">Instellingen</h1>
-            </header>
-            
-            <div class="max-w-md mx-auto">
-                <div class="bg-white rounded-2xl shadow-lg p-6 space-y-6">
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-700 font-medium">Donkere modus</span>
-                        <button onclick="toggleDarkMode()" class="bg-gray-200 rounded-full w-12 h-6 relative transition-colors" id="darkModeToggle">
-                            <div class="bg-white w-5 h-5 rounded-full absolute top-0.5 left-0.5 transition-transform"></div>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-700 font-medium">Geluid</span>
-                        <button onclick="toggleSound()" class="bg-blue-500 rounded-full w-12 h-6 relative transition-colors" id="soundToggle">
-                            <div class="bg-white w-5 h-5 rounded-full absolute top-0.5 right-0.5 transition-transform"></div>
-                        </button>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">Beschikbare taalsets</label>
-                        <div id="languageDirections" class="space-y-2 text-sm">
-                            <!-- Language directions will be populated here -->
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">Elke richting is vast ingesteld per woordenlijst</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+       </div>
+      </div><!-- Reset Button -->
+      <div class="mt-6 flex justify-end"><button id="resetFilters" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"> Filters Resetten </button>
+      </div>
+     </div><!-- Results Count -->
+     <div id="resultsCount" class="mt-4 text-center text-gray-600 font-medium"></div>
+    </div>
+    <div id="loadingCars" class="flex justify-center py-16">
+     <div class="text-center">
+      <div class="spinner mx-auto mb-4"></div>
+      <p class="text-gray-600">Auto's worden geladen...</p>
+     </div>
+    </div>
+    <div id="errorMessage" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+     <p class="font-bold">Fout bij laden</p>
+     <p id="errorText" class="mt-1 text-sm"></p>
+    </div>
+    <div id="carsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+   </div>
+  </section><!-- DIENSTEN -->
+  <section id="diensten" class="bg-white py-12 sm:py-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Onze Diensten</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Verkoop Occasions</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Kwaliteitsvolle tweedehands auto's tegen eerlijke prijzen. Snel wisselende voorraad.</p><a href="#aanbod" class="inline-block text-red-500 font-semibold hover:text-red-600">Bekijk aanbod →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Inkoop Auto's</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Wij kopen uw auto direct in. Eerlijke prijs, snelle afhandeling.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Neem contact op →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">APK-keuring</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Professionele APK-keuringen. Keuring duurt ongeveer 1 uur. Alleen op afspraak.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Maak afspraak →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Reparatie &amp; Onderhoud</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Van oliebeurt tot complete motorrevision. Alles onder één dak. Alleen op afspraak.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Meer info →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Sleepdienst 24/7</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Altijd bereikbaar door heel Nederland. Bel direct <strong class="text-red-500">06 57 16 03 95</strong></p><a href="tel:+31657160395" class="inline-block text-red-500 font-semibold hover:text-red-600">Direct bellen →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Auto Exporteren</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Volledige export-ondersteuning inclusief exportplaten en documentatie.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Meer weten →</a>
+     </div>
+     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
+      <div class="w-12 h-12 mb-4 text-red-500">
+       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+       </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Verhuisvervoer</h3>
+      <p class="text-gray-700 leading-relaxed mb-4">Betrouwbare verhuisservice in Amsterdam, Heemskerk en heel Nederland.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Offerte aanvragen →</a>
+     </div>
+    </div>
+   </div>
+  </section><!-- OVER ONS -->
+  <section id="over" class="bg-gradient-to-br from-gray-50 to-white py-16 sm:py-24 relative overflow-hidden"><!-- Background decorative elements -->
+   <div class="absolute top-0 left-0 w-64 h-64 bg-red-500 opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+   <div class="absolute bottom-0 right-0 w-96 h-96 bg-red-500 opacity-5 rounded-full translate-x-1/3 translate-y-1/3"></div>
+   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"><!-- Header -->
+    <div class="text-center mb-16">
+     <h2 class="text-4xl sm:text-5xl font-bold mb-4"><span class="text-gray-900">Over</span> <span class="text-red-500">Meyers Automotive</span></h2>
+     <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+     <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">Uw betrouwbare partner voor automotive services sinds meer dan 10 jaar</p>
+    </div><!-- Main Story -->
+    <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 mb-12 border border-gray-100">
+     <div class="prose prose-lg max-w-none">
+      <p class="text-gray-700 leading-relaxed text-lg mb-6"><strong class="text-red-500 text-xl">Meyers Automotive</strong> is ontstaan vanuit een passie voor auto's en een toewijding aan hoogwaardige service. Met meer dan 10 jaar ervaring in de automotive branche hebben wij ons ontwikkeld tot een totaalpartner waar u kunt vertrouwen voor al uw automotive behoeften.</p>
+      <p class="text-gray-700 leading-relaxed text-lg mb-6">Of u nu op zoek bent naar een betrouwbare occasion, hulp nodig heeft met export, een APK-keuring wilt laten uitvoeren, of uw auto moet laten repareren – wij staan voor u klaar met deskundig advies en eerlijke prijzen. Onze twee vestigingen in <strong>Amsterdam</strong> en <strong>Heemskerk</strong> zijn volledig uitgerust om u van dienst te zijn.</p>
+      <p class="text-gray-700 leading-relaxed text-lg">Wat ons onderscheidt is onze persoonlijke benadering. Bij Meyers Automotive bent u geen nummer, maar een gewaardeerde klant. We nemen de tijd om uw wensen te begrijpen en bieden oplossingen die bij u passen. Transparantie, eerlijkheid en kwaliteit staan bij ons altijd voorop.</p>
+     </div>
+    </div><!-- Core Values -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+     <div class="text-center group">
+      <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg">
+       <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+       </svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3 text-gray-900">Betrouwbaar</h3>
+      <p class="text-gray-600 leading-relaxed">Meer dan 10 jaar ervaring in de automotive branche. Gecertificeerd en erkend met KVK nummer 84030712.</p>
+     </div>
+     <div class="text-center group">
+      <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg">
+       <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+       </svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3 text-gray-900">Transparant</h3>
+      <p class="text-gray-600 leading-relaxed">Eerlijke prijzen zonder verborgen kosten. Offerte vooraf voor alle werkzaamheden. Wat u ziet, is wat u krijgt.</p>
+     </div>
+     <div class="text-center group">
+      <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg">
+       <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+       </svg>
+      </div>
+      <h3 class="text-2xl font-bold mb-3 text-gray-900">Persoonlijk</h3>
+      <p class="text-gray-600 leading-relaxed">Elke klant verdient persoonlijke aandacht. We luisteren naar uw wensen en bieden oplossingen op maat.</p>
+     </div>
+    </div><!-- Stats -->
+    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl p-8 sm:p-12 text-white shadow-2xl">
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+       <div class="text-5xl sm:text-6xl font-bold mb-2">
+        10+
+       </div>
+       <p class="text-red-100 text-sm sm:text-base font-medium">Jaar Ervaring</p>
+      </div>
+      <div>
+       <div class="text-5xl sm:text-6xl font-bold mb-2">
+        2
+       </div>
+       <p class="text-red-100 text-sm sm:text-base font-medium">Locaties</p>
+      </div>
+      <div>
+       <div class="text-5xl sm:text-6xl font-bold mb-2">
+        24/7
+       </div>
+       <p class="text-red-100 text-sm sm:text-base font-medium">Sleepdienst</p>
+      </div>
+      <div>
+       <div class="text-5xl sm:text-6xl font-bold mb-2">
+        100%
+       </div>
+       <p class="text-red-100 text-sm sm:text-base font-medium">Klanttevredenheid</p>
+      </div>
+     </div>
+    </div><!-- Contact Info Card -->
+    <div class="mt-12 bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+     <h3 class="text-2xl font-bold mb-6 text-center text-gray-900">Bedrijfsgegevens</h3>
+     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="text-center sm:text-left">
+       <p class="text-sm text-gray-500 mb-1">KVK Nummer</p>
+       <p class="font-bold text-gray-900">84030712</p>
+      </div>
+      <div class="text-center sm:text-left">
+       <p class="text-sm text-gray-500 mb-1">Telefoon</p><a href="tel:+31657160395" class="font-bold text-red-500 hover:text-red-600">+31 6 57 16 03 95</a>
+      </div>
+      <div class="text-center sm:text-left">
+       <p class="text-sm text-gray-500 mb-1">E-mail</p><a href="mailto:Meyersautomotives@gmail.com" class="font-bold text-red-500 hover:text-red-600 break-all">Meyersautomotives@gmail.com</a>
+      </div>
+      <div class="text-center sm:text-left">
+       <p class="text-sm text-gray-500 mb-1">Openingstijden</p>
+       <p class="font-bold text-gray-900">Ma-Za 09:00-18:00</p>
+       <p class="font-bold text-gray-900">Zo 10:00-16:00</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- LOCATIES -->
+  <section class="bg-white py-12 sm:py-16">
+   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10">Onze Locaties</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+     <div id="locatie-amsterdam" class="bg-gray-50 p-6 sm:p-8 rounded-xl border-2 border-gray-200">
+      <h3 class="text-2xl font-bold mb-4 text-red-500">Amsterdam</h3>
+      <div class="space-y-3">
+       <div>
+        <p class="font-bold text-gray-900">Adres</p>
+        <p class="text-gray-700">Ibisweg 3-5</p>
+        <p class="text-gray-700">1033RA Amsterdam</p>
+       </div>
+       <div>
+        <p class="font-bold text-gray-900">Openingstijden</p>
+        <p class="text-gray-700">Ma-Za: 09:00 - 18:00</p>
+        <p class="text-gray-700">Zondag: 10:00 - 16:00</p>
+       </div>
+       <div>
+        <p class="font-bold text-gray-900">Telefoon</p><a href="tel:+31657160395" class="text-red-500 hover:text-red-600 font-medium text-lg">+31 6 57 16 03 95</a>
+       </div>
+      </div>
+     </div>
+     <div id="locatie-heemskerk" class="bg-gray-50 p-6 sm:p-8 rounded-xl border-2 border-gray-200">
+      <h3 class="text-2xl font-bold mb-4 text-red-500">Heemskerk</h3>
+      <div class="space-y-3">
+       <div>
+        <p class="font-bold text-gray-900">Adres</p>
+        <p class="text-gray-700">Kerkweg 152</p>
+        <p class="text-gray-700">1968KL Heemskerk</p>
+       </div>
+       <div>
+        <p class="font-bold text-gray-900">Openingstijden</p>
+        <p class="text-gray-700">Ma-Za: 09:00 - 18:00</p>
+        <p class="text-gray-700">Zondag: 10:00 - 16:00</p>
+       </div>
+       <div>
+        <p class="font-bold text-gray-900">Telefoon</p><a href="tel:+31657160395" class="text-red-500 hover:text-red-600 font-medium text-lg">+31 6 57 16 03 95</a>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- CONTACT -->
+  <section id="contact" class="bg-gray-50 py-12 sm:py-16">
+   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10">Contact</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+     <div class="bg-white p-6 sm:p-8 rounded-xl border-2 border-gray-200">
+      <h3 class="text-xl font-bold mb-6">Contactgegevens</h3>
+      <div class="space-y-4">
+       <div>
+        <p class="font-bold mb-1 text-gray-900">Telefoon</p><a href="tel:+31657160395" class="text-red-500 hover:text-red-600 text-xl font-bold">+31 6 57 16 03 95</a>
+       </div>
+       <div>
+        <p class="font-bold mb-1 text-gray-900">E-mail</p><a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:text-red-600 font-medium">Meyersautomotives@gmail.com</a>
+       </div>
+       <div>
+        <p class="font-bold mb-1 text-gray-900">Openingstijden</p>
+        <p class="text-gray-700">Ma-Za: 09:00 - 18:00</p>
+        <p class="text-gray-700">Zondag: 10:00 - 16:00</p>
+       </div>
+      </div>
+     </div>
+     <div class="bg-white p-6 sm:p-8 rounded-xl border-2 border-gray-200">
+      <h3 class="text-xl font-bold mb-6">Stuur een bericht</h3>
+      <form id="contactForm" class="space-y-4">
+       <div id="formMessage" class="hidden p-4 rounded mb-4"></div>
+       <div><label for="name" class="block font-medium mb-2">Naam</label> <input type="text" id="name" name="name" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-200">
+       </div>
+       <div><label for="email" class="block font-medium mb-2">E-mailadres</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-200">
+       </div>
+       <div><label for="message" class="block font-medium mb-2">Bericht</label> <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-200"></textarea>
+       </div><button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">Verzenden</button>
+      </form>
+     </div>
+    </div>
+   </div>
+  </section><!-- ACCORDIONS -->
+  <section class="bg-white py-12 sm:py-16 border-t-2 border-gray-100">
+   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg border-2 border-gray-200 mb-6 overflow-hidden"><button class="accordion-trigger w-full flex justify-between items-center p-6 text-left font-bold text-lg hover:bg-gray-50 transition-colors" data-target="voorwaarden"> <span>Algemene Voorwaarden</span> <span class="text-2xl font-bold text-red-500">+</span> </button>
+     <div id="voorwaarden" class="accordion-content">
+      <div class="p-6 pt-0 space-y-4 text-gray-700 text-sm">
+       <div>
+        <h4 class="font-bold mb-2 text-base">Verkoop Voertuigen</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Alle voertuigen worden verkocht zoals gezien</li>
+         <li>Proefritten op afspraak en onder begeleiding</li>
+         <li>Geen garantie tenzij schriftelijk overeengekomen</li>
+         <li>Koper controleert staat voor aankoop</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Betaling</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Betaling: contant, bank of PIN</li>
+         <li>Voertuig blijft eigendom tot volledige betaling</li>
+         <li>Bij financiering gelden aanvullende voorwaarden</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Export</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Exportdocumenten op aanvraag</li>
+         <li>Koper verantwoordelijk voor importregels</li>
+         <li>Ondersteuning, geen aansprakelijkheid bij weigering</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Reparatie &amp; APK</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Offerte vooraf voor alle werkzaamheden</li>
+         <li>Extra kosten alleen na goedkeuring</li>
+         <li>Garantie: 3 maanden of 5.000 km</li>
+         <li>Alleen op afspraak</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Disclaimer</h4>
+        <p class="text-sm">Alle informatie op deze website is met de grootst mogelijke zorgvuldigheid samengesteld. Desondanks kunnen wij niet garanderen dat alle gegevens te allen tijde volledig, juist of actueel zijn. Voor correcte en actuele voertuiginformatie verzoeken wij u vriendelijk contact met ons op te nemen via <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a> of <a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:underline">Meyersautomotives@gmail.com</a>. Meyers Automotive aanvaardt geen aansprakelijkheid voor eventuele onvolkomenheden of onjuistheden in de gepresenteerde informatie.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="bg-white rounded-lg border-2 border-gray-200 overflow-hidden"><button class="accordion-trigger w-full flex justify-between items-center p-6 text-left font-bold text-lg hover:bg-gray-50 transition-colors" data-target="privacy"> <span>Privacy Policy</span> <span class="text-2xl font-bold text-red-500">+</span> </button>
+     <div id="privacy" class="accordion-content">
+      <div class="p-6 pt-0 space-y-4 text-gray-700 text-sm">
+       <div>
+        <h4 class="font-bold mb-2 text-base">Gegevensverzameling</h4>
+        <p>Meyers Automotive verwerkt persoonsgegevens alleen voor communicatie, aankoop, verkoop of service. Wij behandelen uw gegevens vertrouwelijk volgens de AVG.</p>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Welke gegevens?</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Naam en contactgegevens</li>
+         <li>Kenteken en voertuiggegevens</li>
+         <li>Factuur- en betaalgegevens</li>
+         <li>Communicatiegeschiedenis</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Uw rechten</h4>
+        <ul class="list-disc list-inside space-y-1">
+         <li>Inzage in persoonsgegevens</li>
+         <li>Correctie van onjuiste gegevens</li>
+         <li>Verwijdering (tenzij wettelijk verplicht)</li>
+         <li>Beperking en bezwaar verwerking</li>
+        </ul>
+       </div>
+       <div>
+        <h4 class="font-bold mb-2 text-base">Contact</h4>
+        <p>Voor vragen: <a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:underline">Meyersautomotives@gmail.com</a> of <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a></p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Footer -->
+  <footer class="bg-black text-white py-10">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+     <div>
+      <h4 class="text-lg font-bold mb-3 text-red-500">Meyers Automotive</h4>
+      <p class="text-gray-400 text-sm mb-2">Uw betrouwbare partner</p>
+      <p class="text-gray-400 text-sm">KVK: 84030712</p>
+     </div>
+     <div>
+      <h4 class="text-lg font-bold mb-3">Menu</h4>
+      <div class="space-y-2 text-sm"><a href="#home" class="block text-gray-400 hover:text-red-500">Home</a> <a href="#aanbod" class="block text-gray-400 hover:text-red-500">Ons Aanbod</a> <a href="#diensten" class="block text-gray-400 hover:text-red-500">Diensten</a> <a href="#over" class="block text-gray-400 hover:text-red-500">Over Ons</a>
+      </div>
+     </div>
+     <div>
+      <h4 class="text-lg font-bold mb-3">Locaties</h4>
+      <div class="space-y-2 text-sm">
+       <div>
+        <p class="font-medium text-red-500">Amsterdam</p>
+        <p class="text-gray-400">Ibisweg 3-5, 1033RA</p>
+       </div>
+       <div>
+        <p class="font-medium text-red-500">Heemskerk</p>
+        <p class="text-gray-400">Kerkweg 152, 1968KL</p>
+       </div>
+      </div>
+     </div>
+     <div>
+      <h4 class="text-lg font-bold mb-3">Contact</h4>
+      <div class="space-y-2 text-sm">
+       <p><a href="tel:+31657160395" class="text-gray-400 hover:text-red-500">+31 6 57 16 03 95</a></p>
+       <p><a href="mailto:Meyersautomotives@gmail.com" class="text-gray-400 hover:text-red-500">Meyersautomotives@gmail.com</a></p>
+       <p class="text-gray-400 mt-3">Ma-Za: 09:00-18:00<br>
+        Zo: 10:00-16:00</p>
+      </div>
+     </div>
+    </div>
+    <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-400">
+     <p>© 2024 Meyers Automotive. Alle rechten voorbehouden.</p>
+    </div>
+   </div>
+  </footer><!-- Modal -->
+  <div id="carModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 overflow-y-auto">
+   <div class="min-h-full flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"><button id="closeModal" class="sticky top-4 right-4 float-right bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-3xl sm:text-2xl font-bold z-10 shadow-lg">×</button>
+     <div id="modalContent"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQjjj1jUUsSzJBMG8Kpy-d3PxysCCiGbyz561wWljymwvveQHL_Cy501dz86JD-9UoWyyE6vK34TMb8/pub?output=csv';
 
-    <script>
-        // App State
-        let currentLanguage = '';
-        let currentExerciseType = '';
-        let currentWords = [];
-        let currentWordIndex = 0;
-        let correctAnswers = 0;
-        let incorrectAnswers = 0;
-        let difficultWords = [];
-        let startTime = 0;
-        let isFlipped = false;
-        
-        // Settings structure
-        const defaultSettings = {
-            darkMode: false,
-            sound: true,
-            languageDirection: {
-                "English": "EN→EN",
-                "French": "FR→NL", 
-                "Spanish": "ES→NL"
-            }
-        };
-        
-        let appSettings = JSON.parse(localStorage.getItem('appSettings') || JSON.stringify(defaultSettings));
-        
-        // Progress tracking
-        let progressData = JSON.parse(localStorage.getItem('languageProgress') || '{}');
-        
-        // Initialize progress data structure from JSON
-        function initializeProgress() {
-            languageData.languageSets.forEach((langSet, index) => {
-                // Create unique key for each language set
-                const langKey = `${langSet.language.toLowerCase()}_${langSet.direction.replace('→', '_').toLowerCase()}_${index}`;
-                if (!progressData[langKey]) {
-                    progressData[langKey] = {
-                        language: langSet.language,
-                        direction: langSet.direction,
-                        flag: langSet.flag,
-                        listName: langSet.listName,
-                        totalWords: langSet.words.length,
-                        wordsLearned: 0,
-                        learnedWords: []
-                    };
-                }
-            });
-            
-            saveProgress();
-        }
-        
-        function saveProgress() {
-            localStorage.setItem('languageProgress', JSON.stringify(progressData));
-        }
-        
-        function saveSettings() {
-            localStorage.setItem('appSettings', JSON.stringify(appSettings));
-        }
-        
-        function updateProgress(language, wordId, learned = true) {
-            if (!progressData[language]) return;
-            
-            const langProgress = progressData[language];
-            const wordIndex = langProgress.learnedWords.indexOf(wordId);
-            
-            if (learned && wordIndex === -1) {
-                langProgress.learnedWords.push(wordId);
-                langProgress.wordsLearned = langProgress.learnedWords.length;
-            } else if (!learned && wordIndex !== -1) {
-                langProgress.learnedWords.splice(wordIndex, 1);
-                langProgress.wordsLearned = langProgress.learnedWords.length;
-            }
-            
-            saveProgress();
-            updateProgressDisplay();
-        }
-        
-        function updateProgressDisplay() {
-            Object.keys(progressData).forEach(lang => {
-                const progress = progressData[lang];
-                const percentage = Math.round((progress.wordsLearned / progress.totalWords) * 100);
-                
-                // Update progress bar and text
-                const progressBar = document.querySelector(`[data-language="${lang}"] .progress-bar`);
-                const progressText = document.querySelector(`[data-language="${lang}"] .progress-text`);
-                
-                if (progressBar && progressText) {
-                    progressBar.style.width = percentage + '%';
-                    progressText.textContent = `${percentage}% voltooid`;
-                }
-            });
-        }
+    const RDW_API = {
+      basis: 'https://opendata.rdw.nl/resource/m9d7-ebf2.json',
+      vermogen: 'https://opendata.rdw.nl/resource/8ys7-d773.json',
+      gewicht: 'https://opendata.rdw.nl/resource/vezp-zz2k.json'
+    };
 
-        // New JSON structure with fixed language directions per word
-        const languageData = {
-            "languageSets": [
-                {
-                    "language": "English",
-                    "direction": "EN→EN",
-                    "listName": "HAVO/VWO Words in Progress",
-                    "flag": "🇬🇧",
-                    "words": [
-                        { "id": 1, "word": "biodegradable", "explanation": "Capable of being broken down naturally by bacteria", "type": "flipcard" },
-                        { "id": 2, "word": "sustainable", "explanation": "Able to continue over time without harm", "type": "flipcard" },
-                        { "id": 3, "word": "renewable", "explanation": "Can be replaced naturally", "type": "flipcard" },
-                        { "id": 4, "word": "ecosystem", "explanation": "Community of living things and their environment", "type": "flipcard" },
-                        { "id": 5, "word": "conservation", "explanation": "Protection of natural resources", "type": "flipcard" },
-                        { "id": 6, "word": "pollution", "explanation": "Harmful substances in the environment", "type": "flipcard" },
-                        { "id": 7, "word": "deforestation", "explanation": "Clearing forests from an area", "type": "flipcard" },
-                        { "id": 8, "word": "climate change", "explanation": "Long-term shifts in global weather patterns", "type": "flipcard" },
-                        { "id": 9, "word": "carbon footprint", "explanation": "Amount of CO2 released by activities", "type": "flipcard" },
-                        { "id": 10, "word": "greenhouse effect", "explanation": "Heat trapped in atmosphere by gases", "type": "flipcard" }
-                    ]
-                },
-                {
-                    "language": "Spanish",
-                    "direction": "ES→NL",
-                    "listName": "Vocabulario español (Hoofdstuk 1–3)",
-                    "flag": "🇪🇸",
-                    "words": [
-                        { "id": 101, "word": "casa", "other": "huis", "type": "flipcard" },
-                        { "id": 102, "word": "comer", "other": "eten", "type": "flipcard" },
-                        { "id": 103, "word": "agua", "other": "water", "type": "flipcard" },
-                        { "id": 104, "word": "familia", "other": "familie", "type": "flipcard" },
-                        { "id": 105, "word": "escuela", "other": "school", "type": "flipcard" },
-                        { "id": 106, "word": "libro", "other": "boek", "type": "flipcard" },
-                        { "id": 107, "word": "tiempo", "other": "tijd/weer", "type": "flipcard" },
-                        { "id": 108, "word": "amigo", "other": "vriend", "type": "flipcard" },
-                        { "id": 109, "word": "trabajo", "other": "werk", "type": "flipcard" },
-                        { "id": 110, "word": "ciudad", "other": "stad", "type": "flipcard" },
-                        { "id": 111, "word": "perro", "other": "hond", "type": "flipcard" },
-                        { "id": 112, "word": "gato", "other": "kat", "type": "flipcard" },
-                        { "id": 113, "word": "coche", "other": "auto", "type": "flipcard" },
-                        { "id": 114, "word": "mesa", "other": "tafel", "type": "flipcard" },
-                        { "id": 115, "word": "silla", "other": "stoel", "type": "flipcard" },
-                        { "id": 116, "word": "ventana", "other": "raam", "type": "flipcard" },
-                        { "id": 117, "word": "puerta", "other": "deur", "type": "flipcard" },
-                        { "id": 118, "word": "cocina", "other": "keuken", "type": "flipcard" },
-                        { "id": 119, "word": "baño", "other": "badkamer", "type": "flipcard" },
-                        { "id": 120, "word": "dormitorio", "other": "slaapkamer", "type": "flipcard" }
-                    ]
-                },
-                {
-                    "language": "Spanish",
-                    "direction": "NL→ES",
-                    "listName": "Spaans oefenen (Hoofdstuk 4–6)",
-                    "flag": "🇳🇱",
-                    "words": [
-                        { "id": 201, "word": "huis", "other": "casa", "type": "type" },
-                        { "id": 202, "word": "eten", "other": "comer", "type": "type" },
-                        { "id": 203, "word": "water", "other": "agua", "type": "type" },
-                        { "id": 204, "word": "familie", "other": "familia", "type": "type" },
-                        { "id": 205, "word": "school", "other": "escuela", "type": "type" },
-                        { "id": 206, "word": "boek", "other": "libro", "type": "type" },
-                        { "id": 207, "word": "tijd", "other": "tiempo", "type": "type" },
-                        { "id": 208, "word": "vriend", "other": "amigo", "type": "type" },
-                        { "id": 209, "word": "werk", "other": "trabajo", "type": "type" },
-                        { "id": 210, "word": "stad", "other": "ciudad", "type": "type" },
-                        { "id": 211, "word": "mooi", "other": "bonito", "type": "type" },
-                        { "id": 212, "word": "groot", "other": "grande", "type": "type" },
-                        { "id": 213, "word": "klein", "other": "pequeño", "type": "type" },
-                        { "id": 214, "word": "nieuw", "other": "nuevo", "type": "type" },
-                        { "id": 215, "word": "oud", "other": "viejo", "type": "type" },
-                        { "id": 216, "word": "rood", "other": "rojo", "type": "type" },
-                        { "id": 217, "word": "blauw", "other": "azul", "type": "type" },
-                        { "id": 218, "word": "groen", "other": "verde", "type": "type" },
-                        { "id": 219, "word": "geel", "other": "amarillo", "type": "type" },
-                        { "id": 220, "word": "zwart", "other": "negro", "type": "type" }
-                    ]
-                },
-                {
-                    "language": "Spanish",
-                    "direction": "MIXED",
-                    "listName": "Spaans Gemixt (Alle hoofdstukken)",
-                    "flag": "🇪🇸",
-                    "words": []
-                },
-           {
-                    "language": "French",
-                    "direction": "FR→NL",
-                    "listName": "Vocabulaire français (Alle hoofdstukken)",
-                    "flag": "🇫🇷",
-                    "words": [
-                        { "id": 301, "word": "entretenir", "other": "onderhouden", "type": "flipcard" },
-                        { "id": 302, "word": "appartenir à", "other": "behoren tot", "type": "flipcard" },
-                        { "id": 303, "word": "la ressemblance", "other": "de gelijkenis", "type": "flipcard" },
-                        { "id": 304, "word": "adopter", "other": "aannemen, adopteren", "type": "flipcard" },
-                        { "id": 305, "word": "la naissance", "other": "de geboorte", "type": "flipcard" },
-                        { "id": 306, "word": "baptiser", "other": "dopen", "type": "flipcard" },
-                        { "id": 307, "word": "gâter", "other": "verwennen", "type": "flipcard" },
-                        { "id": 308, "word": "contribuer à", "other": "bijdragen aan", "type": "flipcard" },
-                        { "id": 309, "word": "l'amitié", "other": "de vriendschap", "type": "flipcard" },
-                        { "id": 310, "word": "mal élevé", "other": "slecht opgevoed", "type": "flipcard" },
-                        { "id": 311, "word": "un époux, une épouse", "other": "een echtgenote, echtgenoot", "type": "flipcard" },
-                        { "id": 312, "word": "détester", "other": "een hekel hebben aan", "type": "flipcard" },
-                        { "id": 313, "word": "confier", "other": "toevertrouwen", "type": "flipcard" },
-                        { "id": 314, "word": "plaire à", "other": "bevallen, in de smaak vallen", "type": "flipcard" },
-                        { "id": 315, "word": "ainé", "other": "oudste", "type": "flipcard" },
-                        { "id": 316, "word": "cadet", "other": "jongste", "type": "flipcard" },
-                        { "id": 317, "word": "la rupture", "other": "de breuk, het verbreken", "type": "flipcard" },
-                        { "id": 318, "word": "obéissant", "other": "gehoorzaam", "type": "flipcard" },
-                        { "id": 319, "word": "une nièce, un neveu", "other": "een neef, een nicht", "type": "flipcard" },
-                        { "id": 320, "word": "une enfance", "other": "de kinderjaren", "type": "flipcard" },
-                        { "id": 321, "word": "un adulte", "other": "een volwassene", "type": "flipcard" },
-                        { "id": 322, "word": "consacrer à", "other": "wijden aan, besteden aan", "type": "flipcard" },
-                        { "id": 323, "word": "fréquenter", "other": "omgaan met", "type": "flipcard" },
-                        { "id": 324, "word": "le comportement", "other": "het gedrag", "type": "flipcard" },
-                        { "id": 325, "word": "responsable de", "other": "verantwoordelijk voor", "type": "flipcard" },
-                        { "id": 326, "word": "abandonner", "other": "in de steek laten", "type": "flipcard" },
-                        { "id": 327, "word": "célébrer", "other": "vieren", "type": "flipcard" },
-                        { "id": 328, "word": "divorcer", "other": "scheiden", "type": "flipcard" },
-                        { "id": 329, "word": "la pauvreté", "other": "de armoede", "type": "flipcard" },
-                        { "id": 330, "word": "insupportable", "other": "onuitstaanbaar", "type": "flipcard" },
-                        { "id": 331, "word": "hériter", "other": "erven", "type": "flipcard" },
-                        { "id": 332, "word": "mourir", "other": "sterven", "type": "flipcard" },
-                        { "id": 333, "word": "conseiller", "other": "aanraden, advies geven", "type": "flipcard" },
-                        { "id": 334, "word": "un entretien", "other": "een gesprek, een onderhoud", "type": "flipcard" },
-                        { "id": 335, "word": "la tension", "other": "de spanning", "type": "flipcard" },
-                        { "id": 336, "word": "ridiculiser", "other": "belachelijk maken", "type": "flipcard" },
-                        { "id": 337, "word": "le soutien", "other": "de steun", "type": "flipcard" },
-                        { "id": 338, "word": "reprocher", "other": "verwijten", "type": "flipcard" },
-                        { "id": 339, "word": "compréhensif", "other": "begripvol, begrijpend", "type": "flipcard" },
-                        { "id": 340, "word": "faire appel à", "other": "een beroep doen op", "type": "flipcard" },
-                        { "id": 341, "word": "les coordonnées", "other": "de persoonlijke gegevens", "type": "flipcard" },
-                        { "id": 342, "word": "le prénom", "other": "de voornaam", "type": "flipcard" },
-                        { "id": 343, "word": "le nom de famille", "other": "de achternaam", "type": "flipcard" },
-                        { "id": 344, "word": "le lieu de naissance", "other": "de geboorteplaats", "type": "flipcard" },
-                        { "id": 345, "word": "la date de naissance", "other": "de geboortedatum", "type": "flipcard" },
-                        { "id": 346, "word": "le domicile", "other": "de woonplaats, de verblijfplaats", "type": "flipcard" },
-                        { "id": 347, "word": "quel âge", "other": "hoe oud", "type": "flipcard" },
-                        { "id": 348, "word": "un célibataire", "other": "een vrijgezel", "type": "flipcard" },
-                        { "id": 349, "word": "la solitude", "other": "de eenzaamheid", "type": "flipcard" },
-                        { "id": 350, "word": "amoureux, amoureuse de", "other": "verliefd op", "type": "flipcard" },
-                        { "id": 351, "word": "un copain, une copine", "other": "een vriend, vriendin", "type": "flipcard" },
-                        { "id": 352, "word": "le fiancé, la fiancée", "other": "de verloofde", "type": "flipcard" },
-                        { "id": 353, "word": "marié", "other": "getrouwd", "type": "flipcard" },
-                        { "id": 354, "word": "malheureux, malheureuse", "other": "ongelukkig", "type": "flipcard" },
-                        { "id": 355, "word": "(il n'y a) pas de soucis", "other": "geen zorgen", "type": "flipcard" },
-                        { "id": 356, "word": "l'Education nationale", "other": "het onderwijs", "type": "flipcard" },
-                        { "id": 357, "word": "le bac", "other": "het eindexamen", "type": "flipcard" },
-                        { "id": 358, "word": "l'ambiance", "other": "de sfeer, de stemming", "type": "flipcard" },
-                        { "id": 359, "word": "la solution", "other": "de oplossing", "type": "flipcard" },
-                        { "id": 360, "word": "un enseignant", "other": "een docent", "type": "flipcard" },
-                        { "id": 361, "word": "le proviseur", "other": "de rector", "type": "flipcard" },
-                        { "id": 362, "word": "le bulletin", "other": "het rapport", "type": "flipcard" },
-                        { "id": 363, "word": "redoubler", "other": "overdoen, blijven zitten", "type": "flipcard" },
-                        { "id": 364, "word": "réussir", "other": "slagen", "type": "flipcard" },
-                        { "id": 365, "word": "fier de", "other": "trots op", "type": "flipcard" },
-                        { "id": 366, "word": "poursuivre", "other": "vervolgen, voortzetten", "type": "flipcard" },
-                        { "id": 367, "word": "obtenir", "other": "halen, behalen", "type": "flipcard" },
-                        { "id": 368, "word": "un ordinateur", "other": "een computer", "type": "flipcard" },
-                        { "id": 369, "word": "les devoirs", "other": "het huiswerk", "type": "flipcard" },
-                        { "id": 370, "word": "être en train de", "other": "bezig zijn te, bezig zijn met", "type": "flipcard" },
-                        { "id": 371, "word": "se tromper", "other": "zich vergissen", "type": "flipcard" },
-                        { "id": 372, "word": "réduire", "other": "verminderen", "type": "flipcard" },
-                        { "id": 373, "word": "l'emploi du temps", "other": "het (les)rooster", "type": "flipcard" },
-                        { "id": 374, "word": "le manuel", "other": "het schoolboek", "type": "flipcard" },
-                        { "id": 375, "word": "améliorer", "other": "verbeteren", "type": "flipcard" },
-                        { "id": 376, "word": "traiter", "other": "behandelen", "type": "flipcard" },
-                        { "id": 377, "word": "efficace", "other": "doeltreffend", "type": "flipcard" },
-                        { "id": 378, "word": "la condition", "other": "de omstandigheid", "type": "flipcard" },
-                        { "id": 379, "word": "la preuve", "other": "het bewijs", "type": "flipcard" },
-                        { "id": 380, "word": "indifférent", "other": "onverschillig", "type": "flipcard" },
-                        { "id": 381, "word": "hésiter", "other": "aarzelen", "type": "flipcard" },
-                        { "id": 382, "word": "interdire", "other": "verbieden", "type": "flipcard" },
-                        { "id": 383, "word": "obligatoire", "other": "verplicht", "type": "flipcard" },
-                        { "id": 384, "word": "décourager", "other": "ontmoedigen", "type": "flipcard" },
-                        { "id": 385, "word": "punir", "other": "straffen", "type": "flipcard" },
-                        { "id": 386, "word": "la valeur", "other": "de waarde", "type": "flipcard" },
-                        { "id": 387, "word": "convaincre", "other": "overtuigen", "type": "flipcard" },
-                        { "id": 388, "word": "le siècle", "other": "de eeuw", "type": "flipcard" },
-                        { "id": 389, "word": "le départ", "other": "het vertrek", "type": "flipcard" },
-                        { "id": 390, "word": "artificiel", "other": "kunstmatig", "type": "flipcard" },
-                        { "id": 391, "word": "la performance", "other": "de prestatie", "type": "flipcard" },
-                        { "id": 392, "word": "la confiance", "other": "het vertrouwen", "type": "flipcard" },
-                        { "id": 393, "word": "le sujet", "other": "het onderwerp", "type": "flipcard" },
-                        { "id": 394, "word": "impatient", "other": "ongeduldig", "type": "flipcard" },
-                        { "id": 395, "word": "permettre", "other": "toestaan", "type": "flipcard" },
-                        { "id": 396, "word": "passer le bac", "other": "eindexamen doen", "type": "flipcard" },
-                        { "id": 397, "word": "faire des études", "other": "studeren", "type": "flipcard" },
-                        { "id": 398, "word": "un cours", "other": "een college", "type": "flipcard" },
-                        { "id": 399, "word": "difficile", "other": "moeilijk", "type": "flipcard" },
-                        { "id": 400, "word": "la note", "other": "het cijfer", "type": "flipcard" },
-                        { "id": 401, "word": "une note suffisante", "other": "een voldoende", "type": "flipcard" },
-                        { "id": 402, "word": "une langue étrangère", "other": "een vreemde taal", "type": "flipcard" },
-                        { "id": 403, "word": "expliquer", "other": "uitleggen", "type": "flipcard" },
-                        { "id": 404, "word": "la récréation", "other": "de pauze", "type": "flipcard" },
-                        { "id": 405, "word": "libre", "other": "vrij", "type": "flipcard" },
-                        { "id": 406, "word": "un étudiant, une étudiante", "other": "een student, een studente", "type": "flipcard" },
-                        { "id": 407, "word": "à l'étranger", "other": "in het buitenland", "type": "flipcard" },
-                        { "id": 408, "word": "une chambre", "other": "een kamer", "type": "flipcard" },
-                        { "id": 409, "word": "habiter", "other": "wonen", "type": "flipcard" },
-                        { "id": 410, "word": "le cuisinier, la cuisinière", "other": "de kok, de kokkin", "type": "flipcard" },
-                        { "id": 411, "word": "le consommateur", "other": "de consument", "type": "flipcard" },
-                        { "id": 412, "word": "l'avis", "other": "de mening", "type": "flipcard" },
-                        { "id": 413, "word": "l'alimentation", "other": "de voeding", "type": "flipcard" },
-                        { "id": 414, "word": "la boisson", "other": "de drank", "type": "flipcard" },
-                        { "id": 415, "word": "grossir", "other": "dikker worden", "type": "flipcard" },
-                        { "id": 416, "word": "un régime", "other": "een dieet", "type": "flipcard" },
-                        { "id": 417, "word": "maigrir", "other": "vermageren, mager worden", "type": "flipcard" },
-                        { "id": 418, "word": "le prétexte", "other": "het voorwendsel, de smoes", "type": "flipcard" },
-                        { "id": 419, "word": "dépenser", "other": "uitgeven", "type": "flipcard" },
-                        { "id": 420, "word": "la nourriture", "other": "de voeding, het voedsel", "type": "flipcard" },
-                        { "id": 421, "word": "se nourrir", "other": "zich voeden", "type": "flipcard" },
-                        { "id": 422, "word": "contenir", "other": "bevatten", "type": "flipcard" },
-                        { "id": 423, "word": "il s'agit de", "other": "het gaat om, het betreft", "type": "flipcard" },
-                        { "id": 424, "word": "l'emballage", "other": "de verpakking", "type": "flipcard" },
-                        { "id": 425, "word": "la boîte", "other": "het blik, het blikje", "type": "flipcard" },
-                        { "id": 426, "word": "le goût", "other": "de smaak", "type": "flipcard" },
-                        { "id": 427, "word": "l'agriculture", "other": "de landbouw", "type": "flipcard" },
-                        { "id": 428, "word": "provenir de", "other": "afkomstig zijn van", "type": "flipcard" },
-                        { "id": 429, "word": "comparer", "other": "vergelijken", "type": "flipcard" },
-                        { "id": 430, "word": "le marché", "other": "de markt", "type": "flipcard" },
-                        { "id": 431, "word": "la pâtisserie", "other": "de banketbakkerij", "type": "flipcard" },
-                        { "id": 432, "word": "la viande", "other": "het vlees", "type": "flipcard" },
-                        { "id": 433, "word": "le poisson", "other": "de vis", "type": "flipcard" },
-                        { "id": 434, "word": "une truite", "other": "een forel", "type": "flipcard" },
-                        { "id": 435, "word": "l'huile", "other": "de olie", "type": "flipcard" },
-                        { "id": 436, "word": "le poids", "other": "het gewicht", "type": "flipcard" },
-                        { "id": 437, "word": "le choix", "other": "de keus", "type": "flipcard" },
-                        { "id": 438, "word": "adorer", "other": "gek zijn op", "type": "flipcard" },
-                        { "id": 439, "word": "bon marché", "other": "goedkoop", "type": "flipcard" },
-                        { "id": 440, "word": "la dégustation", "other": "een proeverij", "type": "flipcard" },
-                        { "id": 441, "word": "une glace", "other": "een ijsje", "type": "flipcard" },
-                        { "id": 442, "word": "le gâteau", "other": "het koekje, het taartje", "type": "flipcard" },
-                        { "id": 443, "word": "goûter", "other": "proeven", "type": "flipcard" },
-                        { "id": 444, "word": "le robinet", "other": "de kraan", "type": "flipcard" },
-                        { "id": 445, "word": "l'addition", "other": "de rekening", "type": "flipcard" },
-                        { "id": 446, "word": "une entrée", "other": "een voorgerecht", "type": "flipcard" },
-                        { "id": 447, "word": "le lait", "other": "de melk", "type": "flipcard" },
-                        { "id": 448, "word": "se plaindre", "other": "klagen, zich beklagen", "type": "flipcard" },
-                        { "id": 449, "word": "avoir soif", "other": "dorst hebben", "type": "flipcard" },
-                        { "id": 450, "word": "l'eau", "other": "het water", "type": "flipcard" },
-                        { "id": 451, "word": "un demi", "other": "een biertje", "type": "flipcard" },
-                        { "id": 452, "word": "le verre", "other": "het glas", "type": "flipcard" },
-                        { "id": 453, "word": "gros, grosse", "other": "dik", "type": "flipcard" },
-                        { "id": 454, "word": "maigre", "other": "mager", "type": "flipcard" },
-                        { "id": 455, "word": "assez", "other": "genoeg, voldoende", "type": "flipcard" },
-                        { "id": 456, "word": "le déjeuner", "other": "de lunch", "type": "flipcard" },
-                        { "id": 457, "word": "la confiture", "other": "de jam", "type": "flipcard" },
-                        { "id": 458, "word": "le beurre", "other": "de boter", "type": "flipcard" },
-                        { "id": 459, "word": "le dessert", "other": "het toetje", "type": "flipcard" },
-                        { "id": 460, "word": "le pourboire", "other": "de fooi", "type": "flipcard" },
-                        { "id": 461, "word": "c'est combien?", "other": "hoeveel is het?", "type": "flipcard" },
-                        { "id": 462, "word": "une habitude", "other": "een gewoonte", "type": "flipcard" },
-                        { "id": 463, "word": "le sentiment", "other": "het gevoel", "type": "flipcard" },
-                        { "id": 464, "word": "la haine", "other": "de haat", "type": "flipcard" },
-                        { "id": 465, "word": "une attitude", "other": "een houding", "type": "flipcard" },
-                        { "id": 466, "word": "avoir honte", "other": "zich schamen", "type": "flipcard" },
-                        { "id": 467, "word": "le soupir", "other": "de zucht, de adem", "type": "flipcard" },
-                        { "id": 468, "word": "la pitié", "other": "het medelijden", "type": "flipcard" },
-                        { "id": 469, "word": "sensible", "other": "gevoelig", "type": "flipcard" },
-                        { "id": 470, "word": "approuver", "other": "goedkeuren", "type": "flipcard" },
-                        { "id": 471, "word": "désagréable", "other": "onaangenaam", "type": "flipcard" },
-                        { "id": 472, "word": "exemplaire", "other": "voorbeeldig", "type": "flipcard" },
-                        { "id": 473, "word": "se moquer de", "other": "spotten met", "type": "flipcard" },
-                        { "id": 474, "word": "douter de", "other": "twijfelen aan", "type": "flipcard" },
-                        { "id": 475, "word": "la tendresse", "other": "de tederheid", "type": "flipcard" },
-                        { "id": 476, "word": "la déception", "other": "de teleurstelling", "type": "flipcard" },
-                        { "id": 477, "word": "méfiant", "other": "wantrouwend", "type": "flipcard" },
-                        { "id": 478, "word": "maladroit", "other": "onhandig", "type": "flipcard" },
-                        { "id": 479, "word": "furieux, furieuse", "other": "woedend", "type": "flipcard" },
-                        { "id": 480, "word": "déçu", "other": "teleurgesteld", "type": "flipcard" },
-                        { "id": 481, "word": "ennuyé", "other": "bezorgd, ontstemd", "type": "flipcard" },
-                        { "id": 482, "word": "regretter", "other": "betreuren, spijt hebben van", "type": "flipcard" },
-                        { "id": 483, "word": "consoler", "other": "troosten", "type": "flipcard" },
-                        { "id": 484, "word": "craindre", "other": "vrezen, bang zijn voor", "type": "flipcard" },
-                        { "id": 485, "word": "souffrir", "other": "lijden, veel verdriet hebben", "type": "flipcard" },
-                        { "id": 486, "word": "avoir du mal à", "other": "moeite hebben om", "type": "flipcard" },
-                        { "id": 487, "word": "convenir", "other": "passen, schikken", "type": "flipcard" },
-                        { "id": 488, "word": "avoir tort de", "other": "ongelijk hebben", "type": "flipcard" },
-                        { "id": 489, "word": "la sincérité", "other": "de oprechtheid", "type": "flipcard" },
-                        { "id": 490, "word": "gêné", "other": "in verlegenheid", "type": "flipcard" },
-                        { "id": 491, "word": "le malheur", "other": "het onheil, het ongeluk", "type": "flipcard" },
-                        { "id": 492, "word": "généreux, généreuse", "other": "vrijgevig, edelmoedig", "type": "flipcard" },
-                        { "id": 493, "word": "tenter de", "other": "proberen", "type": "flipcard" },
-                        { "id": 494, "word": "aimable", "other": "vriendelijk", "type": "flipcard" },
-                        { "id": 495, "word": "disponible", "other": "beschikbaar", "type": "flipcard" },
-                        { "id": 496, "word": "faire mal", "other": "pijn doen", "type": "flipcard" },
-                        { "id": 497, "word": "injuste", "other": "onrechtvaardig", "type": "flipcard" },
-                        { "id": 498, "word": "trembler", "other": "beven, trillen", "type": "flipcard" },
-                        { "id": 499, "word": "envier", "other": "benijden, jaloers zijn op", "type": "flipcard" },
-                        { "id": 500, "word": "désolé", "other": "spijt(ig), bedroefd", "type": "flipcard" },
-                        { "id": 501, "word": "s'habituer à", "other": "wennen aan", "type": "flipcard" },
-                        { "id": 502, "word": "avoir l'habitude de", "other": "de gewoonte hebben", "type": "flipcard" },
-                        { "id": 503, "word": "en avoir marre", "other": "het spuugzat zijn", "type": "flipcard" },
-                        { "id": 504, "word": "être désolé", "other": "spijten", "type": "flipcard" },
-                        { "id": 505, "word": "avoir envie de", "other": "zin hebben om", "type": "flipcard" },
-                        { "id": 506, "word": "refuser de", "other": "weigeren", "type": "flipcard" },
-                        { "id": 507, "word": "tant mieux", "other": "des te beter", "type": "flipcard" },
-                        { "id": 508, "word": "se demander si", "other": "zich afvragen of", "type": "flipcard" },
-                        { "id": 509, "word": "dommage", "other": "jammer", "type": "flipcard" },
-                        { "id": 510, "word": "enchanté", "other": "aangenaam", "type": "flipcard" },
-                        { "id": 511, "word": "mécontent", "other": "ontevreden", "type": "flipcard" },
-                        { "id": 512, "word": "seul", "other": "alleen", "type": "flipcard" },
-                        { "id": 513, "word": "inquiet, inquiète", "other": "ongerust", "type": "flipcard" },
-                        { "id": 514, "word": "fort", "other": "zeer, sterk, heel", "type": "flipcard" },
-                        { "id": 515, "word": "extrêmement", "other": "enorm, uitermate", "type": "flipcard" },
-                        { "id": 516, "word": "innombrable", "other": "talrijk", "type": "flipcard" },
-                        { "id": 517, "word": "la plupart des", "other": "de meeste", "type": "flipcard" },
-                        { "id": 518, "word": "ne...aucun", "other": "geen enkele", "type": "flipcard" },
-                        { "id": 519, "word": "une centaine", "other": "een honderdtal", "type": "flipcard" },
-                        { "id": 520, "word": "plusieurs", "other": "verscheidene", "type": "flipcard" },
-                        { "id": 521, "word": "la moitié", "other": "de helft", "type": "flipcard" },
-                        { "id": 522, "word": "autant, autant de", "other": "evenveel", "type": "flipcard" },
-                        { "id": 523, "word": "suffire", "other": "voldoende zijn", "type": "flipcard" },
-                        { "id": 524, "word": "un morceau", "other": "een stuk, een klontje", "type": "flipcard" },
-                        { "id": 525, "word": "parfaitement", "other": "volkomen, absoluut", "type": "flipcard" },
-                        { "id": 526, "word": "couramment", "other": "vlot, vloeiend", "type": "flipcard" },
-                        { "id": 527, "word": "mériter", "other": "verdienen, waard zijn", "type": "flipcard" },
-                        { "id": 528, "word": "indispensable", "other": "noodzakelijk, onontbeerlijk", "type": "flipcard" },
-                        { "id": 529, "word": "mesurer", "other": "meten", "type": "flipcard" },
-                        { "id": 530, "word": "immense", "other": "enorm, ontzaglijk", "type": "flipcard" },
-                        { "id": 531, "word": "impressionnant", "other": "indrukwekkend", "type": "flipcard" },
-                        { "id": 532, "word": "diminuer", "other": "afnemen, verminderen", "type": "flipcard" },
-                        { "id": 533, "word": "notamment", "other": "vooral, met name", "type": "flipcard" },
-                        { "id": 534, "word": "élevé", "other": "hoog, groot", "type": "flipcard" },
-                        { "id": 535, "word": "déconseiller", "other": "afraden", "type": "flipcard" },
-                        { "id": 536, "word": "raisonnable", "other": "redelijk", "type": "flipcard" },
-                        { "id": 537, "word": "un avantage", "other": "een voordeel", "type": "flipcard" },
-                        { "id": 538, "word": "particulièrement", "other": "bijzonder, buitengewoon", "type": "flipcard" },
-                        { "id": 539, "word": "ignorer", "other": "niet weten", "type": "flipcard" },
-                        { "id": 540, "word": "pire", "other": "erger", "type": "flipcard" },
-                        { "id": 541, "word": "dommage", "other": "jammer", "type": "flipcard" },
-                        { "id": 542, "word": "essentiellement", "other": "met name, voornamelijk", "type": "flipcard" },
-                        { "id": 543, "word": "surtout", "other": "vooral", "type": "flipcard" },
-                        { "id": 544, "word": "en majorité", "other": "in meerderheid", "type": "flipcard" },
-                        { "id": 545, "word": "moyen", "other": "gemiddeld", "type": "flipcard" },
-                        { "id": 546, "word": "apprécier", "other": "waarderen", "type": "flipcard" },
-                        { "id": 547, "word": "irrésistible", "other": "onweerstaanbaar", "type": "flipcard" },
-                        { "id": 548, "word": "augmenter", "other": "verhogen, toenemen", "type": "flipcard" },
-                        { "id": 549, "word": "épouvantable", "other": "vreselijk, afschuwelijk", "type": "flipcard" },
-                        { "id": 550, "word": "bref", "other": "kort, kortom", "type": "flipcard" },
-                        { "id": 551, "word": "à peu près", "other": "ongeveer, zo ongeveer", "type": "flipcard" },
-                        { "id": 552, "word": "utile", "other": "nuttig", "type": "flipcard" },
-                        { "id": 553, "word": "le progrès", "other": "de vooruitgang, de voortgang", "type": "flipcard" },
-                        { "id": 554, "word": "avantageux, avantageuse", "other": "voordelig", "type": "flipcard" },
-                        { "id": 555, "word": "assez", "other": "tamelijk", "type": "flipcard" },
-                        { "id": 556, "word": "nécessaire", "other": "noodzakelijk", "type": "flipcard" },
-                        { "id": 557, "word": "plein, plein de", "other": "vol", "type": "flipcard" },
-                        { "id": 558, "word": "un désavantage", "other": "een nadeel", "type": "flipcard" },
-                        { "id": 559, "word": "ne...jamais", "other": "nooit", "type": "flipcard" },
-                        { "id": 560, "word": "environ", "other": "ongeveer", "type": "flipcard" },
-                        { "id": 561, "word": "pourtant", "other": "toch", "type": "flipcard" },
-                        { "id": 562, "word": "excellent", "other": "uitstekend", "type": "flipcard" },
-                        { "id": 563, "word": "nombreux", "other": "talrijk", "type": "flipcard" },
-                        { "id": 564, "word": "admirer", "other": "bewonderen", "type": "flipcard" },
-                        { "id": 565, "word": "barbant", "other": "saai", "type": "flipcard" },
-                        { "id": 566, "word": "dangereux", "other": "gevaarlijk", "type": "flipcard" },
-                        { "id": 567, "word": "principal", "other": "belangrijkste", "type": "flipcard" }
-                    ]
-                },
-                {
-                    "language": "French",
-                    "direction": "MIXED",
-                    "listName": "Frans Gemixt (Alle hoofdstukken)",
-                    "flag": "🇫🇷",
-                    "words": []
-                },
-                {
-                    "language": "All",
-                    "direction": "MIXED",
-                    "listName": "Alles Samen (Alle talen gemixt)",
-                    "flag": "🌍",
-                    "words": []
-                }
-            ]
-        };
+    let allCarsData = [];
+    let allCarsWithRDW = [];
+    let filterConfig = {
+      search: '',
+      priceMin: 0,
+      priceMax: 100000,
+      yearMin: 1990,
+      yearMax: 2024,
+      kmMin: 0,
+      kmMax: 300000,
+      ccMin: 0,
+      ccMax: 5000,
+      brandstof: '',
+      transmissie: '',
+      sort: ''
+    };
+
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#mobileNav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileNav').classList.add('hidden');
+      });
+    });
+
+    // Locaties submenu
+    document.getElementById('locatiesToggle').addEventListener('click', () => {
+      const submenu = document.getElementById('locatiesSubmenu');
+      const icon = document.getElementById('locatiesIcon');
+      submenu.classList.toggle('active');
+      icon.textContent = submenu.classList.contains('active') ? '−' : '+';
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Contact form
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('formMessage');
+      msg.className = 'p-4 rounded mb-4 bg-green-50 text-green-700 border-l-4 border-green-600';
+      msg.textContent = 'Bedankt voor uw bericht! We nemen spoedig contact op.';
+      msg.classList.remove('hidden');
+      this.reset();
+      setTimeout(() => msg.classList.add('hidden'), 5000);
+    });
+
+    // Accordion
+    document.querySelectorAll('.accordion-trigger').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const content = document.getElementById(targetId);
+        const icon = this.querySelector('span:last-child');
         
-        // Convert new JSON structure to compatible format and generate mixed sets
-        const wordData = {};
-        languageData.languageSets.forEach((langSet, index) => {
-            const langKey = `${langSet.language.toLowerCase()}_${langSet.direction.replace('→', '_').toLowerCase()}_${index}`;
+        content.classList.toggle('active');
+        icon.textContent = content.classList.contains('active') ? '−' : '+';
+      });
+    });
+
+    // Format functions
+    function formatPrice(prijs) {
+      // Check if price exists and is valid
+      if (!prijs || prijs === '' || prijs === '0' || prijs === 0) {
+        return 'Prijs onbekend';
+      }
+      
+      // Remove any existing currency symbols, spaces, or dots used as thousand separators
+      let cleanPrice = String(prijs).replace(/[€\s.]/g, '').replace(',', '.');
+      const num = parseFloat(cleanPrice);
+      
+      if (isNaN(num) || num === 0) {
+        return 'Prijs onbekend';
+      }
+      return '€ ' + new Intl.NumberFormat('nl-NL').format(num);
+    }
+
+    function formatKm(km) {
+      const num = parseInt(km) || 0;
+      return new Intl.NumberFormat('nl-NL').format(num) + ' km';
+    }
+
+    // fetchCarData
+    async function fetchCarData(kenteken) {
+      const clean = kenteken.replace(/[-\s]/g, '').toUpperCase();
+      
+      try {
+        const [basis, vermogen, gewicht] = await Promise.all([
+          fetch(`${RDW_API.basis}?kenteken=${clean}`).then(r => r.json()),
+          fetch(`${RDW_API.vermogen}?kenteken=${clean}`).then(r => r.json()),
+          fetch(`${RDW_API.gewicht}?kenteken=${clean}`).then(r => r.json())
+        ]);
+        
+        const b = basis[0] || {};
+        const v = vermogen[0] || {};
+        const g = gewicht[0] || {};
+        
+        // Extract bouwjaar from datum_eerste_toelating (format: YYYYMMDD)
+        let bouwjaar = 'Bouwjaar onbekend';
+        if (b.datum_eerste_toelating) {
+          const jaar = b.datum_eerste_toelating.substring(0, 4);
+          if (jaar && !isNaN(jaar)) {
+            bouwjaar = jaar;
+          }
+        }
+        
+        return {
+          merk: b.merk || '-',
+          model: b.handelsbenaming || '-',
+          brandstof: b.brandstof_omschrijving || '-',
+          transmissie: b.transmissie_omschrijving || b.inrichting || '-',
+          bouwjaar: bouwjaar,
+          cilinderinhoud: b.cilinderinhoud ? `${b.cilinderinhoud} cm³` : '-',
+          vermogen: v.vermogen_brom_snorfiets || v.maximum_vermogen || '-',
+          gewicht: g.massa_ledig_voertuig ? `${g.massa_ledig_voertuig} kg` : '-',
+          kleur: b.eerste_kleur || '-',
+          carrosserie: b.carrosserie || b.voertuigsoort || '-'
+        };
+      } catch (error) {
+        console.error(`RDW fout ${kenteken}:`, error);
+        return null;
+      }
+    }
+
+    // renderCars
+    function renderCars(car, rdw) {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-xl border-2 border-gray-200 overflow-hidden hover:border-red-500 hover:shadow-xl transition-all cursor-pointer';
+      
+      const available = car.Beschikbaar?.toLowerCase() === 'ja';
+      const favorite = car.Favoriet?.toLowerCase() === 'ja';
+      
+      const foto1 = car['Foto 1 – Voorkant'] || '';
+      
+      card.innerHTML = `
+        <div class="relative bg-gray-100 h-56 sm:h-48 flex items-center justify-center overflow-hidden">
+          ${foto1 ? `<img src="${foto1}" alt="${car.Kenteken}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<svg class=\\'w-24 h-24 text-gray-400\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4\\'/></svg>'">` : '<svg class="w-24 h-24 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>'}
+          ${favorite ? '<div class="badge-favoriet absolute top-3 right-3 text-xs sm:text-sm">FAVORIET</div>' : ''}
+          ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-sm sm:text-base">VERKOCHT</div></div>' : ''}
+        </div>
+        
+        <div class="p-4 sm:p-5">
+          <div class="mb-3">
+            <div class="text-lg sm:text-xl font-bold font-mono mb-1">${car.Kenteken}</div>
+            ${rdw ? `<div class="text-sm text-gray-600 font-medium">${rdw.merk} ${rdw.model}</div>` : '<div class="text-xs text-gray-500">RDW laden...</div>'}
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 sm:gap-3 mb-4 text-sm">
+            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
+              <p class="text-xs text-gray-500 mb-0.5">Prijs</p>
+              <p class="font-bold text-red-500 text-sm sm:text-base">${formatPrice(car.Prijs)}</p>
+            </div>
             
-            if (langSet.direction === 'MIXED') {
-                // Generate mixed word sets
-                if (langSet.language === 'Spanish') {
-                    // Combine ES→NL and NL→ES Spanish words
-                    const esNlWords = languageData.languageSets.find(set => 
-                        set.language === 'Spanish' && set.direction === 'ES→NL'
-                    )?.words || [];
-                    const nlEsWords = languageData.languageSets.find(set => 
-                        set.language === 'Spanish' && set.direction === 'NL→ES'
-                    )?.words || [];
-                    
-                    langSet.words = [...esNlWords, ...nlEsWords];
-                } else if (langSet.language === 'French') {
-                    // Combine FR→NL and NL→FR French words
-                    const frNlWords = languageData.languageSets.find(set => 
-                        set.language === 'French' && set.direction === 'FR→NL'
-                    )?.words || [];
-                    const nlFrWords = languageData.languageSets.find(set => 
-                        set.language === 'French' && set.direction === 'NL→FR'
-                    )?.words || [];
-                    
-                    langSet.words = [...frNlWords, ...nlFrWords];
-                } else if (langSet.language === 'All') {
-                    // Combine all words from all languages
-                    const allWords = [];
-                    languageData.languageSets.forEach(set => {
-                        if (set.direction !== 'MIXED' && set.words.length > 0) {
-                            allWords.push(...set.words);
-                        }
-                    });
-                    langSet.words = allWords;
-                }
-            }
+            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
+              <p class="text-xs text-gray-500 mb-0.5">Kilometerstand</p>
+              <p class="font-bold text-sm sm:text-base">${formatKm(car.Kilometerstand)}</p>
+            </div>
             
-            wordData[langKey] = langSet.words;
+            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
+              <p class="text-xs text-gray-500 mb-0.5">Bouwjaar</p>
+              <p class="font-bold text-sm sm:text-base">${rdw && rdw.bouwjaar ? rdw.bouwjaar : (car.Bouwjaar || 'Onbekend')}</p>
+            </div>
+            
+            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
+              <p class="text-xs text-gray-500 mb-0.5">Locatie</p>
+              <p class="font-bold text-sm sm:text-base">${car.Locatie || '-'}</p>
+            </div>
+          </div>
+          
+          <button class="w-full bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-bold py-3 sm:py-2.5 px-4 rounded-lg transition-colors text-sm sm:text-base" onclick="openCarDetail('${car.Kenteken}')">
+            Meer details
+          </button>
+        </div>
+      `;
+      
+      return card;
+    }
+
+    // openCarDetail
+    async function openCarDetail(kenteken) {
+      const car = allCarsData.find(c => c.Kenteken === kenteken);
+      if (!car) return;
+      
+      const modal = document.getElementById('carModal');
+      const content = document.getElementById('modalContent');
+      
+      content.innerHTML = '<div class="p-12 text-center"><div class="spinner mx-auto mb-4"></div><p class="text-gray-600">Details laden...</p></div>';
+      modal.classList.remove('hidden');
+      
+      const rdw = await fetchCarData(kenteken);
+      const available = car.Beschikbaar?.toLowerCase() === 'ja';
+      const favorite = car.Favoriet?.toLowerCase() === 'ja';
+      
+      const photos = [];
+      const photoKeys = [
+        'Foto 1 – Voorkant',
+        'Foto 2 – Linker zijkant',
+        'Foto 3 �� Achterkant',
+        'Foto 4 – Rechter zijkant',
+        'Foto 5 – Interieur voor',
+        'Foto 6 – Interieur achter',
+        'Foto 7 – Dashboard',
+        'Foto 8 – Stoelen/Details',
+        'Foto 9 – Motorruimte',
+        'Foto 10 – Kofferbak',
+        'Foto 11 – Detail 1',
+        'Foto 12 – Detail 2',
+        'Foto 13 – Detail 3',
+        'Foto 14 – Detail 4',
+        'Foto 15 – Detail 5'
+      ];
+      for (const key of photoKeys) {
+        if (car[key] && car[key].trim()) {
+          photos.push(car[key].trim());
+        }
+      }
+      
+      let galleryHTML = '';
+      if (photos.length > 0) {
+        galleryHTML = `
+          <div class="relative bg-gray-900">
+            <div id="gallery" class="gallery-container flex overflow-x-auto snap-x snap-mandatory">
+              ${photos.map((photo, idx) => `
+                <div class="gallery-item flex-shrink-0 w-full h-72 sm:h-80 md:h-96 flex items-center justify-center bg-gray-100">
+                  <img src="${photo}" alt="Foto ${idx + 1}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<svg class=\\'w-32 h-32 text-gray-400\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4\\'/></svg>'">
+                </div>
+              `).join('')}
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 sm:gap-2 px-4">
+              ${photos.map((_, idx) => `<div class="gallery-dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white opacity-50 cursor-pointer transition-opacity" data-index="${idx}"></div>`).join('')}
+            </div>
+            ${favorite ? '<div class="badge-favoriet absolute top-3 right-3 text-xs sm:text-sm">FAVORIET</div>' : ''}
+            ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-lg sm:text-xl">VERKOCHT</div></div>' : ''}
+          </div>
+        `;
+      } else {
+        galleryHTML = `
+          <div class="relative bg-gray-100 h-64 sm:h-80 flex items-center justify-center">
+            <svg class="w-32 h-32 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            ${favorite ? '<div class="badge-favoriet absolute top-3 right-3">FAVORIET</div>' : ''}
+            ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-xl">VERKOCHT</div></div>' : ''}
+          </div>
+        `;
+      }
+      
+      content.innerHTML = `
+        ${galleryHTML}
+        
+        <div class="p-5 sm:p-6 lg:p-8">
+          <div class="mb-6 pb-6 border-b-2 border-gray-200">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-2">
+              <div class="flex-1">
+                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold font-mono mb-2">${car.Kenteken}</h2>
+                ${rdw ? `<p class="text-base sm:text-lg lg:text-xl text-gray-600 font-medium">${rdw.merk} ${rdw.model}</p>` : ''}
+              </div>
+              <div class="sm:text-right">
+                <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500">${formatPrice(car.Prijs)}</div>
+                <p class="text-sm sm:text-base text-gray-600 mt-1 font-medium">${car.Locatie || '-'}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-base sm:text-lg font-bold mb-3 text-red-500">Basisgegevens</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Kilometerstand</p>
+                <p class="font-bold text-sm sm:text-base">${formatKm(car.Kilometerstand)}</p>
+              </div>
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Bouwjaar</p>
+                <p class="font-bold text-sm sm:text-base">${rdw && rdw.bouwjaar ? rdw.bouwjaar : (car.Bouwjaar || 'Onbekend')}</p>
+              </div>
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Locatie</p>
+                <p class="font-bold text-sm sm:text-base">${car.Locatie || '-'}</p>
+              </div>
+              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Status</p>
+                <p class="font-bold text-sm sm:text-base">${available ? 'Beschikbaar' : 'Verkocht'}</p>
+              </div>
+            </div>
+          </div>
+          
+          ${rdw && (rdw.merk !== '-' || rdw.model !== '-' || rdw.brandstof !== '-') ? `
+            <div class="mb-6">
+              <h3 class="text-base sm:text-lg font-bold mb-3 text-red-500">RDW Voertuiggegevens</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                ${rdw.merk !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Merk</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.merk}</p>
+                </div>` : ''}
+                ${rdw.model !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Model</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.model}</p>
+                </div>` : ''}
+                ${rdw.bouwjaar !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Bouwjaar</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.bouwjaar}</p>
+                </div>` : ''}
+                ${rdw.brandstof !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Brandstof</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.brandstof}</p>
+                </div>` : ''}
+                ${rdw.transmissie !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Transmissie</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.transmissie}</p>
+                </div>` : ''}
+                ${rdw.cilinderinhoud !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Cilinderinhoud</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.cilinderinhoud}</p>
+                </div>` : ''}
+                ${rdw.kleur !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Kleur</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.kleur}</p>
+                </div>` : ''}
+                ${rdw.carrosserie !== '-' ? `
+                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                  <p class="text-xs text-gray-500 mb-1">Carrosserie</p>
+                  <p class="font-bold text-sm sm:text-base">${rdw.carrosserie}</p>
+                </div>` : ''}
+              </div>
+            </div>
+          ` : ''}
+          
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <a href="tel:+31657160395" class="flex-1 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-bold py-4 sm:py-3 px-6 rounded-lg text-center transition-colors text-base sm:text-lg shadow-lg">
+              Bel ons direct
+            </a>
+            <a href="#contact" onclick="document.getElementById('carModal').classList.add('hidden')" class="flex-1 bg-black hover:bg-gray-800 active:bg-gray-900 text-white font-bold py-4 sm:py-3 px-6 rounded-lg text-center transition-colors text-base sm:text-lg shadow-lg">
+              Stuur bericht
+            </a>
+          </div>
+        </div>
+      `;
+      
+      if (photos.length > 1) {
+        const gallery = document.getElementById('gallery');
+        const dots = document.querySelectorAll('.gallery-dot');
+        
+        gallery.addEventListener('scroll', () => {
+          const scrollLeft = gallery.scrollLeft;
+          const width = gallery.offsetWidth;
+          const currentIndex = Math.round(scrollLeft / width);
+          
+          dots.forEach((dot, idx) => {
+            dot.style.opacity = idx === currentIndex ? '1' : '0.5';
+          });
         });
         
-        // Generate language cards dynamically
-        function generateLanguageCards() {
-            const container = document.getElementById('languageCards');
-            container.innerHTML = '';
-            
-            // Get all available language sets
-            const availableLanguages = Object.keys(progressData);
-            
-            availableLanguages.forEach(lang => {
-                const progress = progressData[lang];
-                const percentage = Math.round((progress.wordsLearned / progress.totalWords) * 100);
-                
-                const card = document.createElement('div');
-                card.className = 'language-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300';
-                card.setAttribute('data-language', lang);
-                card.onclick = () => selectLanguage(lang);
-                
-                // Show direction in the title for clarity
-                const displayTitle = progress.direction ? 
-                    `${progress.language} (${progress.direction})` : 
-                    progress.language;
-                
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900">${displayTitle}</h3>
-                            <p class="text-gray-600 text-sm">${progress.listName}</p>
-                            <div class="mt-2">
-                                <div class="bg-blue-100 rounded-full h-2 w-32">
-                                    <div class="progress-bar bg-blue-500 h-2 rounded-full" style="width: ${percentage}%"></div>
-                                </div>
-                                <span class="progress-text text-sm text-gray-500 mt-1 block">${percentage}% voltooid</span>
-                            </div>
-                        </div>
-                        <div class="text-3xl">${progress.flag}</div>
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
-        }
-
-        // Navigation functions
-        function showHome() {
-            hideAllScreens();
-            document.getElementById('homeScreen').classList.remove('hidden');
-            generateLanguageCards();
-        }
-        
-        function showLanguageScreen() {
-            hideAllScreens();
-            document.getElementById('languageScreen').classList.remove('hidden');
-        }
-        
-        function showSettings() {
-            hideAllScreens();
-            document.getElementById('settingsScreen').classList.remove('hidden');
-            populateLanguageDirections();
-        }
-        
-        function populateLanguageDirections() {
-            const container = document.getElementById('languageDirections');
-            container.innerHTML = '';
-            
-            languageData.languageSets.forEach(langSet => {
-                const directionDiv = document.createElement('div');
-                directionDiv.className = 'flex justify-between items-center py-1';
-                directionDiv.innerHTML = `
-                    <span class="text-sm">${langSet.flag} ${langSet.listName}</span>
-                    <span class="font-mono text-blue-600 text-xs">${langSet.direction}</span>
-                `;
-                container.appendChild(directionDiv);
-            });
-        }
-        
-        function showAddWords() {
-            hideAllScreens();
-            document.getElementById('addWordsScreen').classList.remove('hidden');
-        }
-        
-        function hideAllScreens() {
-            const screens = ['homeScreen', 'languageScreen', 'exerciseScreen', 'resultsScreen', 'addWordsScreen', 'settingsScreen'];
-            screens.forEach(screen => {
-                document.getElementById(screen).classList.add('hidden');
-            });
-        }
-        
-        // Language selection
-        function selectLanguage(language) {
-            currentLanguage = language;
-            
-            const progress = progressData[language];
-            if (progress) {
-                const displayTitle = progress.direction ? 
-                    `${progress.language} (${progress.direction})` : 
-                    progress.language;
-                document.getElementById('languageTitle').textContent = displayTitle;
-                document.getElementById('languageSubtitle').textContent = progress.listName;
-            }
-            
-            // Hide add words button (not needed for these languages)
-            const addWordsBtn = document.getElementById('addWordsBtn');
-            addWordsBtn.style.display = 'none';
-            
-            showLanguageScreen();
-        }
-        
-        // Exercise functions
-        function startExercise(type) {
-            currentExerciseType = type;
-            
-            // Get words for current language set
-            const availableWords = wordData[currentLanguage] || [];
-            
-            // For mixed sets, ensure we have a good variety
-            let selectedWords;
-            if (availableWords.length > 20) {
-                // For large mixed sets, take 15 words for more variety
-                selectedWords = [...availableWords].sort(() => Math.random() - 0.5).slice(0, 15);
-            } else {
-                // For smaller sets, take up to 10 words
-                selectedWords = [...availableWords].sort(() => Math.random() - 0.5).slice(0, Math.min(10, availableWords.length));
-            }
-            
-            currentWords = selectedWords;
-            currentWordIndex = 0;
-            correctAnswers = 0;
-            incorrectAnswers = 0;
-            difficultWords = [];
-            startTime = Date.now();
-            
-            hideAllScreens();
-            document.getElementById('exerciseScreen').classList.remove('hidden');
-            
-            // Hide all exercise types
-            document.getElementById('flipcardExercise').classList.add('hidden');
-            document.getElementById('typingExercise').classList.add('hidden');
-            document.getElementById('multipleExercise').classList.add('hidden');
-            
-            // Show current exercise type
-            document.getElementById(type + 'Exercise').classList.remove('hidden');
-            
-            loadCurrentWord();
-        }
-        
-        function loadCurrentWord() {
-            if (currentWordIndex >= currentWords.length) {
-                showResults();
-                return;
-            }
-            
-            const word = currentWords[currentWordIndex];
-            updateProgress();
-            
-            if (currentExerciseType === 'flipcard') {
-                loadFlipcard(word);
-            } else if (currentExerciseType === 'typing') {
-                loadTyping(word);
-            } else if (currentExerciseType === 'multiple') {
-                loadMultiple(word);
-            }
-        }
-        
-        function updateProgress() {
-            const progress = ((currentWordIndex) / currentWords.length) * 100;
-            document.querySelector('#progressBar .bg-blue-500').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${currentWordIndex + 1} / ${currentWords.length}`;
-        }
-        
-        // Flipcard functions
-        function loadFlipcard(word) {
-            document.getElementById('flipcardWord').textContent = word.word;
-            
-            // Use explanation for English (EN→EN), other for translations
-            const backText = word.explanation || word.other;
-            document.getElementById('flipcardMeaning').textContent = backText;
-            
-            // Reset flip state
-            document.querySelector('.flip-card').classList.remove('flipped');
-            isFlipped = false;
-        }
-        
-        function flipCard() {
-            const card = document.querySelector('.flip-card');
-            card.classList.toggle('flipped');
-            isFlipped = !isFlipped;
-        }
-        
-        function markDifficult() {
-            difficultWords.push(currentWords[currentWordIndex]);
-            nextWord();
-        }
-        
-        function markEasy() {
-            correctAnswers++;
-            const currentWord = currentWords[currentWordIndex];
-            updateProgress(currentLanguage, currentWord.id, true);
-            nextWord();
-        }
-        
-        // Typing functions
-        function loadTyping(word) {
-            document.getElementById('typingWord').textContent = word.word;
-            document.getElementById('typingInput').value = '';
-            document.getElementById('typingFeedback').classList.add('hidden');
-            document.getElementById('typingInput').focus();
-        }
-        
-        function showHint() {
-            const word = currentWords[currentWordIndex];
-            const answer = word.explanation || word.other;
-            const hint = answer.charAt(0) + '...';
-            
-            const feedback = document.getElementById('typingFeedback');
-            feedback.className = 'mt-4 p-4 rounded-2xl bg-yellow-100 text-yellow-800';
-            feedback.textContent = `Hint: ${hint}`;
-            feedback.classList.remove('hidden');
-        }
-        
-        function checkTypingAnswer() {
-            const input = document.getElementById('typingInput').value.trim().toLowerCase();
-            const word = currentWords[currentWordIndex];
-            const correctAnswer = (word.explanation || word.other).toLowerCase();
-            
-            const feedback = document.getElementById('typingFeedback');
-            
-            if (input === correctAnswer || correctAnswer.includes(input)) {
-                feedback.className = 'mt-4 p-4 rounded-2xl bg-green-100 text-green-800';
-                feedback.textContent = '✅ Correct! Goed gedaan!';
-                correctAnswers++;
-                updateProgress(currentLanguage, word.id, true);
-                
-                setTimeout(() => {
-                    nextWord();
-                }, 1500);
-            } else {
-                feedback.className = 'mt-4 p-4 rounded-2xl bg-red-100 text-red-800';
-                feedback.textContent = `❌ Goed geprobeerd! Het juiste antwoord is: ${word.explanation || word.other}`;
-                incorrectAnswers++;
-                
-                setTimeout(() => {
-                    nextWord();
-                }, 3000);
-            }
-            
-            feedback.classList.remove('hidden');
-        }
-        
-        // Multiple choice functions
-        function loadMultiple(word) {
-            document.getElementById('multipleWord').textContent = word.word;
-            document.getElementById('multipleFeedback').classList.add('hidden');
-            
-            const correctAnswer = word.explanation || word.other;
-            
-            // For mixed sets, get wrong answers from the current word set to ensure compatibility
-            const allWords = currentWords.length > 4 ? currentWords : wordData[currentLanguage];
-            const wrongAnswers = allWords
-                .filter(w => w.id !== word.id)
-                .map(w => w.explanation || w.other)
-                .filter(answer => answer !== correctAnswer) // Ensure no duplicates
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 3);
-            
-            // If we don't have enough wrong answers, pad with some generic ones
-            while (wrongAnswers.length < 3) {
-                const genericAnswers = ['niet correct', 'fout antwoord', 'andere betekenis'];
-                const generic = genericAnswers[wrongAnswers.length];
-                if (!wrongAnswers.includes(generic)) {
-                    wrongAnswers.push(generic);
-                }
-            }
-            
-            const options = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
-            
-            const optionsContainer = document.getElementById('multipleOptions');
-            optionsContainer.innerHTML = '';
-            
-            options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'w-full p-4 text-left border-2 border-gray-200 rounded-2xl hover:border-blue-300 transition-colors';
-                button.textContent = option;
-                button.onclick = () => checkMultipleAnswer(option, correctAnswer, button);
-                optionsContainer.appendChild(button);
-            });
-        }
-        
-        function checkMultipleAnswer(selected, correct, button) {
-            const feedback = document.getElementById('multipleFeedback');
-            const allButtons = document.querySelectorAll('#multipleOptions button');
-            
-            // Disable all buttons
-            allButtons.forEach(btn => {
-                btn.disabled = true;
-                btn.classList.add('opacity-50');
-            });
-            
-            if (selected === correct) {
-                button.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
-                feedback.className = 'mt-6 p-4 rounded-2xl bg-green-100 text-green-800';
-                feedback.textContent = '✅ Correct! Goed gedaan!';
-                correctAnswers++;
-                const currentWord = currentWords[currentWordIndex];
-                updateProgress(currentLanguage, currentWord.id, true);
-            } else {
-                button.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
-                
-                // Highlight correct answer
-                allButtons.forEach(btn => {
-                    if (btn.textContent === correct) {
-                        btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
-                    }
-                });
-                
-                feedback.className = 'mt-6 p-4 rounded-2xl bg-red-100 text-red-800';
-                feedback.textContent = `❌ Helaas! Het juiste antwoord is: ${correct}`;
-                incorrectAnswers++;
-            }
-            
-            feedback.classList.remove('hidden');
-            
-            setTimeout(() => {
-                nextWord();
-            }, 2000);
-        }
-        
-        function nextWord() {
-            currentWordIndex++;
-            loadCurrentWord();
-        }
-        
-        // Results functions
-        function showResults() {
-            hideAllScreens();
-            document.getElementById('resultsScreen').classList.remove('hidden');
-            
-            const totalTime = Math.round((Date.now() - startTime) / 1000);
-            const score = Math.round((correctAnswers / currentWords.length) * 100);
-            
-            document.getElementById('finalScore').textContent = `${score}% Score`;
-            document.getElementById('finalTime').textContent = `Tijd: ${totalTime} seconden`;
-            document.getElementById('correctCount').textContent = correctAnswers;
-            document.getElementById('incorrectCount').textContent = incorrectAnswers;
-            document.getElementById('difficultCount').textContent = difficultWords.length;
-        }
-        
-        function restartExercise() {
-            startExercise(currentExerciseType);
-        }
-        
-
-        
-        // Settings functions
-        function toggleDarkMode() {
-            // This would implement dark mode toggle
-            const toggle = document.getElementById('darkModeToggle');
-            toggle.classList.toggle('bg-gray-800');
-            
-            const dot = toggle.querySelector('div');
-            dot.classList.toggle('translate-x-6');
-        }
-        
-        function toggleSound() {
-            const toggle = document.getElementById('soundToggle');
-            toggle.classList.toggle('bg-gray-300');
-            toggle.classList.toggle('bg-blue-500');
-            
-            const dot = toggle.querySelector('div');
-            dot.classList.toggle('translate-x-6');
-        }
-        
-        // Keyboard support for typing exercise
-        document.getElementById('typingInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkTypingAnswer();
-            }
+        dots.forEach((dot, idx) => {
+          dot.addEventListener('click', () => {
+            gallery.scrollTo({ left: idx * gallery.offsetWidth, behavior: 'smooth' });
+          });
         });
+      }
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('carModal').classList.add('hidden');
+    });
+
+    document.getElementById('carModal').addEventListener('click', (e) => {
+      if (e.target.id === 'carModal') {
+        document.getElementById('carModal').classList.add('hidden');
+      }
+    });
+
+    // loadCars
+    async function loadCars() {
+      const loading = document.getElementById('loadingCars');
+      const error = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      const grid = document.getElementById('carsGrid');
+      
+      try {
+        Papa.parse(SHEET_URL, {
+          download: true,
+          header: true,
+          skipEmptyLines: true,
+          complete: async function(results) {
+            loading.style.display = 'none';
+            
+            if (!results.data || results.data.length === 0) {
+              error.classList.remove('hidden');
+              errorText.textContent = 'Geen auto\'s gevonden in de sheet.';
+              return;
+            }
+            
+            allCarsData = results.data.filter(row => {
+              return row.Kenteken && row.Kenteken.trim() && 
+                     row.Kilometerstand && 
+                     row.Prijs;
+            });
+            
+            if (allCarsData.length === 0) {
+              error.classList.remove('hidden');
+              errorText.textContent = 'Geen geldige auto\'s gevonden.';
+              return;
+            }
+            
+            for (const car of allCarsData) {
+              car.Kenteken = car.Kenteken.trim().toUpperCase();
+              
+              const rdw = await fetchCarData(car.Kenteken);
+              allCarsWithRDW.push({ car, rdw });
+            }
+            
+            initializeFilters();
+            applyFilters();
+          },
+          error: function(err) {
+            loading.style.display = 'none';
+            error.classList.remove('hidden');
+            errorText.textContent = `Fout: ${err.message}`;
+          }
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        error.classList.remove('hidden');
+        errorText.textContent = `Fout: ${err.message}`;
+      }
+    }
+
+    // Filter toggle (all devices)
+    document.getElementById('filterToggleBtn').addEventListener('click', () => {
+      const container = document.getElementById('filterContainer');
+      const icon = document.getElementById('filterToggleIcon');
+      container.classList.toggle('hidden');
+      icon.textContent = container.classList.contains('hidden') ? '+' : '−';
+    });
+
+    // Filter functions
+    function getEfficiencyScore(cc) {
+      if (!cc || cc === 0) return 'Onbekend';
+      if (cc < 1200) return 'Zeer zuinig';
+      if (cc <= 1600) return 'Gemiddeld';
+      return 'Minder zuinig';
+    }
+
+    function applyFilters() {
+      let filtered = [...allCarsWithRDW];
+      
+      // Search filter
+      if (filterConfig.search) {
+        const search = filterConfig.search.toLowerCase();
+        filtered = filtered.filter(item => {
+          const rdw = item.rdw || {};
+          return (
+            (rdw.merk || '').toLowerCase().includes(search) ||
+            (rdw.model || '').toLowerCase().includes(search) ||
+            (rdw.brandstof || '').toLowerCase().includes(search) ||
+            (rdw.transmissie || '').toLowerCase().includes(search)
+          );
+        });
+      }
+      
+      // Price filter
+      filtered = filtered.filter(item => {
+        const price = parseFloat(String(item.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+        return price >= filterConfig.priceMin && price <= filterConfig.priceMax;
+      });
+      
+      // Year filter
+      filtered = filtered.filter(item => {
+        const year = parseInt(item.rdw?.bouwjaar || item.car.Bouwjaar || 0);
+        return year >= filterConfig.yearMin && year <= filterConfig.yearMax;
+      });
+      
+      // KM filter
+      filtered = filtered.filter(item => {
+        const km = parseInt(item.car.Kilometerstand || 0);
+        return km >= filterConfig.kmMin && km <= filterConfig.kmMax;
+      });
+      
+      // CC filter
+      filtered = filtered.filter(item => {
+        const cc = parseInt((item.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
+        return cc >= filterConfig.ccMin && cc <= filterConfig.ccMax;
+      });
+      
+      // Brandstof filter
+      if (filterConfig.brandstof) {
+        filtered = filtered.filter(item => 
+          (item.rdw?.brandstof || '').toLowerCase() === filterConfig.brandstof.toLowerCase()
+        );
+      }
+      
+      // Transmissie filter
+      if (filterConfig.transmissie) {
+        filtered = filtered.filter(item => 
+          (item.rdw?.transmissie || '').toLowerCase().includes(filterConfig.transmissie.toLowerCase())
+        );
+      }
+      
+      // Sorting
+      if (filterConfig.sort) {
+        switch(filterConfig.sort) {
+          case 'price-asc':
+            filtered.sort((a, b) => {
+              const priceA = parseFloat(String(a.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+              const priceB = parseFloat(String(b.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+              return priceA - priceB;
+            });
+            break;
+          case 'price-desc':
+            filtered.sort((a, b) => {
+              const priceA = parseFloat(String(a.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+              const priceB = parseFloat(String(b.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+              return priceB - priceA;
+            });
+            break;
+          case 'km-asc':
+            filtered.sort((a, b) => parseInt(a.car.Kilometerstand || 0) - parseInt(b.car.Kilometerstand || 0));
+            break;
+          case 'year-desc':
+            filtered.sort((a, b) => {
+              const yearA = parseInt(a.rdw?.bouwjaar || a.car.Bouwjaar || 0);
+              const yearB = parseInt(b.rdw?.bouwjaar || b.car.Bouwjaar || 0);
+              return yearB - yearA;
+            });
+            break;
+          case 'efficiency':
+            filtered.sort((a, b) => {
+              const ccA = parseInt((a.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
+              const ccB = parseInt((b.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
+              return ccA - ccB;
+            });
+            break;
+          case 'alpha':
+            filtered.sort((a, b) => {
+              const merkA = (a.rdw?.merk || '').toLowerCase();
+              const merkB = (b.rdw?.merk || '').toLowerCase();
+              return merkA.localeCompare(merkB);
+            });
+            break;
+        }
+      }
+      
+      renderFilteredCars(filtered);
+      document.getElementById('resultsCount').textContent = `${filtered.length} auto's gevonden`;
+    }
+
+    function renderFilteredCars(cars) {
+      const grid = document.getElementById('carsGrid');
+      grid.innerHTML = '';
+      
+      if (cars.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><p class="text-xl font-medium">Geen auto\'s gevonden met deze filters</p><p class="mt-2">Probeer andere filtercriteria</p></div>';
+        return;
+      }
+      
+      cars.forEach(item => {
+        const card = renderCars(item.car, item.rdw);
+        grid.appendChild(card);
+      });
+    }
+
+    function initializeFilters() {
+      // Calculate min/max values
+      let minPrice = Infinity, maxPrice = 0;
+      let minYear = Infinity, maxYear = 0;
+      let minKm = Infinity, maxKm = 0;
+      let minCc = Infinity, maxCc = 0;
+      const brandstofSet = new Set();
+      const transmissieSet = new Set();
+      
+      allCarsWithRDW.forEach(item => {
+        const price = parseFloat(String(item.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
+        const year = parseInt(item.rdw?.bouwjaar || item.car.Bouwjaar || 0);
+        const km = parseInt(item.car.Kilometerstand || 0);
+        const cc = parseInt((item.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
         
-        // Initialize app
-        function initializeApp() {
-            initializeProgress();
-            showHome();
+        if (price > 0) {
+          minPrice = Math.min(minPrice, price);
+          maxPrice = Math.max(maxPrice, price);
+        }
+        if (year > 0) {
+          minYear = Math.min(minYear, year);
+          maxYear = Math.max(maxYear, year);
+        }
+        if (km > 0) {
+          minKm = Math.min(minKm, km);
+          maxKm = Math.max(maxKm, km);
+        }
+        if (cc > 0) {
+          minCc = Math.min(minCc, cc);
+          maxCc = Math.max(maxCc, cc);
         }
         
-        // Start the app
-        initializeApp();
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994c5d3197e6910e',t:'MTc2MTUwNjk4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        if (item.rdw?.brandstof && item.rdw.brandstof !== '-') brandstofSet.add(item.rdw.brandstof);
+        if (item.rdw?.transmissie && item.rdw.transmissie !== '-') transmissieSet.add(item.rdw.transmissie);
+      });
+      
+      // Set filter ranges
+      filterConfig.priceMin = minPrice === Infinity ? 0 : Math.floor(minPrice / 1000) * 1000;
+      filterConfig.priceMax = maxPrice === 0 ? 100000 : Math.ceil(maxPrice / 1000) * 1000;
+      filterConfig.yearMin = minYear === Infinity ? 1990 : minYear;
+      filterConfig.yearMax = maxYear === 0 ? 2024 : maxYear;
+      filterConfig.kmMin = minKm === Infinity ? 0 : Math.floor(minKm / 10000) * 10000;
+      filterConfig.kmMax = maxKm === 0 ? 300000 : Math.ceil(maxKm / 10000) * 10000;
+      filterConfig.ccMin = minCc === Infinity ? 0 : Math.floor(minCc / 100) * 100;
+      filterConfig.ccMax = maxCc === 0 ? 5000 : Math.ceil(maxCc / 100) * 100;
+      
+      // Set slider attributes
+      document.getElementById('priceMin').min = filterConfig.priceMin;
+      document.getElementById('priceMin').max = filterConfig.priceMax;
+      document.getElementById('priceMin').value = filterConfig.priceMin;
+      document.getElementById('priceMax').min = filterConfig.priceMin;
+      document.getElementById('priceMax').max = filterConfig.priceMax;
+      document.getElementById('priceMax').value = filterConfig.priceMax;
+      document.getElementById('priceMinInput').value = filterConfig.priceMin;
+      document.getElementById('priceMaxInput').value = filterConfig.priceMax;
+      
+      document.getElementById('yearMin').min = filterConfig.yearMin;
+      document.getElementById('yearMin').max = filterConfig.yearMax;
+      document.getElementById('yearMin').value = filterConfig.yearMin;
+      document.getElementById('yearMax').min = filterConfig.yearMin;
+      document.getElementById('yearMax').max = filterConfig.yearMax;
+      document.getElementById('yearMax').value = filterConfig.yearMax;
+      document.getElementById('yearMinInput').value = filterConfig.yearMin;
+      document.getElementById('yearMaxInput').value = filterConfig.yearMax;
+      
+      document.getElementById('kmMin').min = filterConfig.kmMin;
+      document.getElementById('kmMin').max = filterConfig.kmMax;
+      document.getElementById('kmMin').value = filterConfig.kmMin;
+      document.getElementById('kmMax').min = filterConfig.kmMin;
+      document.getElementById('kmMax').max = filterConfig.kmMax;
+      document.getElementById('kmMax').value = filterConfig.kmMax;
+      document.getElementById('kmMinInput').value = filterConfig.kmMin;
+      document.getElementById('kmMaxInput').value = filterConfig.kmMax;
+      
+      document.getElementById('ccMin').min = filterConfig.ccMin;
+      document.getElementById('ccMin').max = filterConfig.ccMax;
+      document.getElementById('ccMin').value = filterConfig.ccMin;
+      document.getElementById('ccMax').min = filterConfig.ccMin;
+      document.getElementById('ccMax').max = filterConfig.ccMax;
+      document.getElementById('ccMax').value = filterConfig.ccMax;
+      document.getElementById('ccMinInput').value = filterConfig.ccMin;
+      document.getElementById('ccMaxInput').value = filterConfig.ccMax;
+      
+      // Populate dropdowns
+      const brandstofFilter = document.getElementById('brandstofFilter');
+      Array.from(brandstofSet).sort().forEach(b => {
+        const option = document.createElement('option');
+        option.value = b;
+        option.textContent = b;
+        brandstofFilter.appendChild(option);
+      });
+      
+      const transmissieFilter = document.getElementById('transmissieFilter');
+      Array.from(transmissieSet).sort().forEach(t => {
+        const option = document.createElement('option');
+        option.value = t;
+        option.textContent = t;
+        transmissieFilter.appendChild(option);
+      });
+    }
+
+    // Event listeners for filters
+    let searchTimeout;
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        filterConfig.search = e.target.value;
+        applyFilters();
+      }, 200);
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', (e) => {
+      filterConfig.sort = e.target.value;
+      applyFilters();
+    });
+
+    document.getElementById('priceMin').addEventListener('input', (e) => {
+      filterConfig.priceMin = parseInt(e.target.value);
+      document.getElementById('priceMinInput').value = filterConfig.priceMin;
+      applyFilters();
+    });
+
+    document.getElementById('priceMax').addEventListener('input', (e) => {
+      filterConfig.priceMax = parseInt(e.target.value);
+      document.getElementById('priceMaxInput').value = filterConfig.priceMax;
+      applyFilters();
+    });
+
+    document.getElementById('priceMinInput').addEventListener('change', (e) => {
+      filterConfig.priceMin = parseInt(e.target.value) || 0;
+      document.getElementById('priceMin').value = filterConfig.priceMin;
+      applyFilters();
+    });
+
+    document.getElementById('priceMaxInput').addEventListener('change', (e) => {
+      filterConfig.priceMax = parseInt(e.target.value) || 100000;
+      document.getElementById('priceMax').value = filterConfig.priceMax;
+      applyFilters();
+    });
+
+    document.getElementById('yearMin').addEventListener('input', (e) => {
+      filterConfig.yearMin = parseInt(e.target.value);
+      document.getElementById('yearMinInput').value = filterConfig.yearMin;
+      applyFilters();
+    });
+
+    document.getElementById('yearMax').addEventListener('input', (e) => {
+      filterConfig.yearMax = parseInt(e.target.value);
+      document.getElementById('yearMaxInput').value = filterConfig.yearMax;
+      applyFilters();
+    });
+
+    document.getElementById('yearMinInput').addEventListener('change', (e) => {
+      filterConfig.yearMin = parseInt(e.target.value) || 1990;
+      document.getElementById('yearMin').value = filterConfig.yearMin;
+      applyFilters();
+    });
+
+    document.getElementById('yearMaxInput').addEventListener('change', (e) => {
+      filterConfig.yearMax = parseInt(e.target.value) || 2024;
+      document.getElementById('yearMax').value = filterConfig.yearMax;
+      applyFilters();
+    });
+
+    document.getElementById('kmMin').addEventListener('input', (e) => {
+      filterConfig.kmMin = parseInt(e.target.value);
+      document.getElementById('kmMinInput').value = filterConfig.kmMin;
+      applyFilters();
+    });
+
+    document.getElementById('kmMax').addEventListener('input', (e) => {
+      filterConfig.kmMax = parseInt(e.target.value);
+      document.getElementById('kmMaxInput').value = filterConfig.kmMax;
+      applyFilters();
+    });
+
+    document.getElementById('kmMinInput').addEventListener('change', (e) => {
+      filterConfig.kmMin = parseInt(e.target.value) || 0;
+      document.getElementById('kmMin').value = filterConfig.kmMin;
+      applyFilters();
+    });
+
+    document.getElementById('kmMaxInput').addEventListener('change', (e) => {
+      filterConfig.kmMax = parseInt(e.target.value) || 300000;
+      document.getElementById('kmMax').value = filterConfig.kmMax;
+      applyFilters();
+    });
+
+    document.getElementById('ccMin').addEventListener('input', (e) => {
+      filterConfig.ccMin = parseInt(e.target.value);
+      document.getElementById('ccMinInput').value = filterConfig.ccMin;
+      applyFilters();
+    });
+
+    document.getElementById('ccMax').addEventListener('input', (e) => {
+      filterConfig.ccMax = parseInt(e.target.value);
+      document.getElementById('ccMaxInput').value = filterConfig.ccMax;
+      applyFilters();
+    });
+
+    document.getElementById('ccMinInput').addEventListener('change', (e) => {
+      filterConfig.ccMin = parseInt(e.target.value) || 0;
+      document.getElementById('ccMin').value = filterConfig.ccMin;
+      applyFilters();
+    });
+
+    document.getElementById('ccMaxInput').addEventListener('change', (e) => {
+      filterConfig.ccMax = parseInt(e.target.value) || 5000;
+      document.getElementById('ccMax').value = filterConfig.ccMax;
+      applyFilters();
+    });
+
+    document.getElementById('brandstofFilter').addEventListener('change', (e) => {
+      filterConfig.brandstof = e.target.value;
+      applyFilters();
+    });
+
+    document.getElementById('transmissieFilter').addEventListener('change', (e) => {
+      filterConfig.transmissie = e.target.value;
+      applyFilters();
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', () => {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('sortSelect').value = '';
+      document.getElementById('brandstofFilter').value = '';
+      document.getElementById('transmissieFilter').value = '';
+      
+      initializeFilters();
+      filterConfig.search = '';
+      filterConfig.sort = '';
+      filterConfig.brandstof = '';
+      filterConfig.transmissie = '';
+      
+      applyFilters();
+    });
+
+    window.addEventListener('DOMContentLoaded', loadCars);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0b1ca9162f7a4b',t:'MTc2MzUwNzExOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
