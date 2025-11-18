@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meyers Automotive - Betrouwbare Occasions &amp; Complete Autoservice</title>
+  <meta name="description" content="Meyers Automotive - Kwaliteitsvolle occasions, APK-keuring, reparatie, export en sleepdienst. Locaties in Amsterdam en Heemskerk.">
+  <meta name="keywords" content="occasions, tweedehands auto, APK keuring, auto reparatie, auto export, sleepdienst, Amsterdam, Heemskerk">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
   <style>
     body {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
     html, body {
@@ -53,6 +58,15 @@
       scroll-snap-align: start;
     }
     
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
     .submenu {
       max-height: 0;
       overflow: hidden;
@@ -64,13 +78,14 @@
     }
     
     .badge-favoriet {
-      background: #FF4B4B;
-      color: white;
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #000;
       font-weight: 700;
-      padding: 0.25rem 0.75rem;
-      border-radius: 0.25rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
       font-size: 0.75rem;
       letter-spacing: 0.05em;
+      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
     }
     
     .badge-verkocht {
@@ -81,6 +96,45 @@
       border-radius: 0.25rem;
       letter-spacing: 0.1em;
     }
+    
+    .favorite-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .favorite-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .favorite-btn.active {
+      color: #FFD700;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+    }
+    
+    .favorite-count {
+      background: linear-gradient(135deg, #FF4B4B 0%, #C81E1E 100%);
+      color: white;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      box-shadow: 0 2px 8px rgba(255, 75, 75, 0.4);
+    }
+    
+    .car-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .car-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -90,17 +144,17 @@
   <header class="bg-black text-white shadow-lg sticky top-0 z-50">
    <div class="bg-gray-900 py-2">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-     <div class="flex flex-wrap justify-center sm:justify-between items-center gap-2 text-sm"><a href="tel:+31657160395" class="hover:text-red-500 transition-colors">+31 6 57 16 03 95</a> <a href="mailto:Meyersautomotives@gmail.com" class="hover:text-red-500 transition-colors">Meyersautomotives@gmail.com</a>
+     <div class="flex flex-wrap justify-center sm:justify-between items-center gap-2 text-sm"><a href="tel:+31657160395" class="hover:text-red-500 transition-colors">+31 6 57 16 03 95</a> <a href="mailto:meyersautomotives@gmail.com" class="hover:text-red-500 transition-colors">meyersautomotives@gmail.com</a>
      </div>
     </div>
    </div>
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex justify-between items-center"><a href="#home" class="text-xl sm:text-2xl lg:text-3xl font-bold"> <span class="text-white">Meyers</span> <span class="text-red-500">Automotive</span> </a> <button id="mobileMenuBtn" class="md:hidden text-3xl font-bold text-white w-12 h-12 flex items-center justify-center hover:text-red-500 transition-colors">☰</button>
-     <nav class="hidden md:flex gap-6 lg:gap-8"><a href="#home" class="font-medium hover:text-red-500 transition-colors">Home</a> <a href="#aanbod" class="font-medium hover:text-red-500 transition-colors">Aanbod</a> <a href="#diensten" class="font-medium hover:text-red-500 transition-colors">Diensten</a> <a href="#over" class="font-medium hover:text-red-500 transition-colors">Over Ons</a>
+     <nav class="hidden md:flex gap-6 lg:gap-8 items-center"><a href="#home" class="font-medium hover:text-red-500 transition-colors">Home</a> <a href="#aanbod" class="font-medium hover:text-red-500 transition-colors">Aanbod</a> <a href="#diensten" class="font-medium hover:text-red-500 transition-colors">Diensten</a> <a href="#over" class="font-medium hover:text-red-500 transition-colors">Over Ons</a>
       <div class="relative group"><button class="font-medium hover:text-red-500 transition-colors">Locaties</button>
        <div class="absolute hidden group-hover:block bg-black shadow-lg rounded-lg mt-2 py-2 min-w-[150px]"><a href="#locatie-amsterdam" class="block px-4 py-2 hover:bg-gray-900 hover:text-red-500">Amsterdam</a> <a href="#locatie-heemskerk" class="block px-4 py-2 hover:bg-gray-900 hover:text-red-500">Heemskerk</a>
        </div>
-      </div><a href="#contact" class="font-medium hover:text-red-500 transition-colors">Contact</a>
+      </div><a href="#contact" class="font-medium hover:text-red-500 transition-colors">Contact</a> <button id="favoritesBtn" class="relative font-medium hover:text-red-500 transition-colors flex items-center gap-2"> <span class="text-2xl">⭐</span> <span id="favoritesCount" class="favorite-count hidden">0</span> </button>
      </nav>
     </div>
    </div>
@@ -108,9 +162,11 @@
     <div class="border-b border-gray-800"><button id="locatiesToggle" class="w-full text-left px-6 py-4 hover:bg-gray-800 hover:text-red-500 flex justify-between items-center transition-colors text-base font-medium"> <span>Locaties</span> <span id="locatiesIcon" class="text-xl">+</span> </button>
      <div id="locatiesSubmenu" class="submenu bg-gray-800"><a href="#locatie-amsterdam" class="block pl-10 pr-6 py-3 hover:text-red-500 transition-colors border-b border-gray-700">Amsterdam</a> <a href="#locatie-heemskerk" class="block pl-10 pr-6 py-3 hover:text-red-500 transition-colors">Heemskerk</a>
      </div>
-    </div><a href="#contact" class="block px-6 py-4 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Contact</a>
+    </div><a href="#contact" class="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium">Contact</a> <button id="mobileFavoritesBtn" class="w-full text-left px-6 py-4 hover:bg-gray-800 hover:text-red-500 transition-colors text-base font-medium flex items-center gap-2"> <span class="text-xl">⭐</span> <span>Favorieten</span> <span id="mobileFavoritesCount" class="favorite-count hidden ml-auto">0</span> </button>
    </nav>
-  </header><!-- HERO -->
+  </header><!-- Banner -->
+  <section class="bg-black"><img src="https://i.postimg.cc/Y0H1mm50/Meyers-Automotive-BEDRIJVENbanner.png" alt="Meyers Automotive Banner" class="banner-image" loading="eager">
+  </section><!-- HERO -->
   <section id="home" class="hero-bg text-white py-20 sm:py-32 relative overflow-hidden">
    <div class="absolute inset-0 opacity-10">
     <div class="absolute inset-0 bg-gradient-to-br from-red-500 to-transparent"></div>
@@ -167,7 +223,7 @@
      <div id="filterContainer" class="hidden bg-white border-2 border-gray-200 rounded-xl p-6 shadow-sm mt-4"><!-- Search Bar -->
       <div class="mb-6"><label for="searchInput" class="block font-bold mb-2 text-gray-900">Zoeken</label> <input type="text" id="searchInput" placeholder="Zoek op merk, model, brandstof..." class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none">
       </div><!-- Sort -->
-      <div class="mb-6"><label for="sortSelect" class="block font-bold mb-2 text-gray-900">Sorteren</label> <select id="sortSelect" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Standaard</option> <option value="price-asc">Prijs: laag → hoog</option> <option value="price-desc">Prijs: hoog → laag</option> <option value="km-asc">Kilometerstand: laag → hoog</option> <option value="year-desc">Bouwjaar: nieuw → oud</option> <option value="efficiency">Zuinigheidsscore</option> <option value="alpha">Alfabetisch (merk)</option> </select>
+      <div class="mb-6"><label for="sortSelect" class="block font-bold mb-2 text-gray-900">Sorteren</label> <select id="sortSelect" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Standaard</option> <option value="price-asc">Prijs: laag → hoog</option> <option value="price-desc">Prijs: hoog → laag</option> <option value="km-asc">Kilometerstand: laag → hoog</option> <option value="year-desc">Bouwjaar: nieuw → oud</option> <option value="alpha">Alfabetisch (merk)</option> </select>
       </div><!-- Filters Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Prijs Filter -->
        <div><label class="block font-bold mb-2 text-gray-900">Prijs</label>
@@ -191,12 +247,6 @@
        <div><label for="brandstofFilter" class="block font-bold mb-2 text-gray-900">Brandstof</label> <select id="brandstofFilter" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Alle</option> </select>
        </div><!-- Transmissie Filter -->
        <div><label for="transmissieFilter" class="block font-bold mb-2 text-gray-900">Transmissie</label> <select id="transmissieFilter" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:outline-none"> <option value="">Alle</option> </select>
-       </div><!-- Cilinderinhoud Filter -->
-       <div><label class="block font-bold mb-2 text-gray-900">Cilinderinhoud</label>
-        <div class="space-y-2"><input type="range" id="ccMin" min="0" max="5000" step="100" class="w-full"> <input type="range" id="ccMax" min="0" max="5000" step="100" class="w-full">
-         <div class="flex gap-2"><input type="number" id="ccMinInput" placeholder="Min cc" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm"> <input type="number" id="ccMaxInput" placeholder="Max cc" class="w-1/2 px-3 py-2 border border-gray-300 rounded text-sm">
-         </div>
-        </div>
        </div>
       </div><!-- Reset Button -->
       <div class="mt-6 flex justify-end"><button id="resetFilters" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"> Filters Resetten </button>
@@ -275,34 +325,25 @@
       <h3 class="text-xl font-bold mb-3">Auto Exporteren</h3>
       <p class="text-gray-700 leading-relaxed mb-4">Volledige export-ondersteuning inclusief exportplaten en documentatie.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Meer weten →</a>
      </div>
-     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-md">
-      <div class="w-12 h-12 mb-4 text-red-500">
-       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-       </svg>
-      </div>
-      <h3 class="text-xl font-bold mb-3">Verhuisvervoer</h3>
-      <p class="text-gray-700 leading-relaxed mb-4">Betrouwbare verhuisservice in Amsterdam, Heemskerk en heel Nederland.</p><a href="#contact" class="inline-block text-red-500 font-semibold hover:text-red-600">Offerte aanvragen →</a>
-     </div>
     </div>
    </div>
   </section><!-- OVER ONS -->
-  <section id="over" class="bg-gradient-to-br from-gray-50 to-white py-16 sm:py-24 relative overflow-hidden"><!-- Background decorative elements -->
+  <section id="over" class="bg-gradient-to-br from-gray-50 to-white py-16 sm:py-24 relative overflow-hidden">
    <div class="absolute top-0 left-0 w-64 h-64 bg-red-500 opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
    <div class="absolute bottom-0 right-0 w-96 h-96 bg-red-500 opacity-5 rounded-full translate-x-1/3 translate-y-1/3"></div>
-   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"><!-- Header -->
+   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="text-center mb-16">
      <h2 class="text-4xl sm:text-5xl font-bold mb-4"><span class="text-gray-900">Over</span> <span class="text-red-500">Meyers Automotive</span></h2>
      <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">Uw betrouwbare partner voor automotive services sinds meer dan 10 jaar</p>
-    </div><!-- Main Story -->
+    </div>
     <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 mb-12 border border-gray-100">
      <div class="prose prose-lg max-w-none">
       <p class="text-gray-700 leading-relaxed text-lg mb-6"><strong class="text-red-500 text-xl">Meyers Automotive</strong> is ontstaan vanuit een passie voor auto's en een toewijding aan hoogwaardige service. Met meer dan 10 jaar ervaring in de automotive branche hebben wij ons ontwikkeld tot een totaalpartner waar u kunt vertrouwen voor al uw automotive behoeften.</p>
       <p class="text-gray-700 leading-relaxed text-lg mb-6">Of u nu op zoek bent naar een betrouwbare occasion, hulp nodig heeft met export, een APK-keuring wilt laten uitvoeren, of uw auto moet laten repareren – wij staan voor u klaar met deskundig advies en eerlijke prijzen. Onze twee vestigingen in <strong>Amsterdam</strong> en <strong>Heemskerk</strong> zijn volledig uitgerust om u van dienst te zijn.</p>
       <p class="text-gray-700 leading-relaxed text-lg">Wat ons onderscheidt is onze persoonlijke benadering. Bij Meyers Automotive bent u geen nummer, maar een gewaardeerde klant. We nemen de tijd om uw wensen te begrijpen en bieden oplossingen die bij u passen. Transparantie, eerlijkheid en kwaliteit staan bij ons altijd voorop.</p>
      </div>
-    </div><!-- Core Values -->
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
      <div class="text-center group">
       <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-lg">
@@ -331,7 +372,7 @@
       <h3 class="text-2xl font-bold mb-3 text-gray-900">Persoonlijk</h3>
       <p class="text-gray-600 leading-relaxed">Elke klant verdient persoonlijke aandacht. We luisteren naar uw wensen en bieden oplossingen op maat.</p>
      </div>
-    </div><!-- Stats -->
+    </div>
     <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl p-8 sm:p-12 text-white shadow-2xl">
      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
       <div>
@@ -359,7 +400,7 @@
        <p class="text-red-100 text-sm sm:text-base font-medium">Klanttevredenheid</p>
       </div>
      </div>
-    </div><!-- Contact Info Card -->
+    </div>
     <div class="mt-12 bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
      <h3 class="text-2xl font-bold mb-6 text-center text-gray-900">Bedrijfsgegevens</h3>
      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -371,7 +412,7 @@
        <p class="text-sm text-gray-500 mb-1">Telefoon</p><a href="tel:+31657160395" class="font-bold text-red-500 hover:text-red-600">+31 6 57 16 03 95</a>
       </div>
       <div class="text-center sm:text-left">
-       <p class="text-sm text-gray-500 mb-1">E-mail</p><a href="mailto:Meyersautomotives@gmail.com" class="font-bold text-red-500 hover:text-red-600 break-all">Meyersautomotives@gmail.com</a>
+       <p class="text-sm text-gray-500 mb-1">E-mail</p><a href="mailto:meyersautomotives@gmail.com" class="font-bold text-red-500 hover:text-red-600 break-all">meyersautomotives@gmail.com</a>
       </div>
       <div class="text-center sm:text-left">
        <p class="text-sm text-gray-500 mb-1">Openingstijden</p>
@@ -436,7 +477,7 @@
         <p class="font-bold mb-1 text-gray-900">Telefoon</p><a href="tel:+31657160395" class="text-red-500 hover:text-red-600 text-xl font-bold">+31 6 57 16 03 95</a>
        </div>
        <div>
-        <p class="font-bold mb-1 text-gray-900">E-mail</p><a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:text-red-600 font-medium">Meyersautomotives@gmail.com</a>
+        <p class="font-bold mb-1 text-gray-900">E-mail</p><a href="mailto:meyersautomotives@gmail.com" class="text-red-500 hover:text-red-600 font-medium">meyersautomotives@gmail.com</a>
        </div>
        <div>
         <p class="font-bold mb-1 text-gray-900">Openingstijden</p>
@@ -501,7 +542,7 @@
        </div>
        <div>
         <h4 class="font-bold mb-2 text-base">Disclaimer</h4>
-        <p class="text-sm">Alle informatie op deze website is met de grootst mogelijke zorgvuldigheid samengesteld. Desondanks kunnen wij niet garanderen dat alle gegevens te allen tijde volledig, juist of actueel zijn. Voor correcte en actuele voertuiginformatie verzoeken wij u vriendelijk contact met ons op te nemen via <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a> of <a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:underline">Meyersautomotives@gmail.com</a>. Meyers Automotive aanvaardt geen aansprakelijkheid voor eventuele onvolkomenheden of onjuistheden in de gepresenteerde informatie.</p>
+        <p class="text-sm">Alle informatie op deze website is met de grootst mogelijke zorgvuldigheid samengesteld. Desondanks kunnen wij niet garanderen dat alle gegevens te allen tijde volledig, juist of actueel zijn. Voor correcte en actuele voertuiginformatie verzoeken wij u vriendelijk contact met ons op te nemen via <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a> of <a href="mailto:meyersautomotives@gmail.com" class="text-red-500 hover:underline">meyersautomotives@gmail.com</a>. Meyers Automotive aanvaardt geen aansprakelijkheid voor eventuele onvolkomenheden of onjuistheden in de gepresenteerde informatie.</p>
        </div>
       </div>
      </div>
@@ -533,7 +574,7 @@
        </div>
        <div>
         <h4 class="font-bold mb-2 text-base">Contact</h4>
-        <p>Voor vragen: <a href="mailto:Meyersautomotives@gmail.com" class="text-red-500 hover:underline">Meyersautomotives@gmail.com</a> of <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a></p>
+        <p>Voor vragen: <a href="mailto:meyersautomotives@gmail.com" class="text-red-500 hover:underline">meyersautomotives@gmail.com</a> of <a href="tel:+31657160395" class="text-red-500 hover:underline">+31 6 57 16 03 95</a></p>
        </div>
       </div>
      </div>
@@ -554,36 +595,47 @@
       </div>
      </div>
      <div>
-      <h4 class="text-lg font-bold mb-3">Locaties</h4>
-      <div class="space-y-2 text-sm">
-       <div>
-        <p class="font-medium text-red-500">Amsterdam</p>
-        <p class="text-gray-400">Ibisweg 3-5, 1033RA</p>
-       </div>
-       <div>
-        <p class="font-medium text-red-500">Heemskerk</p>
-        <p class="text-gray-400">Kerkweg 152, 1968KL</p>
-       </div>
-      </div>
-     </div>
-     <div>
       <h4 class="text-lg font-bold mb-3">Contact</h4>
       <div class="space-y-2 text-sm">
        <p><a href="tel:+31657160395" class="text-gray-400 hover:text-red-500">+31 6 57 16 03 95</a></p>
-       <p><a href="mailto:Meyersautomotives@gmail.com" class="text-gray-400 hover:text-red-500">Meyersautomotives@gmail.com</a></p>
-       <p class="text-gray-400 mt-3">Ma-Za: 09:00-18:00<br>
-        Zo: 10:00-16:00</p>
+       <p><a href="mailto:meyersautomotives@gmail.com" class="text-gray-400 hover:text-red-500 break-all">meyersautomotives@gmail.com</a></p>
+       <p><a href="mailto:vawerkers@gmail.com" class="text-gray-400 hover:text-red-500 break-all">vawerkers@gmail.com</a></p>
+      </div>
+     </div>
+     <div>
+      <h4 class="text-lg font-bold mb-3">Volg Ons</h4>
+      <div class="space-y-3"><a href="https://www.instagram.com/meyers_automotivendsm" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg><span class="text-sm">Instagram</span> </a> <a href="https://www.tiktok.com/@meyers.automotive" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+        </svg><span class="text-sm">TikTok</span> </a> <a href="https://www.facebook.com/share/17YyzdEtC5" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg><span class="text-sm">Facebook</span> </a>
       </div>
      </div>
     </div>
     <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-400">
-     <p>© 2024 Meyers Automotive. Alle rechten voorbehouden.</p>
+     <p class="mb-2">© 2024 Meyers Automotive. Alle rechten voorbehouden.</p>
+     <p class="text-xs">This website is powered by <a href="http://vanappiah.com/" target="_blank" rel="noopener noreferrer" class="text-red-500 hover:text-red-400 font-semibold">Van Appiah</a> <span class="text-red-500 font-bold">VA</span></p>
     </div>
    </div>
-  </footer><!-- Modal -->
+  </footer><!-- Favorites Modal -->
+  <div id="favoritesModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 overflow-y-auto">
+   <div class="min-h-full flex items-start justify-center p-4 py-8">
+    <div class="bg-white rounded-lg max-w-6xl w-full max-h-[85vh] overflow-y-auto relative">
+     <div class="sticky top-0 bg-white border-b-2 border-gray-200 p-4 sm:p-6 flex justify-between items-center z-10">
+      <h2 class="text-2xl sm:text-3xl font-bold">⭐ Mijn Favorieten</h2><button id="closeFavoritesModal" class="bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">×</button>
+     </div>
+     <div id="favoritesContent" class="p-4 sm:p-6"></div>
+    </div>
+   </div>
+  </div><!-- Car Detail Modal -->
   <div id="carModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 overflow-y-auto">
    <div class="min-h-full flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"><button id="closeModal" class="sticky top-4 right-4 float-right bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-3xl sm:text-2xl font-bold z-10 shadow-lg">×</button>
+    <div class="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto relative"><button id="closeModal" class="sticky top-4 right-4 float-right bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-3xl sm:text-2xl font-bold z-10 shadow-lg">×</button>
      <div id="modalContent"></div>
     </div>
    </div>
@@ -594,11 +646,15 @@
     const RDW_API = {
       basis: 'https://opendata.rdw.nl/resource/m9d7-ebf2.json',
       vermogen: 'https://opendata.rdw.nl/resource/8ys7-d773.json',
-      gewicht: 'https://opendata.rdw.nl/resource/vezp-zz2k.json'
+      brandstof: 'https://opendata.rdw.nl/resource/8ys7-d773.json',
+      carrosserie: 'https://opendata.rdw.nl/resource/m9d7-ebf2.json',
+      gewicht: 'https://opendata.rdw.nl/resource/vezp-zz2k.json',
+      apk: 'https://opendata.rdw.nl/resource/a34c-vvps.json'
     };
 
     let allCarsData = [];
     let allCarsWithRDW = [];
+    let favorites = JSON.parse(localStorage.getItem('meyersFavorites') || '[]');
     let filterConfig = {
       search: '',
       priceMin: 0,
@@ -607,12 +663,94 @@
       yearMax: 2024,
       kmMin: 0,
       kmMax: 300000,
-      ccMin: 0,
-      ccMax: 5000,
       brandstof: '',
       transmissie: '',
       sort: ''
     };
+
+    // Favorites functions
+    function updateFavoritesCount() {
+      const count = favorites.length;
+      const desktopCount = document.getElementById('favoritesCount');
+      const mobileCount = document.getElementById('mobileFavoritesCount');
+      
+      if (count > 0) {
+        desktopCount.textContent = count;
+        desktopCount.classList.remove('hidden');
+        mobileCount.textContent = count;
+        mobileCount.classList.remove('hidden');
+      } else {
+        desktopCount.classList.add('hidden');
+        mobileCount.classList.add('hidden');
+      }
+    }
+
+    function toggleFavorite(kenteken) {
+      const index = favorites.indexOf(kenteken);
+      if (index > -1) {
+        favorites.splice(index, 1);
+      } else {
+        favorites.push(kenteken);
+      }
+      localStorage.setItem('meyersFavorites', JSON.stringify(favorites));
+      updateFavoritesCount();
+      
+      // Update all favorite buttons for this car
+      document.querySelectorAll(`[data-favorite-kenteken="${kenteken}"]`).forEach(btn => {
+        if (favorites.includes(kenteken)) {
+          btn.classList.add('active');
+          btn.textContent = '⭐';
+        } else {
+          btn.classList.remove('active');
+          btn.textContent = '☆';
+        }
+      });
+    }
+
+    function isFavorite(kenteken) {
+      return favorites.includes(kenteken);
+    }
+
+    function showFavorites() {
+      const modal = document.getElementById('favoritesModal');
+      const content = document.getElementById('favoritesContent');
+      
+      if (favorites.length === 0) {
+        content.innerHTML = `
+          <div class="text-center py-12">
+            <div class="text-6xl mb-4">⭐</div>
+            <p class="text-xl text-gray-600 mb-2">Geen favorieten opgeslagen</p>
+            <p class="text-gray-500">Klik op het ster-icoon bij een auto om deze toe te voegen aan je favorieten</p>
+          </div>
+        `;
+      } else {
+        const favoriteCars = allCarsWithRDW.filter(item => favorites.includes(item.car.Kenteken));
+        content.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${favoriteCars.map(item => {
+              const card = renderCars(item.car, item.rdw);
+              return card.outerHTML;
+            }).join('')}
+          </div>
+        `;
+      }
+      
+      modal.classList.remove('hidden');
+    }
+
+    document.getElementById('favoritesBtn').addEventListener('click', showFavorites);
+    document.getElementById('mobileFavoritesBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.add('hidden');
+      showFavorites();
+    });
+    document.getElementById('closeFavoritesModal').addEventListener('click', () => {
+      document.getElementById('favoritesModal').classList.add('hidden');
+    });
+    document.getElementById('favoritesModal').addEventListener('click', (e) => {
+      if (e.target.id === 'favoritesModal') {
+        document.getElementById('favoritesModal').classList.add('hidden');
+      }
+    });
 
     // Mobile menu
     document.getElementById('mobileMenuBtn').addEventListener('click', () => {
@@ -669,61 +807,192 @@
 
     // Format functions
     function formatPrice(prijs) {
-      // Check if price exists and is valid
       if (!prijs || prijs === '' || prijs === '0' || prijs === 0) {
-        return 'Prijs onbekend';
+        return 'Prijs op aanvraag';
       }
       
-      // Remove any existing currency symbols, spaces, or dots used as thousand separators
-      let cleanPrice = String(prijs).replace(/[€\s.]/g, '').replace(',', '.');
+      let cleanPrice = String(prijs).replace(/[€\s]/g, '').replace(/\./g, '').replace(',', '.');
       const num = parseFloat(cleanPrice);
       
       if (isNaN(num) || num === 0) {
-        return 'Prijs onbekend';
+        return 'Prijs op aanvraag';
       }
-      return '€ ' + new Intl.NumberFormat('nl-NL').format(num);
+      return '€ ' + new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(num);
     }
 
     function formatKm(km) {
-      const num = parseInt(km) || 0;
-      return new Intl.NumberFormat('nl-NL').format(num) + ' km';
+      if (!km || km === '' || km === '0' || km === 0) {
+        return 'Onbekend';
+      }
+      const cleanKm = String(km).replace(/[^\d]/g, '');
+      const num = parseInt(cleanKm) || 0;
+      if (num === 0) return 'Onbekend';
+      return num.toLocaleString('nl-NL') + ' km';
     }
 
-    // fetchCarData
+    function formatDate(dateStr) {
+      if (!dateStr || dateStr.length !== 8) return '-';
+      const jaar = dateStr.substring(0, 4);
+      const maand = dateStr.substring(4, 6);
+      const dag = dateStr.substring(6, 8);
+      return `${dag}-${maand}-${jaar}`;
+    }
+
+    // fetchCarData - IMPROVED WITH CORRECT PK, BRANDSTOF, TRANSMISSIE, APK
     async function fetchCarData(kenteken) {
       const clean = kenteken.replace(/[-\s]/g, '').toUpperCase();
       
       try {
-        const [basis, vermogen, gewicht] = await Promise.all([
+        const [basis, vermogen, gewicht, apk] = await Promise.all([
           fetch(`${RDW_API.basis}?kenteken=${clean}`).then(r => r.json()),
           fetch(`${RDW_API.vermogen}?kenteken=${clean}`).then(r => r.json()),
-          fetch(`${RDW_API.gewicht}?kenteken=${clean}`).then(r => r.json())
+          fetch(`${RDW_API.gewicht}?kenteken=${clean}`).then(r => r.json()),
+          fetch(`${RDW_API.apk}?kenteken=${clean}`).then(r => r.json())
         ]);
         
         const b = basis[0] || {};
         const v = vermogen[0] || {};
         const g = gewicht[0] || {};
+        const a = apk[0] || {};
         
-        // Extract bouwjaar from datum_eerste_toelating (format: YYYYMMDD)
-        let bouwjaar = 'Bouwjaar onbekend';
+        // BOUWJAAR - Correct
+        let bouwjaar = '-';
         if (b.datum_eerste_toelating) {
           const jaar = b.datum_eerste_toelating.substring(0, 4);
-          if (jaar && !isNaN(jaar)) {
+          if (jaar && !isNaN(jaar) && parseInt(jaar) > 1900) {
+            bouwjaar = jaar;
+          }
+        }
+        if (bouwjaar === '-' && b.datum_eerste_afgifte_nederland) {
+          const jaar = b.datum_eerste_afgifte_nederland.substring(0, 4);
+          if (jaar && !isNaN(jaar) && parseInt(jaar) > 1900) {
             bouwjaar = jaar;
           }
         }
         
+        const datumEersteToelating = b.datum_eerste_toelating ? formatDate(b.datum_eerste_toelating) : '-';
+        
+        // VERMOGEN - CORRECT PK CALCULATION
+        let vermogenKw = '-';
+        let vermogenPk = '-';
+        
+        // Try multiple sources for vermogen
+        const vermogenRaw = v.vermogen_massarijklaar || v.maximum_vermogen || b.vermogen_massarijklaar || b.maximum_vermogen || b.nettomaximumvermogen;
+        
+        if (vermogenRaw && vermogenRaw !== '0') {
+          const kw = parseFloat(vermogenRaw);
+          if (!isNaN(kw) && kw > 0) {
+            vermogenKw = Math.round(kw);
+            vermogenPk = Math.round(kw * 1.36); // Correct conversion: 1 kW = 1.36 pk
+          }
+        }
+        
+        // TRANSMISSIE - Only actual transmission types
+        let transmissie = '-';
+        const transmissieRaw = b.transmissie || b.transmissie_omschrijving || b.inrichting || '';
+        const carrosserieKeywords = ['stationwagen', 'mpv', 'hatchback', 'sedan', 'coupe', 'cabriolet', 'suv', 'personenauto', 'bestelauto', 'bus', 'motor'];
+        
+        if (transmissieRaw) {
+          const lower = transmissieRaw.toLowerCase();
+          const isCarrosserie = carrosserieKeywords.some(keyword => lower.includes(keyword));
+          
+          if (!isCarrosserie) {
+            if (lower.includes('handgeschakeld') || lower.includes('hand geschakeld') || lower.includes('manual')) {
+              transmissie = 'Handgeschakeld';
+            } else if (lower.includes('automaat') || lower.includes('automatic') || lower.includes('cvt') || lower.includes('dsg') || lower.includes('automatis')) {
+              transmissie = 'Automaat';
+            } else if (lower.includes('semi-automaat') || lower.includes('semi automaat')) {
+              transmissie = 'Semi-automaat';
+            }
+          }
+        }
+        
+        // CARROSSERIE - Separate from transmission
+        let carrosserie = b.carrosserie || b.voertuigsoort || '-';
+        if (carrosserie && carrosserie.toLowerCase().includes('personenauto')) {
+          carrosserie = b.carrosserievolgnummer || b.carrosserie || 'Personenauto';
+        }
+        
+        // BRANDSTOF - Correct and standardized
+        let brandstof = '-';
+        const brandstofRaw = b.brandstof_omschrijving || b.brandstof_volgnummer || b.brandstof || v.brandstof_omschrijving || '';
+        if (brandstofRaw) {
+          const lower = brandstofRaw.toLowerCase();
+          if (lower.includes('benzine')) brandstof = 'Benzine';
+          else if (lower.includes('diesel')) brandstof = 'Diesel';
+          else if (lower.includes('elektr')) brandstof = 'Elektrisch';
+          else if (lower.includes('lpg')) brandstof = 'LPG';
+          else if (lower.includes('cng')) brandstof = 'CNG';
+          else if (lower.includes('hybride') || lower.includes('hybrid')) brandstof = 'Hybride';
+          else if (lower.includes('waterstof') || lower.includes('hydrogen')) brandstof = 'Waterstof';
+          else brandstof = brandstofRaw;
+        }
+        
+        // CO2 UITSTOOT
+        const co2Uitstoot = b.co2_uitstoot_gecombineerd || v.co2_uitstoot_gecombineerd || b.co2_uitstoot_gewogen || '-';
+        
+        // CILINDERINHOUD
+        let cilinderinhoud = '-';
+        if (b.cilinderinhoud) {
+          const cc = parseInt(b.cilinderinhoud);
+          if (!isNaN(cc) && cc > 0) {
+            cilinderinhoud = cc.toLocaleString('nl-NL') + ' cm³';
+          }
+        }
+        
+        // GEWICHT
+        let ledigGewicht = '-';
+        const gewichtRaw = g.massa_ledig_voertuig || b.massa_ledig_voertuig || '';
+        if (gewichtRaw) {
+          const gew = parseInt(gewichtRaw);
+          if (!isNaN(gew) && gew > 0) {
+            ledigGewicht = gew.toLocaleString('nl-NL') + ' kg';
+          }
+        }
+        
+        // MAX MASSA
+        let maxMassa = '-';
+        const maxMassaRaw = b.toegestane_maximum_massa_voertuig || '';
+        if (maxMassaRaw) {
+          const massa = parseInt(maxMassaRaw);
+          if (!isNaN(massa) && massa > 0) {
+            maxMassa = massa.toLocaleString('nl-NL') + ' kg';
+          }
+        }
+        
+        // APK VERVALDATUM - Correct loading
+        const apkVervaldatum = a.vervaldatum_apk ? formatDate(a.vervaldatum_apk) : '-';
+        const milieuklasse = b.emissiecode_omschrijving || b.europese_voertuigcategorie || b.europese_uitvoeringcategorie || '-';
+        const maxSnelheid = b.maximum_constructie_snelheid ? `${b.maximum_constructie_snelheid} km/h` : '-';
+        
         return {
+          // BASISGEGEVENS
           merk: b.merk || '-',
-          model: b.handelsbenaming || '-',
-          brandstof: b.brandstof_omschrijving || '-',
-          transmissie: b.transmissie_omschrijving || b.inrichting || '-',
+          model: b.handelsbenaming || b.typegoedkeuringsnummer || '-',
+          typeVoertuig: b.voertuigsoort || '-',
+          carrosserie: carrosserie,
+          datumEersteToelating: datumEersteToelating,
           bouwjaar: bouwjaar,
-          cilinderinhoud: b.cilinderinhoud ? `${b.cilinderinhoud} cm³` : '-',
-          vermogen: v.vermogen_brom_snorfiets || v.maximum_vermogen || '-',
-          gewicht: g.massa_ledig_voertuig ? `${g.massa_ledig_voertuig} kg` : '-',
-          kleur: b.eerste_kleur || '-',
-          carrosserie: b.carrosserie || b.voertuigsoort || '-'
+          aantalZitplaatsen: b.aantal_zitplaatsen || '-',
+          maxToegestaanMassa: maxMassa,
+          
+          // TECHNISCHE SPECIFICATIES
+          brandstof: brandstof,
+          cilinderinhoud: cilinderinhoud,
+          vermogenKw: vermogenKw !== '-' ? `${vermogenKw} kW` : '-',
+          vermogenPk: vermogenPk !== '-' ? `${vermogenPk} pk` : '-',
+          transmissie: transmissie,
+          ledigGewicht: ledigGewicht,
+          aantalAssen: b.aantal_assen || '-',
+          co2Uitstoot: co2Uitstoot !== '-' ? `${co2Uitstoot} g/km` : '-',
+          
+          // VEILIGHEID / WETGEVING
+          apkVervaldatum: apkVervaldatum,
+          milieuklasse: milieuklasse,
+          maxSnelheid: maxSnelheid,
+          
+          // OVERIGE
+          kleur: b.eerste_kleur || '-'
         };
       } catch (error) {
         console.error(`RDW fout ${kenteken}:`, error);
@@ -731,53 +1000,87 @@
       }
     }
 
-    // renderCars
+    // renderCars - WITH FAVORITE BUTTON
     function renderCars(car, rdw) {
       const card = document.createElement('div');
-      card.className = 'bg-white rounded-xl border-2 border-gray-200 overflow-hidden hover:border-red-500 hover:shadow-xl transition-all cursor-pointer';
       
       const available = car.Beschikbaar?.toLowerCase() === 'ja';
       const favorite = car.Favoriet?.toLowerCase() === 'ja';
+      const isFav = isFavorite(car.Kenteken);
+      
+      // Verkochte auto's - ultra minimalistische weergave
+      if (!available) {
+        card.className = 'bg-gray-100 rounded-lg border-2 border-gray-300 overflow-hidden opacity-60';
+        card.innerHTML = `
+          <div class="p-5 text-center">
+            <div class="inline-block bg-gray-400 text-white font-bold px-4 py-2 rounded-full text-xs mb-3">VERKOCHT</div>
+            <div class="text-base font-bold font-mono text-gray-600 mb-1">${car.Kenteken}</div>
+            ${rdw ? `<div class="text-sm text-gray-500">${rdw.merk} ${rdw.model}</div>` : '<div class="text-xs text-gray-400">Laden...</div>'}
+          </div>
+        `;
+        return card;
+      }
+      
+      // Beschikbare auto's - moderne volledige weergave
+      card.className = 'car-card bg-white rounded-xl border-2 border-gray-200 overflow-hidden hover:border-red-500 cursor-pointer shadow-md';
       
       const foto1 = car['Foto 1 – Voorkant'] || '';
+      const bouwjaarDisplay = rdw && rdw.bouwjaar !== '-' ? rdw.bouwjaar : (car.Bouwjaar || '-');
+      const brandstofDisplay = rdw && rdw.brandstof !== '-' ? rdw.brandstof : '-';
+      const transmissieDisplay = rdw && rdw.transmissie !== '-' ? rdw.transmissie : '-';
+      const vermogenDisplay = rdw && rdw.vermogenPk !== '-' ? rdw.vermogenPk : '-';
       
       card.innerHTML = `
-        <div class="relative bg-gray-100 h-56 sm:h-48 flex items-center justify-center overflow-hidden">
-          ${foto1 ? `<img src="${foto1}" alt="${car.Kenteken}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<svg class=\\'w-24 h-24 text-gray-400\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4\\'/></svg>'">` : '<svg class="w-24 h-24 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>'}
-          ${favorite ? '<div class="badge-favoriet absolute top-3 right-3 text-xs sm:text-sm">FAVORIET</div>' : ''}
-          ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-sm sm:text-base">VERKOCHT</div></div>' : ''}
+        <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 h-64 sm:h-56 flex items-center justify-center overflow-hidden group">
+          ${foto1 ? `<img src="${foto1}" alt="${car.Kenteken}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.parentElement.innerHTML='<svg class=\\'w-24 h-24 text-gray-400\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4\\'/></svg>'">` : '<svg class="w-28 h-28 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>'}
+          
+          <button class="favorite-btn absolute top-3 left-3 bg-white/90 hover:bg-white text-3xl w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all z-10 ${isFav ? 'active' : ''}" data-favorite-kenteken="${car.Kenteken}" onclick="event.stopPropagation(); toggleFavorite('${car.Kenteken}')">
+            ${isFav ? '⭐' : '☆'}
+          </button>
+          
+          ${favorite ? '<div class="badge-favoriet absolute top-3 right-3 text-xs sm:text-sm shadow-lg">⭐ FAVORIET</div>' : ''}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
         
-        <div class="p-4 sm:p-5">
-          <div class="mb-3">
-            <div class="text-lg sm:text-xl font-bold font-mono mb-1">${car.Kenteken}</div>
-            ${rdw ? `<div class="text-sm text-gray-600 font-medium">${rdw.merk} ${rdw.model}</div>` : '<div class="text-xs text-gray-500">RDW laden...</div>'}
+        <div class="p-5 sm:p-6" onclick="openCarDetail('${car.Kenteken}')">
+          <div class="mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xl sm:text-2xl font-bold text-red-500">${formatPrice(car.Prijs)}</div>
+              ${car.Locatie ? `<div class="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600 font-medium">${car.Locatie}</div>` : ''}
+            </div>
+            <div class="text-base sm:text-lg font-bold font-mono text-gray-800">${car.Kenteken}</div>
+            ${rdw ? `<div class="text-sm text-gray-600 font-medium mt-1">${rdw.merk} ${rdw.model}</div>` : '<div class="text-xs text-gray-400 mt-1">RDW laden...</div>'}
           </div>
           
-          <div class="grid grid-cols-2 gap-2 sm:gap-3 mb-4 text-sm">
-            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
-              <p class="text-xs text-gray-500 mb-0.5">Prijs</p>
-              <p class="font-bold text-red-500 text-sm sm:text-base">${formatPrice(car.Prijs)}</p>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="bg-gradient-to-br from-red-50 to-gray-50 p-3 rounded-lg border border-red-100">
+              <p class="text-xs text-gray-500 mb-1">📍 Kilometerstand</p>
+              <p class="font-bold text-sm text-gray-800">${formatKm(car.Kilometerstand)}</p>
             </div>
             
-            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
-              <p class="text-xs text-gray-500 mb-0.5">Kilometerstand</p>
-              <p class="font-bold text-sm sm:text-base">${formatKm(car.Kilometerstand)}</p>
+            <div class="bg-gradient-to-br from-blue-50 to-gray-50 p-3 rounded-lg border border-blue-100">
+              <p class="text-xs text-gray-500 mb-1">📅 Bouwjaar</p>
+              <p class="font-bold text-sm text-gray-800">${bouwjaarDisplay}</p>
             </div>
             
-            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
-              <p class="text-xs text-gray-500 mb-0.5">Bouwjaar</p>
-              <p class="font-bold text-sm sm:text-base">${rdw && rdw.bouwjaar ? rdw.bouwjaar : (car.Bouwjaar || 'Onbekend')}</p>
+            <div class="bg-gradient-to-br from-green-50 to-gray-50 p-3 rounded-lg border border-green-100">
+              <p class="text-xs text-gray-500 mb-1">⛽ Brandstof</p>
+              <p class="font-bold text-sm text-gray-800">${brandstofDisplay}</p>
             </div>
             
-            <div class="bg-gray-50 p-2.5 sm:p-3 rounded-lg">
-              <p class="text-xs text-gray-500 mb-0.5">Locatie</p>
-              <p class="font-bold text-sm sm:text-base">${car.Locatie || '-'}</p>
+            <div class="bg-gradient-to-br from-purple-50 to-gray-50 p-3 rounded-lg border border-purple-100">
+              <p class="text-xs text-gray-500 mb-1">⚙️ Transmissie</p>
+              <p class="font-bold text-sm text-gray-800">${transmissieDisplay}</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-yellow-50 to-gray-50 p-3 rounded-lg border border-yellow-100">
+              <p class="text-xs text-gray-500 mb-1">🏎️ Vermogen</p>
+              <p class="font-bold text-sm text-gray-800">${vermogenDisplay}</p>
             </div>
           </div>
           
-          <button class="w-full bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-bold py-3 sm:py-2.5 px-4 rounded-lg transition-colors text-sm sm:text-base" onclick="openCarDetail('${car.Kenteken}')">
-            Meer details
+          <button class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 active:from-red-700 active:to-red-800 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base">
+            🔍 Bekijk alle details
           </button>
         </div>
       `;
@@ -785,10 +1088,13 @@
       return card;
     }
 
-    // openCarDetail
+    // openCarDetail - EXTENDED WITH ALL DATA
     async function openCarDetail(kenteken) {
       const car = allCarsData.find(c => c.Kenteken === kenteken);
       if (!car) return;
+      
+      const available = car.Beschikbaar?.toLowerCase() === 'ja';
+      if (!available) return;
       
       const modal = document.getElementById('carModal');
       const content = document.getElementById('modalContent');
@@ -797,26 +1103,16 @@
       modal.classList.remove('hidden');
       
       const rdw = await fetchCarData(kenteken);
-      const available = car.Beschikbaar?.toLowerCase() === 'ja';
       const favorite = car.Favoriet?.toLowerCase() === 'ja';
+      const isFav = isFavorite(kenteken);
       
       const photos = [];
       const photoKeys = [
-        'Foto 1 – Voorkant',
-        'Foto 2 – Linker zijkant',
-        'Foto 3 �� Achterkant',
-        'Foto 4 – Rechter zijkant',
-        'Foto 5 – Interieur voor',
-        'Foto 6 – Interieur achter',
-        'Foto 7 – Dashboard',
-        'Foto 8 – Stoelen/Details',
-        'Foto 9 – Motorruimte',
-        'Foto 10 – Kofferbak',
-        'Foto 11 – Detail 1',
-        'Foto 12 – Detail 2',
-        'Foto 13 – Detail 3',
-        'Foto 14 – Detail 4',
-        'Foto 15 – Detail 5'
+        'Foto 1 – Voorkant', 'Foto 2 – Linker zijkant', 'Foto 3 – Achterkant',
+        'Foto 4 – Rechter zijkant', 'Foto 5 – Interieur voor', 'Foto 6 – Interieur achter',
+        'Foto 7 – Dashboard', 'Foto 8 – Stoelen/Details', 'Foto 9 – Motorruimte',
+        'Foto 10 – Kofferbak', 'Foto 11 – Detail 1', 'Foto 12 – Detail 2',
+        'Foto 13 – Detail 3', 'Foto 14 – Detail 4', 'Foto 15 – Detail 5'
       ];
       for (const key of photoKeys) {
         if (car[key] && car[key].trim()) {
@@ -827,30 +1123,55 @@
       let galleryHTML = '';
       if (photos.length > 0) {
         galleryHTML = `
-          <div class="relative bg-gray-900">
-            <div id="gallery" class="gallery-container flex overflow-x-auto snap-x snap-mandatory">
+          <div class="relative bg-black">
+            <div id="gallery" class="gallery-container flex overflow-x-auto snap-x snap-mandatory scrollbar-hide" style="-webkit-overflow-scrolling: touch;">
               ${photos.map((photo, idx) => `
-                <div class="gallery-item flex-shrink-0 w-full h-72 sm:h-80 md:h-96 flex items-center justify-center bg-gray-100">
-                  <img src="${photo}" alt="Foto ${idx + 1}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<svg class=\\'w-32 h-32 text-gray-400\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4\\'/></svg>'">
+                <div class="gallery-item flex-shrink-0 w-full h-80 sm:h-96 md:h-[32rem] flex items-center justify-center bg-black">
+                  <img src="${photo}" alt="Foto ${idx + 1}" class="w-full h-full object-contain" loading="lazy" onerror="this.parentElement.innerHTML='<svg class=\\'w-32 h-32 text-gray-600\\' xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'1.5\\' d=\\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\\'/></svg>'">
                 </div>
               `).join('')}
             </div>
-            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 sm:gap-2 px-4">
-              ${photos.map((_, idx) => `<div class="gallery-dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white opacity-50 cursor-pointer transition-opacity" data-index="${idx}"></div>`).join('')}
+            
+            ${photos.length > 1 ? `
+              <button id="prevPhoto" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button id="nextPhoto" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            ` : ''}
+            
+            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 px-4 z-10">
+              ${photos.map((_, idx) => `<div class="gallery-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white ${idx === 0 ? 'opacity-100 scale-125' : 'opacity-50'} cursor-pointer transition-all duration-300 hover:opacity-75" data-index="${idx}"></div>`).join('')}
             </div>
-            ${favorite ? '<div class="badge-favoriet absolute top-3 right-3 text-xs sm:text-sm">FAVORIET</div>' : ''}
-            ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-lg sm:text-xl">VERKOCHT</div></div>' : ''}
+            
+            <div class="absolute top-4 left-4 bg-black/70 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm z-10">
+              <span id="currentPhotoIndex">1</span> / ${photos.length}
+            </div>
+            
+            <button class="favorite-btn absolute top-4 left-20 bg-white/90 hover:bg-white text-3xl w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all z-10 ${isFav ? 'active' : ''}" data-favorite-kenteken="${kenteken}" onclick="toggleFavorite('${kenteken}')">
+              ${isFav ? '⭐' : '☆'}
+            </button>
+            
+            ${favorite ? '<div class="badge-favoriet absolute top-4 right-4 text-xs sm:text-sm shadow-lg z-10">⭐ FAVORIET</div>' : ''}
           </div>
         `;
       } else {
         galleryHTML = `
-          <div class="relative bg-gray-100 h-64 sm:h-80 flex items-center justify-center">
-            <svg class="w-32 h-32 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
-            ${favorite ? '<div class="badge-favoriet absolute top-3 right-3">FAVORIET</div>' : ''}
-            ${!available ? '<div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center"><div class="badge-verkocht text-xl">VERKOCHT</div></div>' : ''}
+          <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 h-72 sm:h-96 flex items-center justify-center">
+            <div class="text-center">
+              <svg class="w-32 h-32 text-gray-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <p class="text-gray-500 font-medium">Geen foto's beschikbaar</p>
+            </div>
+            <button class="favorite-btn absolute top-4 left-4 bg-white/90 hover:bg-white text-3xl w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all z-10 ${isFav ? 'active' : ''}" data-favorite-kenteken="${kenteken}" onclick="toggleFavorite('${kenteken}')">
+              ${isFav ? '⭐' : '☆'}
+            </button>
+            ${favorite ? '<div class="badge-favoriet absolute top-4 right-4 text-xs sm:text-sm shadow-lg">⭐ FAVORIET</div>' : ''}
           </div>
         `;
       }
+      
+      const bijzonderheden = car.Bijzonderheden?.trim() || '';
       
       content.innerHTML = `
         ${galleryHTML}
@@ -869,82 +1190,136 @@
             </div>
           </div>
           
+          ${rdw ? `
+          <!-- 1. BASISGEGEVENS -->
           <div class="mb-6">
-            <h3 class="text-base sm:text-lg font-bold mb-3 text-red-500">Basisgegevens</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
-              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                <p class="text-xs text-gray-500 mb-1">Kilometerstand</p>
-                <p class="font-bold text-sm sm:text-base">${formatKm(car.Kilometerstand)}</p>
+            <h3 class="text-lg sm:text-xl font-bold mb-4 text-red-500 border-b-2 border-red-200 pb-2">📋 Basisgegevens</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Kenteken</p>
+                <p class="font-bold text-sm">${car.Kenteken}</p>
               </div>
-              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Merk</p>
+                <p class="font-bold text-sm">${rdw.merk}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Model</p>
+                <p class="font-bold text-sm">${rdw.model}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Type voertuig</p>
+                <p class="font-bold text-sm">${rdw.typeVoertuig}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Carrosserie</p>
+                <p class="font-bold text-sm">${rdw.carrosserie}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Datum 1e toelating</p>
+                <p class="font-bold text-sm">${rdw.datumEersteToelating}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <p class="text-xs text-gray-500 mb-1">Bouwjaar</p>
-                <p class="font-bold text-sm sm:text-base">${rdw && rdw.bouwjaar ? rdw.bouwjaar : (car.Bouwjaar || 'Onbekend')}</p>
+                <p class="font-bold text-sm">${rdw.bouwjaar}</p>
               </div>
-              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Aantal zitplaatsen</p>
+                <p class="font-bold text-sm">${rdw.aantalZitplaatsen}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Max toegest. massa</p>
+                <p class="font-bold text-sm">${rdw.maxToegestaanMassa}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Kilometerstand</p>
+                <p class="font-bold text-sm">${formatKm(car.Kilometerstand)}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-500 mb-1">Kleur</p>
+                <p class="font-bold text-sm">${rdw.kleur}</p>
+              </div>
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <p class="text-xs text-gray-500 mb-1">Locatie</p>
-                <p class="font-bold text-sm sm:text-base">${car.Locatie || '-'}</p>
-              </div>
-              <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                <p class="text-xs text-gray-500 mb-1">Status</p>
-                <p class="font-bold text-sm sm:text-base">${available ? 'Beschikbaar' : 'Verkocht'}</p>
+                <p class="font-bold text-sm">${car.Locatie || '-'}</p>
               </div>
             </div>
           </div>
           
-          ${rdw && (rdw.merk !== '-' || rdw.model !== '-' || rdw.brandstof !== '-') ? `
-            <div class="mb-6">
-              <h3 class="text-base sm:text-lg font-bold mb-3 text-red-500">RDW Voertuiggegevens</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                ${rdw.merk !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Merk</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.merk}</p>
-                </div>` : ''}
-                ${rdw.model !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Model</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.model}</p>
-                </div>` : ''}
-                ${rdw.bouwjaar !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Bouwjaar</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.bouwjaar}</p>
-                </div>` : ''}
-                ${rdw.brandstof !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Brandstof</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.brandstof}</p>
-                </div>` : ''}
-                ${rdw.transmissie !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Transmissie</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.transmissie}</p>
-                </div>` : ''}
-                ${rdw.cilinderinhoud !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Cilinderinhoud</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.cilinderinhoud}</p>
-                </div>` : ''}
-                ${rdw.kleur !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Kleur</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.kleur}</p>
-                </div>` : ''}
-                ${rdw.carrosserie !== '-' ? `
-                <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
-                  <p class="text-xs text-gray-500 mb-1">Carrosserie</p>
-                  <p class="font-bold text-sm sm:text-base">${rdw.carrosserie}</p>
-                </div>` : ''}
+          <!-- 2. TECHNISCHE SPECIFICATIES -->
+          <div class="mb-6">
+            <h3 class="text-lg sm:text-xl font-bold mb-4 text-red-500 border-b-2 border-red-200 pb-2">🔧 Technische Specificaties</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Brandstof</p>
+                <p class="font-bold text-sm">${rdw.brandstof}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Cilinderinhoud</p>
+                <p class="font-bold text-sm">${rdw.cilinderinhoud}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Vermogen (kW)</p>
+                <p class="font-bold text-sm">${rdw.vermogenKw}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Vermogen (pk)</p>
+                <p class="font-bold text-sm">${rdw.vermogenPk}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Transmissie</p>
+                <p class="font-bold text-sm">${rdw.transmissie}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Ledig gewicht</p>
+                <p class="font-bold text-sm">${rdw.ledigGewicht}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">Aantal assen</p>
+                <p class="font-bold text-sm">${rdw.aantalAssen}</p>
+              </div>
+              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-xs text-gray-500 mb-1">CO₂-uitstoot</p>
+                <p class="font-bold text-sm">${rdw.co2Uitstoot}</p>
               </div>
             </div>
+          </div>
+          
+          <!-- 3. VEILIGHEID / WETGEVING -->
+          <div class="mb-6">
+            <h3 class="text-lg sm:text-xl font-bold mb-4 text-red-500 border-b-2 border-red-200 pb-2">🛡️ Veiligheid & Wetgeving</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                <p class="text-xs text-gray-500 mb-1">APK vervaldatum</p>
+                <p class="font-bold text-sm">${rdw.apkVervaldatum}</p>
+              </div>
+              <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                <p class="text-xs text-gray-500 mb-1">Milieuklasse</p>
+                <p class="font-bold text-sm">${rdw.milieuklasse}</p>
+              </div>
+              <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                <p class="text-xs text-gray-500 mb-1">Max snelheid</p>
+                <p class="font-bold text-sm">${rdw.maxSnelheid}</p>
+              </div>
+            </div>
+          </div>
+          ` : ''}
+          
+          ${bijzonderheden ? `
+          <div class="mb-6">
+            <h3 class="text-lg sm:text-xl font-bold mb-3 text-red-500">⚠️ Bijzonderheden</h3>
+            <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
+              <p class="text-gray-800 text-sm sm:text-base leading-relaxed font-medium">${bijzonderheden}</p>
+            </div>
+          </div>
           ` : ''}
           
           <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <a href="tel:+31657160395" class="flex-1 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-bold py-4 sm:py-3 px-6 rounded-lg text-center transition-colors text-base sm:text-lg shadow-lg">
-              Bel ons direct
+              📞 Bel ons direct
             </a>
             <a href="#contact" onclick="document.getElementById('carModal').classList.add('hidden')" class="flex-1 bg-black hover:bg-gray-800 active:bg-gray-900 text-white font-bold py-4 sm:py-3 px-6 rounded-lg text-center transition-colors text-base sm:text-lg shadow-lg">
-              Stuur bericht
+              ✉️ Stuur bericht
             </a>
           </div>
         </div>
@@ -953,22 +1328,71 @@
       if (photos.length > 1) {
         const gallery = document.getElementById('gallery');
         const dots = document.querySelectorAll('.gallery-dot');
+        const prevBtn = document.getElementById('prevPhoto');
+        const nextBtn = document.getElementById('nextPhoto');
+        const photoIndexDisplay = document.getElementById('currentPhotoIndex');
+        
+        let currentPhotoIndex = 0;
+        
+        function updateGallery(index) {
+          currentPhotoIndex = index;
+          gallery.scrollTo({ left: index * gallery.offsetWidth, behavior: 'smooth' });
+          
+          dots.forEach((dot, idx) => {
+            if (idx === index) {
+              dot.classList.add('opacity-100', 'scale-125');
+              dot.classList.remove('opacity-50');
+            } else {
+              dot.classList.remove('opacity-100', 'scale-125');
+              dot.classList.add('opacity-50');
+            }
+          });
+          
+          if (photoIndexDisplay) {
+            photoIndexDisplay.textContent = index + 1;
+          }
+        }
         
         gallery.addEventListener('scroll', () => {
           const scrollLeft = gallery.scrollLeft;
           const width = gallery.offsetWidth;
-          const currentIndex = Math.round(scrollLeft / width);
+          const newIndex = Math.round(scrollLeft / width);
           
-          dots.forEach((dot, idx) => {
-            dot.style.opacity = idx === currentIndex ? '1' : '0.5';
-          });
+          if (newIndex !== currentPhotoIndex) {
+            currentPhotoIndex = newIndex;
+            dots.forEach((dot, idx) => {
+              if (idx === newIndex) {
+                dot.classList.add('opacity-100', 'scale-125');
+                dot.classList.remove('opacity-50');
+              } else {
+                dot.classList.remove('opacity-100', 'scale-125');
+                dot.classList.add('opacity-50');
+              }
+            });
+            
+            if (photoIndexDisplay) {
+              photoIndexDisplay.textContent = newIndex + 1;
+            }
+          }
         });
         
         dots.forEach((dot, idx) => {
-          dot.addEventListener('click', () => {
-            gallery.scrollTo({ left: idx * gallery.offsetWidth, behavior: 'smooth' });
-          });
+          dot.addEventListener('click', () => updateGallery(idx));
         });
+        
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            const newIndex = currentPhotoIndex > 0 ? currentPhotoIndex - 1 : photos.length - 1;
+            updateGallery(newIndex);
+          });
+        }
+        
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            const newIndex = currentPhotoIndex < photos.length - 1 ? currentPhotoIndex + 1 : 0;
+            updateGallery(newIndex);
+          });
+        }
       }
     }
 
@@ -1024,6 +1448,7 @@
             
             initializeFilters();
             applyFilters();
+            updateFavoritesCount();
           },
           error: function(err) {
             loading.style.display = 'none';
@@ -1038,7 +1463,7 @@
       }
     }
 
-    // Filter toggle (all devices)
+    // Filter toggle
     document.getElementById('filterToggleBtn').addEventListener('click', () => {
       const container = document.getElementById('filterContainer');
       const icon = document.getElementById('filterToggleIcon');
@@ -1047,17 +1472,9 @@
     });
 
     // Filter functions
-    function getEfficiencyScore(cc) {
-      if (!cc || cc === 0) return 'Onbekend';
-      if (cc < 1200) return 'Zeer zuinig';
-      if (cc <= 1600) return 'Gemiddeld';
-      return 'Minder zuinig';
-    }
-
     function applyFilters() {
       let filtered = [...allCarsWithRDW];
       
-      // Search filter
       if (filterConfig.search) {
         const search = filterConfig.search.toLowerCase();
         filtered = filtered.filter(item => {
@@ -1071,45 +1488,33 @@
         });
       }
       
-      // Price filter
       filtered = filtered.filter(item => {
         const price = parseFloat(String(item.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
         return price >= filterConfig.priceMin && price <= filterConfig.priceMax;
       });
       
-      // Year filter
       filtered = filtered.filter(item => {
         const year = parseInt(item.rdw?.bouwjaar || item.car.Bouwjaar || 0);
         return year >= filterConfig.yearMin && year <= filterConfig.yearMax;
       });
       
-      // KM filter
       filtered = filtered.filter(item => {
         const km = parseInt(item.car.Kilometerstand || 0);
         return km >= filterConfig.kmMin && km <= filterConfig.kmMax;
       });
       
-      // CC filter
-      filtered = filtered.filter(item => {
-        const cc = parseInt((item.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
-        return cc >= filterConfig.ccMin && cc <= filterConfig.ccMax;
-      });
-      
-      // Brandstof filter
       if (filterConfig.brandstof) {
         filtered = filtered.filter(item => 
           (item.rdw?.brandstof || '').toLowerCase() === filterConfig.brandstof.toLowerCase()
         );
       }
       
-      // Transmissie filter
       if (filterConfig.transmissie) {
         filtered = filtered.filter(item => 
           (item.rdw?.transmissie || '').toLowerCase().includes(filterConfig.transmissie.toLowerCase())
         );
       }
       
-      // Sorting
       if (filterConfig.sort) {
         switch(filterConfig.sort) {
           case 'price-asc':
@@ -1134,13 +1539,6 @@
               const yearA = parseInt(a.rdw?.bouwjaar || a.car.Bouwjaar || 0);
               const yearB = parseInt(b.rdw?.bouwjaar || b.car.Bouwjaar || 0);
               return yearB - yearA;
-            });
-            break;
-          case 'efficiency':
-            filtered.sort((a, b) => {
-              const ccA = parseInt((a.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
-              const ccB = parseInt((b.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
-              return ccA - ccB;
             });
             break;
           case 'alpha':
@@ -1173,11 +1571,9 @@
     }
 
     function initializeFilters() {
-      // Calculate min/max values
       let minPrice = Infinity, maxPrice = 0;
       let minYear = Infinity, maxYear = 0;
       let minKm = Infinity, maxKm = 0;
-      let minCc = Infinity, maxCc = 0;
       const brandstofSet = new Set();
       const transmissieSet = new Set();
       
@@ -1185,7 +1581,6 @@
         const price = parseFloat(String(item.car.Prijs || '0').replace(/[€\s.]/g, '').replace(',', '.')) || 0;
         const year = parseInt(item.rdw?.bouwjaar || item.car.Bouwjaar || 0);
         const km = parseInt(item.car.Kilometerstand || 0);
-        const cc = parseInt((item.rdw?.cilinderinhoud || '0').replace(/\D/g, '')) || 0;
         
         if (price > 0) {
           minPrice = Math.min(minPrice, price);
@@ -1199,26 +1594,18 @@
           minKm = Math.min(minKm, km);
           maxKm = Math.max(maxKm, km);
         }
-        if (cc > 0) {
-          minCc = Math.min(minCc, cc);
-          maxCc = Math.max(maxCc, cc);
-        }
         
         if (item.rdw?.brandstof && item.rdw.brandstof !== '-') brandstofSet.add(item.rdw.brandstof);
         if (item.rdw?.transmissie && item.rdw.transmissie !== '-') transmissieSet.add(item.rdw.transmissie);
       });
       
-      // Set filter ranges
       filterConfig.priceMin = minPrice === Infinity ? 0 : Math.floor(minPrice / 1000) * 1000;
       filterConfig.priceMax = maxPrice === 0 ? 100000 : Math.ceil(maxPrice / 1000) * 1000;
       filterConfig.yearMin = minYear === Infinity ? 1990 : minYear;
       filterConfig.yearMax = maxYear === 0 ? 2024 : maxYear;
       filterConfig.kmMin = minKm === Infinity ? 0 : Math.floor(minKm / 10000) * 10000;
       filterConfig.kmMax = maxKm === 0 ? 300000 : Math.ceil(maxKm / 10000) * 10000;
-      filterConfig.ccMin = minCc === Infinity ? 0 : Math.floor(minCc / 100) * 100;
-      filterConfig.ccMax = maxCc === 0 ? 5000 : Math.ceil(maxCc / 100) * 100;
       
-      // Set slider attributes
       document.getElementById('priceMin').min = filterConfig.priceMin;
       document.getElementById('priceMin').max = filterConfig.priceMax;
       document.getElementById('priceMin').value = filterConfig.priceMin;
@@ -1246,16 +1633,6 @@
       document.getElementById('kmMinInput').value = filterConfig.kmMin;
       document.getElementById('kmMaxInput').value = filterConfig.kmMax;
       
-      document.getElementById('ccMin').min = filterConfig.ccMin;
-      document.getElementById('ccMin').max = filterConfig.ccMax;
-      document.getElementById('ccMin').value = filterConfig.ccMin;
-      document.getElementById('ccMax').min = filterConfig.ccMin;
-      document.getElementById('ccMax').max = filterConfig.ccMax;
-      document.getElementById('ccMax').value = filterConfig.ccMax;
-      document.getElementById('ccMinInput').value = filterConfig.ccMin;
-      document.getElementById('ccMaxInput').value = filterConfig.ccMax;
-      
-      // Populate dropdowns
       const brandstofFilter = document.getElementById('brandstofFilter');
       Array.from(brandstofSet).sort().forEach(b => {
         const option = document.createElement('option');
@@ -1360,30 +1737,6 @@
       applyFilters();
     });
 
-    document.getElementById('ccMin').addEventListener('input', (e) => {
-      filterConfig.ccMin = parseInt(e.target.value);
-      document.getElementById('ccMinInput').value = filterConfig.ccMin;
-      applyFilters();
-    });
-
-    document.getElementById('ccMax').addEventListener('input', (e) => {
-      filterConfig.ccMax = parseInt(e.target.value);
-      document.getElementById('ccMaxInput').value = filterConfig.ccMax;
-      applyFilters();
-    });
-
-    document.getElementById('ccMinInput').addEventListener('change', (e) => {
-      filterConfig.ccMin = parseInt(e.target.value) || 0;
-      document.getElementById('ccMin').value = filterConfig.ccMin;
-      applyFilters();
-    });
-
-    document.getElementById('ccMaxInput').addEventListener('change', (e) => {
-      filterConfig.ccMax = parseInt(e.target.value) || 5000;
-      document.getElementById('ccMax').value = filterConfig.ccMax;
-      applyFilters();
-    });
-
     document.getElementById('brandstofFilter').addEventListener('change', (e) => {
       filterConfig.brandstof = e.target.value;
       applyFilters();
@@ -1411,5 +1764,5 @@
 
     window.addEventListener('DOMContentLoaded', loadCars);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0b1ca9162f7a4b',t:'MTc2MzUwNzExOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0b5ad4a7ee7a4b',t:'MTc2MzUwOTY2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
